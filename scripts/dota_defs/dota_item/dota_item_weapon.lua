@@ -136,7 +136,7 @@ local burn_tick = TUNING.DOTA.RADIANCE.BURN.TICK
 local burn_distance = TUNING.DOTA.RADIANCE.BURN.RANGE
 local burn_damage = TUNING.DOTA.RADIANCE.BURN.DAMAGE
 dota_item_weapon.dota_radiance = {
-    name = "dota_radiance", --Todo:思路：进入领域后的生物根据计时器受到伤害，计时器挂载在物品上使用playerprox?，挂载在生物身上需要另外使用计时器
+    name = "dota_radiance", -- 思路：进入领域后的生物根据计时器受到伤害，计时器挂载在物品上使用playerprox?，挂载在生物身上需要另外使用计时器
     animname = "dota_radiance",
     animzip = "dota_weapon",
     onequipfn = function(inst,owner)
@@ -483,7 +483,7 @@ dota_item_weapon.dota_invis_sword = {
 dota_item_weapon.dota_meteor_hammer = {
     name = "dota_meteor_hammer",
     animname = "dota_meteor_hammer",
-	animzip = "dota_weapon",    -- Todo：action待制作
+	animzip = "dota_weapon",
 	taglist = {
     },
     activatename = "DOTA_METEOR",
@@ -499,6 +499,15 @@ dota_item_weapon.dota_meteor_hammer = {
         owner.components.dotacharacter:RemoveHealthRegen(TUNING.DOTA.METEOR_HAMMER.HEALTHREGEN)
         owner.components.dotacharacter:RemoveManaRegen(TUNING.DOTA.METEOR_HAMMER.MANAREGEN)
 	end,
+    aoetargeting = {
+        reticuleprefab = "reticuleaoe",
+        pingprefab = "reticuleaoeping",
+        -- targetfn = ReticuleTargetFn,
+        validcolour = { 1, .75, 0, 1 },
+        invalidcolour = { .5, 0, 0, 1 },
+        ease = true,
+        mouseenabled = true,
+    }
 }
 -------------------------------------------------散魂剑-------------------------------------------------
 dota_item_weapon.dota_disperser = {

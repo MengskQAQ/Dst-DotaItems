@@ -19,5 +19,4 @@ AddComponentPostInit("rechargeable", function(self)
 		end
 	end
 
-	-- Todo:以后需要修改update，让装备不在装备栏中增加冷却或暂停冷却
 end)

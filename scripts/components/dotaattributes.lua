@@ -1,5 +1,5 @@
 ---------------------------------------- Dota属性记录 - Components ---------------------------------------------
--- Todo ：添加 RemoveComponent 的部分
+-- TODO ：添加 RemoveComponent 的部分
 
 local SourceModifierList = require("util/sourcemodifierlist")
 local DotaModifierList = require("dota_defs/dotamodifierlist")  -- 与原版无多大差异，主要添加了一个边际衰减的函数

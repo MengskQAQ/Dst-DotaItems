@@ -86,7 +86,7 @@ buff_defs.buff_dota_smoke={
 	name="buff_dota_smoke",
 	duration=TUNING.DOTA.SMOKE_OF_DECEIT.DURATION,
 	onattachedfn=function(inst, target)
-		-- Todo：要不要挂载playerprox来刷新状态呢？
+		-- TODO：要不要挂载playerprox来刷新状态呢？
 		if inst._onattackother == nil then
 			inst._onattackother = function(attacker, data)
 				if attacker ~= nil then
@@ -96,7 +96,7 @@ buff_defs.buff_dota_smoke={
 			inst:ListenForEvent("onattackother", inst._onattackother, target)
 		end
 		
-		-- target.AnimState:SetMultColour(0.3, 0.3, 0.3, 0.4)	-- 调整rgba至半透明效果	-- Todo:暂定，并入GotoShadow仍在考虑
+		-- target.AnimState:SetMultColour(0.3, 0.3, 0.3, 0.4)	-- 调整rgba至半透明效果	-- TODO:暂定，并入GotoShadow仍在考虑
 		PushColour(target, "buff_dota_smoke", SHADOW_COLOUR[1], SHADOW_COLOUR[2], SHADOW_COLOUR[3] ,SHADOW_COLOUR[4])
 		if target.components.locomotor ~= nil then
 			target.components.locomotor:SetExternalSpeedMultiplier(inst, "buff_dota_smoke", 1+TUNING.DOTA.SMOKE_OF_DECEIT.SPEEDMULTI)
@@ -791,7 +791,7 @@ buff_defs.buff_dota_return={
 -------------------------------------------------永恒之盘 or 盘子-------------------------------------------------
 buff_defs.buff_dota_breaker={
 	name="buff_dota_breaker",
-	duration=TUNING.DOTA.AEON_DISK.BREAKER.DURATION,	-- Todo：待制作
+	duration=TUNING.DOTA.AEON_DISK.BREAKER.DURATION,	-- TODO：待制作
 	onattachedfn=function(inst, target)
 		local shield = SpawnPrefab("dota_fx_disk")
 		inst.shield = shield
@@ -907,7 +907,7 @@ buff_defs.buff_dota_flutter={
 	end,
 }
 -------------------------------------------------莫尔迪基安的臂章-------------------------------------------------
--- Todo：待制作，想复刻是不是要用到update函数？
+-- TODO：待制作，想复刻是不是要用到update函数？
 -------------------------------------------------迅疾闪光 or 敏捷跳-------------------------------------------------
 buff_defs.buff_dota_swift={
 	name="buff_dota_swift",

@@ -20,7 +20,7 @@ function DotaInvisible:IsInvisible()
 end
 -- AnimState:SetMultColour
 -- AnimState:SetDeltaTimeMultiplier
-function DotaInvisible:PushColour(r, g, b, a) -- Todo：用这个的话表现不好，究竟要不要直接改透明度呢
+function DotaInvisible:PushColour(r, g, b, a) -- TODO：用这个的话表现不好，究竟要不要直接改透明度呢
     if r == nil and g == nil and b == nil and a == nil then
         r, g, b, a = self.colour[1], self.colour[2], self.colour[3], self.colour[4]
     end

@@ -163,7 +163,6 @@ end)
 -- 设动画播放长度 L ，且速度为1，得原始时间L
 -- 获取状态抗性X，得到期望时间：(1-X)L
 -- 期望速度=长度/期望时间 = 1/(1-X)
--- Todo:一个很严肃的问题，地下的宝石孤岛的击退怎么办？会不会打到虚空里
 
 local function KnockbackReset(state, timeout)
     local old_onenter = state.onenter

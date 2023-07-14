@@ -85,7 +85,7 @@ function BlinkDagger:GetVaildPosition(pt, caster)
 		return pos
 	end
 	
-	-- 利用二分法拟合落点(Todo: 这里的二分法要不要考虑溢出问题呢？用不用位运算呢？)
+	-- 利用二分法拟合落点( TODO: 这里的二分法要不要考虑溢出问题呢？用不用位运算呢？ )
 	local trycount = 6	-- 二分法尝试次数
 	local left = 0
 	local right = 2^trycount

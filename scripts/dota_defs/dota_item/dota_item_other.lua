@@ -8,7 +8,7 @@ local dota_item_other = {}
 dota_item_other.dota_shadow_amulet = {
     name = "dota_shadow_amulet",
     animname = "dota_shadow_amulet",
-	animzip = "dota_other", 
+	animzip = "dota_other",
 	taglist = {
     },
 }
@@ -16,7 +16,7 @@ dota_item_other.dota_shadow_amulet = {
 dota_item_other.dota_wind_lace = {
     name = "dota_wind_lace",
     animname = "dota_wind_lace",
-	animzip = "dota_other", 
+	animzip = "dota_other",
 	taglist = {
     },
 	onequipfn = function(inst,owner)
@@ -30,7 +30,7 @@ dota_item_other.dota_wind_lace = {
 dota_item_other.dota_ring_of_regen = {
     name = "dota_ring_of_regen",
     animname = "dota_ring_of_regen",
-	animzip = "dota_other", 
+	animzip = "dota_other",
 	taglist = {
     },
 	onequipfn = function(inst,owner)
@@ -44,7 +44,7 @@ dota_item_other.dota_ring_of_regen = {
 dota_item_other.dota_cloak = {
     name = "dota_cloak",
     animname = "dota_cloak",
-	animzip = "dota_other", 
+	animzip = "dota_other",
 	taglist = {
     },
 	onequipfn = function(inst,owner)
@@ -58,7 +58,7 @@ dota_item_other.dota_cloak = {
 dota_item_other.dota_fluffy_hat = {
     name = "dota_fluffy_hat",
     animname = "dota_fluffy_hat",
-	animzip = "dota_other", 
+	animzip = "dota_other",
 	taglist = {
     },
 	onequipfn = function(inst,owner)
@@ -88,7 +88,7 @@ end
 dota_item_other.dota_magic_stick = {
     name = "dota_magic_stick",
     animname = "dota_magic_stick",
-	animzip = "dota_other", 
+	animzip = "dota_other",
 	taglist = {
     },
     maxuses = TUNING.DOTA.MAGIC_STICK.MAXPOINTS, --次数耐久
@@ -160,20 +160,20 @@ end
 dota_item_other.dota_blink_dagger = {
     name = "dota_blink_dagger",
     animname = "dota_blink_dagger",
-	animzip = "dota_other", 
+	animzip = "dota_other",
     activatename = "DOTA_BLINK",
 	taglist = {
     },
     sharedcoolingtype = "blink",
     onequipfn = function(inst,owner)
-		owner:ListenForEvent("healthdelta", inst.CanBlink)  -- Todo:attacked这个事件如何？
+		owner:ListenForEvent("healthdelta", inst.CanBlink)  -- TODO:attacked这个事件如何？
 	end,
 	onunequipfn = function(inst,owner)
 		owner:RemoveEventCallback("healthdelta", inst.CanBlink)
 	end,
-    client_extrafn=function(inst)   -- Todo:这段要不要加入box里面呢
-        inst:AddComponent("reticule")	--寻找可用传送点????
-        inst.components.reticule.targetfn = blinkstaff_reticuletargetfn	--似乎是处理传送时手柄的问题
+    client_extrafn=function(inst)
+        inst:AddComponent("reticule")   -- TODO: reticule没有做特殊处理，并不能生效
+        inst.components.reticule.targetfn = blinkstaff_reticuletargetfn
         inst.components.reticule.ease = true
     end,
     extrafn=function(inst)
@@ -191,7 +191,7 @@ dota_item_other.dota_blink_dagger = {
 				end
 			end
         end
-		
+
 		inst.onequipwithrhfn=function(box,item,owner)
 			if not box.components.blinkdagger then -- 给box添加一下，方便action那边调用
 				box:AddComponent("blinkdagger")
@@ -209,7 +209,7 @@ dota_item_other.dota_blink_dagger = {
 dota_item_other.dota_boots_of_speed = {
     name = "dota_boots_of_speed",
     animname = "dota_boots_of_speed",
-	animzip = "dota_other", 
+	animzip = "dota_other",
 	taglist = {
     },
 	onequipfn = function(inst,owner)
@@ -223,7 +223,7 @@ dota_item_other.dota_boots_of_speed = {
 dota_item_other.dota_voodoo_mask = {
     name = "dota_voodoo_mask",
     animname = "dota_voodoo_mask",
-	animzip = "dota_other", 
+	animzip = "dota_other",
 	taglist = {
     },
 	onequipfn = function(inst,owner)
@@ -237,7 +237,7 @@ dota_item_other.dota_voodoo_mask = {
 dota_item_other.dota_morbid_mask = {
     name = "dota_morbid_mask",
     animname = "dota_morbid_mask",
-	animzip = "dota_other", 
+	animzip = "dota_other",
 	taglist = {
     },
 	onequipfn = function(inst,owner)
@@ -251,7 +251,7 @@ dota_item_other.dota_morbid_mask = {
 dota_item_other.dota_sages_mask = {
     name = "dota_sages_mask",
     animname = "dota_sages_mask",
-	animzip = "dota_other", 
+	animzip = "dota_other",
 	taglist = {
     },
 	onequipfn = function(inst,owner)
@@ -265,7 +265,7 @@ dota_item_other.dota_sages_mask = {
 dota_item_other.dota_ghost_scepter = {
     name = "dota_ghost_scepter",
     animname = "dota_ghost_scepter",
-	animzip = "dota_other", 
+	animzip = "dota_other",
 	taglist = {
     },
     sharedcoolingtype = "ethereal",
@@ -281,6 +281,8 @@ local COLOUR_R = TUNING.DOTA.GEM_OF_TRUE_SIGHT.LIGHT.COLOUR_R
 local COLOUR_G = TUNING.DOTA.GEM_OF_TRUE_SIGHT.LIGHT.COLOUR_G
 local COLOUR_B = TUNING.DOTA.GEM_OF_TRUE_SIGHT.LIGHT.COLOUR_B
 local RADIUS = TUNING.DOTA.GEM_OF_TRUE_SIGHT.LIGHT.RADIUS
+local FALLOFF = TUNING.DOTA.GEM_OF_TRUE_SIGHT.LIGHT.FALLOFF
+local INTENSITY = TUNING.DOTA.GEM_OF_TRUE_SIGHT.LIGHT.INTENSITY
 
 local function topocket(inst)
     if inst.icon ~= nil then
@@ -289,18 +291,17 @@ local function topocket(inst)
     end
     inst.Light:Enable(false)
 	inst.Light:SetRadius(0)
-    print("[debug_gem]  toground")
+    -- print("[debug_gem]  toground")
 end
 
 local function toground(inst)
     if inst.icon == nil then
         inst.icon = SpawnPrefab("globalmapicon")
         inst.icon:TrackEntity(inst)
-        
     end
     inst.Light:Enable(true)
 	inst.Light:SetRadius(RADIUS)
-    print("[debug_gem]  toground RADIUS:" .. RADIUS)
+    -- print("[debug_gem]  toground RADIUS:" .. RADIUS)
 end
 
 local function init(inst)
@@ -309,11 +310,12 @@ local function init(inst)
     end
 end
 
-dota_item_other.dota_gem_of_true_sight = {    -- Todo:给宝石添加一个唯一标签 暂时没有隐身怪，先不用做这个
+dota_item_other.dota_gem_of_true_sight = {    -- TODO:给宝石添加一个唯一标签 暂时没有隐身怪，先不用做这个
     name = "dota_gem_of_true_sight",
     animname = "dota_gem_of_true_sight",
-	animzip = "dota_other", 
-	taglist = {
+	animzip = "dota_other",
+	assets = {
+        Asset("MINIMAP_IMAGE", "dota_gem_of_true_sight"),
     },
     prefabs ={
         "globalmapicon",
@@ -333,8 +335,8 @@ dota_item_other.dota_gem_of_true_sight = {    -- Todo:给宝石添加一个唯�
         inst.MiniMapEntity:SetDrawOverFogOfWar(true)
 
         inst.entity:AddLight()
-        inst.Light:SetFalloff(TUNING.DOTA.GEM_OF_TRUE_SIGHT.LIGHT.FALLOFF) -- 衰减
-        inst.Light:SetIntensity(TUNING.DOTA.GEM_OF_TRUE_SIGHT.LIGHT.RADIUS) -- 光强
+        inst.Light:SetFalloff(FALLOFF) -- 衰减
+        inst.Light:SetIntensity(INTENSITY) -- 光强
         inst.Light:SetRadius(0) -- 半径
         inst.Light:SetColour(COLOUR_R, COLOUR_G, COLOUR_B)   -- 颜色
         inst.Light:Enable(false)

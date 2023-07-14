@@ -2,7 +2,7 @@
 -- 我们希望装备系统与属性系统分离，这样怪物于人物公用一个属性系统，机制方面才比较统一
 -- 但由于历史遗留问题，两个系统里的参数大部分重叠，未来可能考虑优化
 -- 我们默认 dotacharacter 存在时必定存在 dotaattributes 
--- Todo: 优化方向：重新涉及数据结构，将插值替换为填值
+-- TODO: 优化方向：重新涉及数据结构，将插值替换为填值
 local function on_level(self, level)
     -- 主机对current赋值时，同时调用replica的赋值函数
     self.inst.replica.dotacharacter:SetLevel(level)
@@ -724,7 +724,7 @@ local function TableCompare(t1, t2)
     return true -- 全部通过返回true
 end
 
--- Todo：这实在是太占用性能了，未来完成度高了后，可以降低可读性时，
+-- TODO：这实在是太占用性能了，未来完成度高了后，可以降低可读性时，
 -- 装备记录就不再使用key值，而是采用默认排序，这样就可以直接用123来代替key
 -- 无论是在记录，读取，更改，都可以做到优化
 

@@ -3,20 +3,6 @@
 -- 来源 /scripts/functional_medal.lua
 -----------------------------------------------------------------------
 
--- local dota_item={}
--- table.insert(dota_item, dota_item_accessories)
--- table.insert(dota_item, dota_item_assisted)
--- table.insert(dota_item, dota_item_attribute)
--- table.insert(dota_item, dota_item_consumables)
--- table.insert(dota_item, dota_item_equipment)
--- table.insert(dota_item, dota_item_magic)
--- table.insert(dota_item, dota_item_mysteryshop)
--- table.insert(dota_item, dota_item_other)
--- table.insert(dota_item, dota_item_precious)
--- table.insert(dota_item, dota_item_protect)
--- table.insert(dota_item, dota_item_roshan)
--- table.insert(dota_item, dota_item_weapon)
-
 local SHARINGCD = TUNING.DOTA.SHARINGCD	-- 是否启用共享冷却
 
 local function ReticuleTargetFn()
@@ -38,8 +24,13 @@ local function MakeCertificate(def)
 	local assets={
 		Asset("ANIM", "anim/"..def.animzip..".zip"),
 		Asset("ATLAS", "images/"..def.animzip.."/"..def.name..".xml"),
-		Asset("ATLAS_BUILD", "images/"..def.animzip.."/"..def.name..".xml",256),
+		Asset("ATLAS_BUILD", "images/"..def.animzip.."/"..def.name..".xml", 256),
 	}
+	if def.assets and #def.assets>0 then
+		for _,v in ipairs(def.assets) do
+			table.insert(assets, v)
+		end
+	end
 --	print("[debug]" .. def.name .. "  assert:" .. def.animzip.."/"..def.name..".xml")
 	--存储函数
 	local prefabs = {}
@@ -249,7 +240,7 @@ local function MakeCertificate(def)
 
 		inst.foleysound = "dontstarve/movement/foley/jewlery"
 
-		MakeInventoryFloatable(inst,"med",0.1,0.65)	-- Todo：存疑
+		MakeInventoryFloatable(inst,"med",0.1,0.65)	-- TODO：存疑
 
 		inst.entity:SetPristine()
 		if not TheWorld.ismastersim then
@@ -360,58 +351,6 @@ local function MakeCertificate(def)
 
 	return Prefab(def.name, fn, assets, prefabs)
 end
-
--- 丑陋，太丑陋了
--- local dota_item_accessories=require("dota_defs/dota_item/dota_item_accessories").dota_item_accessories
--- local dota_item_assisted=require("dota_defs/dota_item/dota_item_assisted").dota_item_assisted
--- local dota_item_attribute=require("dota_defs/dota_item/dota_item_attribute").dota_item_attribute
--- local dota_item_consumables=require("dota_defs/dota_item/dota_item_consumables").dota_item_consumables
--- local dota_item_equipment=require("dota_defs/dota_item/dota_item_equipment").dota_item_equipment
--- local dota_item_magic=require("dota_defs/dota_item/dota_item_magic").dota_item_magic
--- local dota_item_mysteryshop=require("dota_defs/dota_item/dota_item_mysteryshop").dota_item_mysteryshop
--- local dota_item_other=require("dota_defs/dota_item/dota_item_other").dota_item_other
--- local dota_item_precious=require("dota_defs/dota_item/dota_item_precious").dota_item_precious
--- local dota_item_protect=require("dota_defs/dota_item/dota_item_protect").dota_item_protect
--- local dota_item_roshan=require("dota_defs/dota_item/dota_item_roshan").dota_item_roshan
--- local dota_item_weapon=require("dota_defs/dota_item/dota_item_weapon").dota_item_weapon
-
--- local certificates={}
--- for i, v in pairs(dota_item_accessories) do
-    -- table.insert(certificates, MakeCertificate(v))
--- end
--- for i, v in pairs(dota_item_assisted) do
-    -- table.insert(certificates, MakeCertificate(v))
--- end
--- for i, v in pairs(dota_item_attribute) do
-    -- table.insert(certificates, MakeCertificate(v))
--- end
--- for i, v in pairs(dota_item_consumables) do
-    -- table.insert(certificates, MakeCertificate(v))
--- end
--- for i, v in pairs(dota_item_equipment) do
-    -- table.insert(certificates, MakeCertificate(v))
--- end
--- for i, v in pairs(dota_item_magic) do
-    -- table.insert(certificates, MakeCertificate(v))
--- end
--- for i, v in pairs(dota_item_mysteryshop) do
-    -- table.insert(certificates, MakeCertificate(v))
--- end
--- for i, v in pairs(dota_item_other) do
-    -- table.insert(certificates, MakeCertificate(v))
--- end
--- for i, v in pairs(dota_item_precious) do
-    -- table.insert(certificates, MakeCertificate(v))
--- end
--- for i, v in pairs(dota_item_protect) do
-    -- table.insert(certificates, MakeCertificate(v))
--- end
--- for i, v in pairs(dota_item_roshan) do
-    -- table.insert(certificates, MakeCertificate(v))
--- end
--- for i, v in pairs(dota_item_weapon) do
-    -- table.insert(certificates, MakeCertificate(v))
--- end
 
 local certificates={}
 local dota_item_list = {

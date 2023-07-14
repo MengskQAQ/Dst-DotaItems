@@ -112,8 +112,8 @@ params.dota_box = {
 	{
 		slotpos = {},
 		slotbg = {},
-		animbank = "ui_chest_3x2",  -- Todo: 使用新素材
-		animbuild = "ui_chest_3x2", -- Todo: 使用新素材
+		animbank = "ui_chest_3x2",  -- TODO: 使用新素材
+		animbuild = "ui_chest_3x2", -- TODO: 使用新素材
 		pos = default_pos,
 	},
 	usespecificslotsforitems = true,--使用特定插槽
@@ -124,7 +124,7 @@ params.dota_box = {
 for y = 1, 0, -1 do
     for x = 0, 2 do
         table.insert(params.dota_box.widget.slotpos, Vector3(80 * x - 80 * 2 + 80, 80 * y - 80 * 2 + 120, 0))
-        table.insert(params.dota_box.widget.slotbg, { atlas="images/hud2.xml",image = "yotb_sewing_slot.tex" })   -- Todo: 使用新素材
+        table.insert(params.dota_box.widget.slotbg, { atlas="images/hud2.xml",image = "yotb_sewing_slot.tex" })   -- TODO: 使用新素材
     end
 end
 

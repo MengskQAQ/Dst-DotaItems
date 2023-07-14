@@ -154,7 +154,7 @@ AddComponentPostInit("combat", function(self)
 			self.lastwasattackedtime = GetTime()
 
 			local blocked = false
-			-- Todo：这一部分的 redirect_combat 需要重新评估兼容的可能性，以判断其存在的必要
+			-- TODO：这一部分的 redirect_combat 需要重新评估兼容的可能性，以判断其存在的必要
 			-- local damageredirecttarget = self.redirectdamagefn ~= nil and self.redirectdamagefn(self.inst, attacker, damage, weapon, stimuli) or nil
 			local damageresolved = 0
 			local original_damage = damage
@@ -166,8 +166,8 @@ AddComponentPostInit("combat", function(self)
 					local spelldamageamp = 0
 					local spellweak = 0
 					if attacker.components.dotaattributes ~= nil then
-						spelldamageamp = attacker.components.dotaattributes.spelldamageamp:Get()	-- 获取技能增强（Todo:存疑）
-						spellweak = attacker.components.dotaattributes.spellweak:Get()	-- 获取技能伤害降低（Todo:存疑）
+						spelldamageamp = attacker.components.dotaattributes.spelldamageamp:Get()	-- 获取技能增强（TODO:存疑）
+						spellweak = attacker.components.dotaattributes.spellweak:Get()	-- 获取技能伤害降低（TODO:存疑）
 					end
 					local spellresistance = self.inst.components.dotaattributes.spellresistance:Get()	-- 获取魔法抗性
 					damage = damage * (1 + spelldamageamp) * (1 - spellweak) * (1 - spellresistance)		-- 乘以魔法抗性，得到结算后的伤害
@@ -177,7 +177,7 @@ AddComponentPostInit("combat", function(self)
 					if self:Dota_IsInfused() and damage > INFUSED_RAINDROP_MINDAMAGE then	
 						if self.inst.components.inventory then
 							local item = self.inst.components.inventory:FindDotaItem(function(inst) return inst and inst.prefab == "dota_infused_raindrop" end)
-							if item and item.components.rechargeable and item.components.rechargeable:IsCharged() then	-- Todo : cd可能造成bug吗
+							if item and item.components.rechargeable and item.components.rechargeable:IsCharged() then	-- TODO : cd可能造成bug吗
 								item.UseOne()
 								if self.inst.SoundEmitter ~= nil then
 									self.inst.SoundEmitter:PlaySound("mengsk_dota2_sounds/items/infused_raindrop", nil, BASE_VOICE_VOLUME)
@@ -401,7 +401,7 @@ AddComponentPostInit("combat", function(self)
 			-- 计算克敌击先
 			self.dota_istruestrike = false		-- 重设克敌击先记录
 			self.dota_truestrikebonus = 0		-- 重设克敌击先附加伤害
-			if #self.truestriketable > 0 then	-- Todo:可删除此类判定
+			if #self.truestriketable > 0 then	-- TODO:可删除此类判定
 				for _, v in pairs(self.truestriketable) do	-- 先获取表中所有克敌击先的效果
 					if math.random() < v.pr then     -- 判断是否触发
 						self.inst:PushEvent("dotaevent_truestrike", { target = targ, weapon = v.weapon})	-- 推送事件，可用于触发特效
@@ -446,7 +446,7 @@ AddComponentPostInit("combat", function(self)
 	----------------------------------------------------
     ---------------- IsValidTarget ---------------------
 	----------------------------------------------------
-	-- 隐身状态特殊效果，Todo:作用存疑，暂不启用
+	-- 隐身状态特殊效果，TODO:作用存疑，暂不启用
 	-- local old_GetHitRange = self.IsValidTarget
 	-- function self:IsValidTarget(target)
 	-- 	if target:HasTag("dota_shadow") then return false end

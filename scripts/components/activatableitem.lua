@@ -58,7 +58,7 @@ function ActivatableItem:StartUsingItem(owner, novoice)
 	self.activate = true
 
 	if self.inst.activatename ~= nil then
-		local tag = string.lower(self.inst.activatename)	-- 什么反复横跳(Todo:作用存疑)
+		local tag = string.lower(self.inst.activatename)
 		if not owner:HasTag(tag) then owner:AddTag(tag) end
 	end
 

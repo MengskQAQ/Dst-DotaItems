@@ -248,7 +248,7 @@ dota_item_precious.dota_maelstrom = {
 	taglist = {
     },
 	onequipfn = function(inst,owner)
-        owner.components.dotacharacter:AddExtraDamage(TUNING.DOTA.MAELSTORM.EXTRADAMAGE)    -- Todo: 待复制
+        owner.components.dotacharacter:AddExtraDamage(TUNING.DOTA.MAELSTORM.EXTRADAMAGE)
         owner:ListenForEvent("onhitother", inst.onhitotherfn)
 	end,
 	onunequipfn = function(inst,owner)

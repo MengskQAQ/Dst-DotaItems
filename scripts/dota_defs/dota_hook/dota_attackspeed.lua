@@ -97,7 +97,7 @@ local function ClientResetAttackPerior(state)
             -- 回音战刃 or 连击刀
             -- if inst.sg.statemem.dota_echo > 0 then
             --     inst.sg.statemem.dota_echo = inst.sg.statemem.dota_echo - 1
-            --     for k, v in ipairs(state.timeline) do   -- Todo:  可能导致bug
+            --     for k, v in ipairs(state.timeline) do   -- TODO:  可能导致bug
             --         v.time = k/4 * FRAMES -- 顺序执行完所有判定
             --     end
             --     inst.sg:SetTimeout(0.5 * FRAMES + 1 * FRAMES) -- 极限间隔，然后加一点容错

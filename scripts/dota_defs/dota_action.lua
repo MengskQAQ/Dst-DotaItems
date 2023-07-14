@@ -276,6 +276,8 @@ end
 -- 	return false
 -- end
 
+local CANT_TAGS = {"INLIMBO", "playerghost"}
+
 --自定义动作
 local actions = {}
 
@@ -410,7 +412,7 @@ end
 local function TPSCROLL(act, item, type, hud)
 	local act_pos = act:GetActionPoint()
 	ChangeActivate(item, act.doer)
-	act.doer.sg:GoToState("portal_jumpin", {dest = act_pos,})	-- Todo
+	act.doer.sg:GoToState("portal_jumpin", {dest = act_pos,})	-- TODO
 	if type ~= nil then
 		UseOne(item)
 	end
@@ -490,7 +492,7 @@ actions.tpscroll_map = {
 		end
 		return false
 	end,
-	state = function(inst, action)	--Todo
+	state = function(inst, action)	--TODO
 		return StateTest(inst, "dota_tpscroll", "dota_sg_portal_jumpin_pre", tpscroll_mana)
 	end,
 	actiondata = {
@@ -499,7 +501,7 @@ actions.tpscroll_map = {
 		rmb=true,
 		mount_valid=true,
 		map_action=true,
-		-- stroverridefn=nil,	-- Todo
+		-- stroverridefn=nil,	-- TODO
 	},
 }
 -------------------------------------------------净化药水 or 小蓝-------------------------------------------------
@@ -547,7 +549,7 @@ actions.smoke = {
 		if StandardInvobjectActioniTest(act, "dota_smoke_of_deceit") then
 			AddDebuff(act.doer, "buff_dota_smoke")
 			local pos = act.doer:GetPosition()
-			local ents = TheSim:FindEntities(pos.x, pos.y, pos.z, TUNING.DOTA.SMOKE_OF_DECEIT.RANGE, { "player" }, { "playerghost" })
+			local ents = TheSim:FindEntities(pos.x, pos.y, pos.z, TUNING.DOTA.SMOKE_OF_DECEIT.RANGE, { "player" }, CANT_TAGS)
 			for _, ent in ipairs(ents) do
 				AddDebuff(ent, "buff_dota_smoke")
 			end
@@ -645,7 +647,7 @@ actions.dust = {
 	fn = function(act)
 		if StandardInvobjectActioniTest(act, "dota_dust_of_appearance") then 	
 			local pos = act.doer:GetPosition()
-			local ents = TheSim:FindEntities(pos.x, pos.y, pos.z, TUNING.DOTA.DUST_OF_APPEARANCE.RANGE, { "_combat" }, { "player" })
+			local ents = TheSim:FindEntities(pos.x, pos.y, pos.z, TUNING.DOTA.DUST_OF_APPEARANCE.RANGE, { "_combat" }, { "player", "INLIMBO" })
 			for _, ent in ipairs(ents) do
 				AddDebuff(ent, "buff_dota_dust")
 			end
@@ -940,7 +942,7 @@ actions.transmute = {
 				angle = math.atan2(down.z, down.x) / DEGREES
 			end
 
-			act.target.components.health:SetVal(0, "dota_transmute", nil)	-- Todo: 所有生物都可以这样致死吗？
+			act.target.components.health:SetVal(0, "dota_transmute", nil)	-- TODO: 所有生物都可以这样致死吗？
 
 			-- 先生成余数的黄金
 			local nug = SpawnPrefab("goldnugget")
@@ -1033,7 +1035,7 @@ actions.replenish = {
 			local delta = (1 + outhealamp) * TUNING.DOTA.ARCANE_BOOTS.REPLENISH.MANA
 
 			local pos = act.doer:GetPosition()
-			local ents = TheSim:FindEntities(pos.x, pos.y, pos.z, TUNING.DOTA.ARCANE_BOOTS.REPLENISH.RANGE, { "player" }, { "playerghost" })
+			local ents = TheSim:FindEntities(pos.x, pos.y, pos.z, TUNING.DOTA.ARCANE_BOOTS.REPLENISH.RANGE, { "player" }, CANT_TAGS)
 			for _, ent in ipairs(ents) do
 				if ent.components.dotaattributes ~= nil then 	
 					ent.components.dotaattributes:Mana_DoDelta(delta, nil, "dota_replenish")
@@ -1061,7 +1063,7 @@ actions.barrier = {
 			if not RechargeCheck(act.invobject, TUNING.DOTA.PIPE_OF_INSIGHT.BARRIER.CD, act.doer) then return true end
 
 			local pos = act.doer:GetPosition()
-			local ents = TheSim:FindEntities(pos.x, pos.y, pos.z, TUNING.DOTA.PIPE_OF_INSIGHT.BARRIER.RANGE, { "player" }, { "playerghost" })
+			local ents = TheSim:FindEntities(pos.x, pos.y, pos.z, TUNING.DOTA.PIPE_OF_INSIGHT.BARRIER.RANGE, { "player" }, CANT_TAGS)
 			for _, ent in ipairs(ents) do
 				if ent.components.dotaattributes ~= nil then 
 					ent.components.dotaattributes:CreateMagicShield("dota_shield_barrierfx")
@@ -1145,7 +1147,7 @@ actions.endurance = {
 			if not FiniteusesAndRechargeCheck(act.invobject, TUNING.DOTA.BOOTS_OF_BEARING.ENDURANCE.CD, act.doer, 1) then return true end
 
 			local pos = act.doer:GetPosition()
-			local ents = TheSim:FindEntities(pos.x, pos.y, pos.z, TUNING.DOTA.BOOTS_OF_BEARING.ENDURANCE.RANGE, { "player" }, { "playerghost" })
+			local ents = TheSim:FindEntities(pos.x, pos.y, pos.z, TUNING.DOTA.BOOTS_OF_BEARING.ENDURANCE.RANGE, { "player" }, CANT_TAGS)
 			for _, ent in ipairs(ents) do
 				AddDebuff(ent, "buff_dota_endurance")
 			end
@@ -1171,7 +1173,7 @@ actions.restore = {
 			local delta = (1 + outhealamp) * TUNING.DOTA.MEKANSM.RESTORE.HEALTH
 			
 			local pos = act.doer:GetPosition()
-			local ents = TheSim:FindEntities(pos.x, pos.y, pos.z, TUNING.DOTA.MEKANSM.RESTORE.RANGE, { "player" }, { "playerghost" })
+			local ents = TheSim:FindEntities(pos.x, pos.y, pos.z, TUNING.DOTA.MEKANSM.RESTORE.RANGE, { "player" }, CANT_TAGS)
 			for _, ent in ipairs(ents) do
 				if ent.components.health ~= nil and not ent.components.health:IsDead() then 	
 					ent.components.health:DoDelta(delta, nil, "restore")
@@ -1197,7 +1199,7 @@ actions.endurancedrum = {
 			if not FiniteusesAndRechargeCheck(act.invobject, TUNING.DOTA.DRUM_OF_ENDURANCE.ENDURANCE.CD, act.doer, 1) then return true end
 
 			local pos = act.doer:GetPosition()
-			local ents = TheSim:FindEntities(pos.x, pos.y, pos.z, TUNING.DOTA.DRUM_OF_ENDURANCE.ENDURANCE.RANGE, { "player" }, { "playerghost" })
+			local ents = TheSim:FindEntities(pos.x, pos.y, pos.z, TUNING.DOTA.DRUM_OF_ENDURANCE.ENDURANCE.RANGE, { "player" }, CANT_TAGS)
 			for _, ent in ipairs(ents) do
 				AddDebuff(ent, "buff_dota_endurancedrum")
 			end
@@ -1248,7 +1250,7 @@ actions.mend = {
 			local mana = (1 + outhealamp) * TUNING.DOTA.GUARDIAN_GREAVES.MEND.MANA
 			
 			local pos = act.doer:GetPosition()
-			local ents = TheSim:FindEntities(pos.x, pos.y, pos.z, TUNING.DOTA.DRUM_OF_ENDURANCE.ENDURANCE.RANGE, { "player" }, { "playerghost" })
+			local ents = TheSim:FindEntities(pos.x, pos.y, pos.z, TUNING.DOTA.DRUM_OF_ENDURANCE.ENDURANCE.RANGE, { "player" }, CANT_TAGS)
 			for _, ent in ipairs(ents) do
 				if ent.components.health ~= nil and not ent.components.health:IsDead() then
 					ent.components.health:DoDelta(health, nil, "mend")
@@ -1258,7 +1260,7 @@ actions.mend = {
 				end
 			end
 			PlaySound(act.doer, "mengsk_dota2_sounds/items/guardian_greaves", nil, BASE_VOICE_VOLUME)
-			-- Todo:驱散效果待制作
+			-- TODO:驱散效果待制作
 			return true
 		end
 		return ActionFailed(act.doer)
@@ -1299,7 +1301,7 @@ local reprisal_mana = TUNING.DOTA.WRAITH_PACT.REPRISAL.MANA
 actions.reprisal = {
 	id = "DOTA_REPRISAL",
 	str = STRINGS.DOTA.NEWACTION.DOTA_REPRISAL,
-	fn = function(act)	-- Todo: 待制作
+	fn = function(act)	-- TODO: 待制作
 		if StandardInvobjectActioniTest(act, "dota_wraith_pact") then
 			if not IsManaEnough(act.doer, act.invobject) then return true end
 			if not RechargeCheck(act.invobject, TUNING.DOTA.WRAITH_PACT.REPRISAL.CD, act.doer) then return true end
@@ -1372,7 +1374,7 @@ local cripple_mana = TUNING.DOTA.ROD_OF_ATOS.CRIPPLE.MANA
 actions.cripple = {
 	id = "DOTA_CRIPPLE",
 	str = STRINGS.DOTA.NEWACTION.DOTA_CRIPPLE,
-	fn = function(act)	-- Todo: 想要让阿托斯特效表现出来，就虚拟武器投出投掷物
+	fn = function(act)	-- 想要让阿托斯特效表现出来，就虚拟武器投出投掷物
 						-- 大致流程为： 
 						-- 1.创建虚拟远程武器 
 						-- 2.虚拟远程武器执行攻击代码，通过 weapon-components 内的 LaunchProjectile-api 投掷 bomb-prefeb
@@ -1414,7 +1416,7 @@ local burst5_mana = TUNING.DOTA.DAGON_ENERGY.BURST.MANA.LEVEL5
 
 local function DoLishtingStrike(inst, attacker, damage, weapon)
     if inst.components.combat ~= nil then
-		SpawnPrefab("dota_fx_lightning").Transform:SetPosition(inst.Transform:GetWorldPosition())	-- Todo：将官方的闪电替换成大根特效
+		SpawnPrefab("dota_fx_lightning").Transform:SetPosition(inst.Transform:GetWorldPosition())	-- TODO：将官方的闪电替换成大根特效
 		PlaySound(attacker, "mengsk_dota2_sounds/items/dagon", nil, BASE_VOICE_VOLUME)
 		inst.components.combat:GetAttacked(attacker, damage, weapon, "dotamagic")
     end
@@ -1426,13 +1428,13 @@ end
 actions.burst1 = {
 	id = "DOTA_BURST1",
 	str = STRINGS.DOTA.NEWACTION.DOTA_BURST1,
-	fn = function(act)	-- Todo: 待制作
+	fn = function(act)	-- TODO: 待制作
 		if StandardTargetAndActivateActioniTest(act, "dota_burst1") then
 			local item = FindActivateItemByDoer(act.doer, "dota_dagon_level1")
 			if item == nil then return ActionFailed(act.doer) end
 			if not IsManaEnough(act.doer, item) then return true end
 			if not RechargeCheck(item, TUNING.DOTA.DAGON_ENERGY.BURST.CD.LEVEL1, act.doer) then return true end
-			DoLishtingStrike(act.target, act.doer, TUNING.DOTA.DAGON_ENERGY.BURST.DAMAGE.LEVEL1, item)	-- Todo：技能伤害增强究竟放在这还是combat里呢？
+			DoLishtingStrike(act.target, act.doer, TUNING.DOTA.DAGON_ENERGY.BURST.DAMAGE.LEVEL1, item)	-- TODO：技能伤害增强究竟放在这还是combat里呢？
 			ItemManaDelta(act.doer, item, nil ,"dota_burst1")
 			ChangeActivate(item, act.doer)
 			return true
@@ -1454,7 +1456,7 @@ actions.burst2 = {
 			if item == nil then return ActionFailed(act.doer) end
 			if not IsManaEnough(act.doer, item) then return true end
 			if not RechargeCheck(item, TUNING.DOTA.DAGON_ENERGY.BURST.CD.LEVEL2, act.doer) then return true end
-			DoLishtingStrike(act.target, act.doer, TUNING.DOTA.DAGON_ENERGY.BURST.DAMAGE.LEVEL2, item)	-- Todo：技能伤害增强究竟放在这还是combat里呢？
+			DoLishtingStrike(act.target, act.doer, TUNING.DOTA.DAGON_ENERGY.BURST.DAMAGE.LEVEL2, item)	-- TODO：技能伤害增强究竟放在这还是combat里呢？
 			ItemManaDelta(act.doer, item, nil ,"dota_burst2")
 			ChangeActivate(item, act.doer)
 			return true
@@ -1476,7 +1478,7 @@ actions.burst3 = {
 			if item == nil then return ActionFailed(act.doer) end
 			if not IsManaEnough(act.doer, item) then return true end
 			if not RechargeCheck(item, TUNING.DOTA.DAGON_ENERGY.BURST.CD.LEVEL3, act.doer) then return true end
-			DoLishtingStrike(act.target, act.doer, TUNING.DOTA.DAGON_ENERGY.BURST.DAMAGE.LEVEL3, item)	-- Todo：技能伤害增强究竟放在这还是combat里呢？
+			DoLishtingStrike(act.target, act.doer, TUNING.DOTA.DAGON_ENERGY.BURST.DAMAGE.LEVEL3, item)	-- TODO：技能伤害增强究竟放在这还是combat里呢？
 			ItemManaDelta(act.doer, item, nil ,"dota_burst3")
 			ChangeActivate(item, act.doer)
 			return true
@@ -1498,7 +1500,7 @@ actions.burst4 = {
 			if item == nil then return ActionFailed(act.doer) end
 			if not IsManaEnough(act.doer, item) then return true end
 			if not RechargeCheck(item, TUNING.DOTA.DAGON_ENERGY.BURST.CD.LEVEL4, act.doer) then return true end
-			DoLishtingStrike(act.target, act.doer, TUNING.DOTA.DAGON_ENERGY.BURST.DAMAGE.LEVEL4, item)	-- Todo：技能伤害增强究竟放在这还是combat里呢？
+			DoLishtingStrike(act.target, act.doer, TUNING.DOTA.DAGON_ENERGY.BURST.DAMAGE.LEVEL4, item)	-- TODO：技能伤害增强究竟放在这还是combat里呢？
 			ItemManaDelta(act.doer, item, nil ,"dota_burst4")
 			ChangeActivate(item, act.doer)
 			return true
@@ -1520,7 +1522,7 @@ actions.burst5 = {
 			if item == nil then return ActionFailed(act.doer) end
 			if not IsManaEnough(act.doer, item) then return true end
 			if not RechargeCheck(item, TUNING.DOTA.DAGON_ENERGY.BURST.CD.LEVEL5, act.doer) then return true end
-			DoLishtingStrike(act.target, act.doer, TUNING.DOTA.DAGON_ENERGY.BURST.DAMAGE.LEVEL5, item)	-- Todo：技能伤害增强究竟放在这还是combat里呢？
+			DoLishtingStrike(act.target, act.doer, TUNING.DOTA.DAGON_ENERGY.BURST.DAMAGE.LEVEL5, item)	-- TODO：技能伤害增强究竟放在这还是combat里呢？
 			ItemManaDelta(act.doer, item, nil ,"dota_burst5")
 			ChangeActivate(item, act.doer)
 			return true
@@ -1538,7 +1540,7 @@ local cycloneplus_mana = TUNING.DOTA.EULS.CYCLONE.MANA
 actions.cycloneplus = {
 	id = "DOTA_CYCLONEPLUS",
 	str = STRINGS.DOTA.NEWACTION.DOTA_CYCLONEPLUS,
-	fn = function(act)	-- Todo: 待制作
+	fn = function(act)	-- TODO: 待制作
 		if StandardTargetAndActivateActioniTest(act, "dota_cycloneplus") then
 			local item = FindActivateItemByDoer(act.doer, "dota_wind_waker")
 			if item == nil then return ActionFailed(act.doer) end
@@ -1569,7 +1571,7 @@ local chains_mana = TUNING.DOTA.GLEIPNIR.ETERNAL.MANA
 actions.chains = {
 	id = "DOTA_CHAINS",
 	str = STRINGS.DOTA.NEWACTION.DOTA_CHAINS,
-	fn = function(act)	-- Todo: 待制作
+	fn = function(act)	-- TODO: 待制作
 		-- if not IsManaEnough(act.doer, chains_mana) then return true end
 		-- ItemManaDelta(act.doer, -chains_mana, nil ,"dota_chains")
 		-- PlaySound(act.doer, "mengsk_dota2_sounds/items/gleipnir_cast", nil, BASE_VOICE_VOLUME)
@@ -1652,7 +1654,7 @@ local hex_mana = TUNING.DOTA.SCYTHE_OF_VYSE.HEX.MANA
 actions.hex = {
 	id = "DOTA_HEX",
 	str = STRINGS.DOTA.NEWACTION.DOTA_HEX,
-	fn = function(act)	-- Todo: 待制作
+	fn = function(act)	-- TODO: 待制作
 		if StandardTargetAndActivateActioniTest(act, "dota_hex") then
 			local item = FindActivateItemByDoer(act.doer, "dota_scythe_of_vyse")
 			if item == nil then return ActionFailed(act.doer) end
@@ -1817,11 +1819,11 @@ actions.guard = {
 			if not RechargeCheck(act.invobject, TUNING.DOTA.CRIMSON_GUARD.GUARD.CD, act.doer) then return true end
 
 			local pos = act.doer:GetPosition()
-			local ents = TheSim:FindEntities(pos.x, pos.y, pos.z, TUNING.DOTA.CRIMSON_GUARD.GUARD.RANGE, { "player" }, { "playerghost" })
+			local ents = TheSim:FindEntities(pos.x, pos.y, pos.z, TUNING.DOTA.CRIMSON_GUARD.GUARD.RANGE, { "player" }, CANT_TAGS)
 			for _, ent in ipairs(ents) do
 				AddDebuff(ent, "buff_dota_guard")
 			end
-			-- Todo：驱散效果待制作
+			-- TODO：驱散效果待制作
 			PlaySound(act.doer, "mengsk_dota2_sounds/items/crimson_guard", nil, BASE_VOICE_VOLUME)
 			return true
 		end
@@ -1837,7 +1839,7 @@ local avatar_mana = TUNING.DOTA.BLACK_KING_BAR.AVATAR.MANA
 actions.avatar = {
 	id = "DOTA_AVATAR",
 	str = STRINGS.DOTA.NEWACTION.DOTA_AVATAR,
-	fn = function(act)	-- Todo: 待制作
+	fn = function(act)
 		if StandardInvobjectActioniTest(act, "dota_black_king_bar")then
 			if not IsManaEnough(act.doer, act.invobject) then return true end
 			if not RechargeCheck(act.invobject, TUNING.DOTA.BLACK_KING_BAR.AVATAR.CD, act.doer) then return true end
@@ -1857,7 +1859,7 @@ local mirror_mana = TUNING.DOTA.MANTA_STYLE.MIRROR.MANA
 actions.mirror = {
 	id = "DOTA_MIRROR",
 	str = STRINGS.DOTA.NEWACTION.DOTA_MIRROR,
-	fn = function(act)	-- Todo: 待制作
+	fn = function(act)	-- TODO: 待制作
 		-- if not IsManaEnough(act.doer, mirror_mana) then return true end
 		-- ItemManaDelta(act.doer, -mirror_mana, nil ,"dota_mirror")
 		-- PlaySound(act.doer, "mengsk_dota2_sounds/items/manta", nil, BASE_VOICE_VOLUME)
@@ -1904,7 +1906,7 @@ actions.thrust = {
 			if not RechargeCheck(item, TUNING.DOTA.HURRICANE_PIKE.THRUST.CD, act.doer) then return true end
 
 			if not act.target:HasTag("player") and act.doer:GetDistanceSqToInst(act.target) < 1 then	-- 与敌人的距离平方小于1
-				-- Todo:当然我们需要计算一下玩家和角色的角度再传入，以后再做
+				-- TODO:当然我们需要计算一下玩家和角色的角度再传入，以后再做
 				local x1, y1, z1 = act.doer.Transform:GetWorldPosition()
 				local x2, y2, z2 = act.target.Transform:GetWorldPosition()
 				act.doer:ForceFacePoint(x2, 0, z2)
@@ -1933,7 +1935,7 @@ actions.thrust = {
 actions.mirror = {
 	id = "DOTA_MIRROR",
 	str = STRINGS.DOTA.NEWACTION.DOTA_MIRROR,
-	fn = function(act)	-- Todo: 待制作
+	fn = function(act)	-- TODO: 待制作
 		-- PlaySound(act.doer, "mengsk_dota2_sounds/items/linkens_sphere", nil, BASE_VOICE_VOLUME)
 		-- PlaySound(act.doer, "mengsk_dota2_sounds/items/linkens_target", nil, BASE_VOICE_VOLUME)
 		return ActionWalking(act.doer)
@@ -1949,7 +1951,7 @@ local shell_mana = TUNING.DOTA.LOTUS_ORB.SHELL.MANA
 actions.shell = {
 	id = "DOTA_SHELL",
 	str = STRINGS.DOTA.NEWACTION.DOTA_SHELL,
-	fn = function(act)	-- Todo: 待制作
+	fn = function(act)	-- TODO: 待制作
 		if StandardTargetAndActivateActioniTest(act, "dota_shell") and act.target:HasTag("player") then
 			local item = FindActivateItemByDoer(act.doer, "dota_lotus_orb")
 			if item == nil then return ActionFailed(act.doer) end
@@ -2014,7 +2016,7 @@ local blast_mana = TUNING.DOTA.MASK_OF_MADNESS.BERSERK.MANA
 actions.blast = {
 	id = "DOTA_BLAST",
 	str = STRINGS.DOTA.NEWACTION.DOTA_BLAST,
-	fn = function(act)	-- Todo: 待制作
+	fn = function(act)	-- TODO: 待制作
 		-- if not IsManaEnough(act.doer, blast_mana) then return true end
 		-- ItemManaDelta(act.doer, -blast_mana, nil ,"dota_blast")
 		-- PlaySound(act.doer, "mengsk_dota2_sounds/items/shivas_guard", nil, BASE_VOICE_VOLUME)
@@ -2029,7 +2031,7 @@ actions.blast = {
 actions.bloodpact = {
 	id = "DOTA_BLOODPACT",
 	str = STRINGS.DOTA.NEWACTION.DOTA_BLOODPACT,
-	fn = function(act)	-- Todo: 待制作
+	fn = function(act)
 		if StandardInvobjectActioniTest(act, "dota_bloodstone") then
 			if act.doer:HasTag("bloodpactcd") then PlaySound_CoolingDown(act.doer) return true end	-- 疲惫值
 			if not RechargeCheck(act.invobject, TUNING.DOTA.BLOODSTONE.BLOODPACT.CD, act.doer) then return true end
@@ -2050,7 +2052,7 @@ local shroud_mana = TUNING.DOTA.SHROUD.SHROUD.MANA
 actions.shroud = {
 	id = "DOTA_SHROUD",
 	str = STRINGS.DOTA.NEWACTION.DOTA_SHROUD,
-	fn = function(act)	-- Todo: 待制作
+	fn = function(act)
 		if StandardInvobjectActioniTest(act, "dota_eternal_shroud") then
 			if not IsManaEnough(act.doer, act.invobject) then return true end
 			if not RechargeCheck(act.invobject, TUNING.DOTA.SHROUD.SHROUD.CD, act.doer) then return true end
@@ -2072,7 +2074,7 @@ local walkplus_mana = TUNING.DOTA.SILVER_EDGE.WALK.MANA
 actions.walkplus = {
 	id = "DOTA_WALKPLUS",
 	str = STRINGS.DOTA.NEWACTION.DOTA_WALK,
-	fn = function(act)	-- Todo: 待制作
+	fn = function(act)	-- TODO: 待制作
 		if StandardInvobjectActioniTest(act, "dota_silver_edge") then
 			if not IsManaEnough(act.doer, act.invobject) then return true end
 			if not RechargeCheck(act.invobject, TUNING.DOTA.SILVER_EDGE.WALK.CD, act.doer) then return true end
@@ -2092,7 +2094,7 @@ local nullify_mana = TUNING.DOTA.NULLIFIER.NULLIFY.MANA
 actions.nullify = {
 	id = "DOTA_NULLIFY",
 	str = STRINGS.DOTA.NEWACTION.DOTA_NULLIFY,
-	fn = function(act)	-- Todo: 待制作
+	fn = function(act)	-- TODO: 待制作
 		if StandardTargetAndActivateActioniTest(act, "dota_nullify") then
 			local item = FindActivateItemByDoer(act.doer, "dota_nullifier")
 			if item == nil then return ActionFailed(act.doer) end
@@ -2137,7 +2139,7 @@ actions.flutter = {
 actions.burn = {
 	id = "DOTA_BURN",
 	str = STRINGS.DOTA.NEWACTION.DOTA_BURN,
-	fn = function(act)	-- Todo: 待制作
+	fn = function(act)
 		if StandardInvobjectActioniTest(act, "dota_radiance") then
 			if act.invobject.burnstata ~= nil then
 				if act.invobject.burnstata == true then
@@ -2161,7 +2163,7 @@ actions.burn = {
 actions.unholy = {
 	id = "DOTA_UNHOLY",
 	str = STRINGS.DOTA.NEWACTION.DOTA_UNHOLY,
-	fn = function(act)	-- Todo: 待制作
+	fn = function(act)	-- TODO: 待制作
 		-- PlaySound(act.doer, "mengsk_dota2_sounds/items/item_armlet_activate", nil, BASE_VOICE_VOLUME)
 		-- PlaySound(act.doer, "mengsk_dota2_sounds/items/item_armlet_deactivate", nil, BASE_VOICE_VOLUME)
 		return ActionWalking(act.doer)
@@ -2176,7 +2178,7 @@ local overwhelm_mana = TUNING.DOTA.ABYSSAL_BLADE.OVERWHELM.MANA
 actions.overwhelm = {
 	id = "DOTA_OVERWHELM",
 	str = STRINGS.DOTA.NEWACTION.DOTA_OVERWHELM,
-	fn = function(act)	-- Todo: 待制作
+	fn = function(act)	-- TODO: 待制作
 		-- if not IsManaEnough(act.doer, overwhelm_mana) then return true end
 		-- ItemManaDelta(act.doer, -overwhelm_mana, nil ,"dota_overwhelm")
 		-- PlaySound(act.doer, "mengsk_dota2_sounds/items/abyssal_blade", nil, BASE_VOICE_VOLUME)
@@ -2193,7 +2195,7 @@ local ethereal_mana = TUNING.DOTA.ETHEREAL_BLADE.ETHEREAL.MANA
 actions.ethereal = {
 	id = "DOTA_ETHEREAL",
 	str = STRINGS.DOTA.NEWACTION.DOTA_ETHEREAL,
-	fn = function(act)	-- Todo: 待制作
+	fn = function(act)
 		if StandardTargetAndActivateActioniTest(act, "dota_ethereal") then
 			local item = FindActivateItemByDoer(act.doer, "dota_ethereal_blade")
 			if item == nil then return ActionFailed(act.doer) end
@@ -2247,7 +2249,7 @@ local province_mana = TUNING.DOTA.REVENANTS_BROOCH.PROVINCE.MANA
 actions.province = {
 	id = "DOTA_PROVINCE",
 	str = STRINGS.DOTA.NEWACTION.DOTA_PROVINCE,
-	fn = function(act)	-- Todo: 待制作
+	fn = function(act)
 		if StandardInvobjectActioniTest(act, "dota_revenants_brooch") then
 		   if not IsManaEnough(act.doer, act.invobject) then return true end
 		   if not RechargeCheck(act.invobject,  TUNING.DOTA.REVENANTS_BROOCH.PROVINCE.CD, act.doer) then return true end
@@ -2269,7 +2271,7 @@ local walk_mana = TUNING.DOTA.INVIS_SWORD.WALK.MANA
 actions.walk = {
 	id = "DOTA_WALK",
 	str = STRINGS.DOTA.NEWACTION.DOTA_WALK,
-	fn = function(act)	-- Todo: 待制作
+	fn = function(act)
 		if StandardInvobjectActioniTest(act, "dota_invis_sword") then
 			if not IsManaEnough(act.doer, act.invobject) then return true end
 			if not RechargeCheck(act.invobject, TUNING.DOTA.SILVER_EDGE.WALK.CD, act.doer) then return true end
@@ -2329,7 +2331,7 @@ end
 actions.meteor = {
 	id = "DOTA_METEOR",
 	str = STRINGS.DOTA.NEWACTION.DOTA_METEOR,
-	fn = function(act)	-- Todo: 待制作
+	fn = function(act)
 		if act.doer and act.doer:HasTag("player") and act.doer:HasTag("dota_meteor") then
 			local item = FindActivateItemByDoer(act.doer, "dota_meteor_hammer")
 			if item == nil then return true end
@@ -2407,7 +2409,7 @@ actions.rage = {
 actions.inhibit = {
 	id = "DOTA_INHIBIT",
 	str = STRINGS.DOTA.NEWACTION.DOTA_INHIBIT,
-	fn = function(act)	-- Todo: 待制作
+	fn = function(act)
 		if StandardTargetAndActivateActioniTest(act, "dota_inhibit") then
 			local item = FindActivateItemByDoer(act.doer, "dota_diffusal_blade")
 			if item == nil then return ActionFailed(act.doer) end
@@ -2429,7 +2431,7 @@ local lighting_mana = TUNING.DOTA.MJOLLNIR.STATIC.MANA
 actions.lighting = {
 	id = "DOTA_LIGHTING",
 	str = STRINGS.DOTA.NEWACTION.DOTA_LIGHTING,
-	fn = function(act)	-- Todo: 待制作
+	fn = function(act)	-- TODO: 待制作
 		if StandardTargetAndActivateActioniTest(act, "dota_lighting") then
 			local item = FindActivateItemByDoer(act.doer, "dota_mjollnir")
 			if item == nil then return ActionFailed(act.doer) end
@@ -2477,7 +2479,7 @@ actions.fondue = {
 actions.weakness = {
 	id = "DOTA_WEAKNESS",
 	str = STRINGS.DOTA.NEWACTION.DOTA_WEAKNESS,
-	fn = function(act)	-- Todo: 待制作
+	fn = function(act)	-- TODO: 待制作
 
 		return ActionWalking(act.doer)
 	end,

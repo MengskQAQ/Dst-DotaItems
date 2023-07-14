@@ -10,7 +10,7 @@ local function runfnhook(self)
                 old_enter(inst, ...)
             end
             if inst:HasTag("dota_flying") then
-                if not inst.AnimState:IsCurrentAnimation("idle_loop") then  -- Todo:暂时用idle，未来要使用角色上下旋转的sg
+                if not inst.AnimState:IsCurrentAnimation("idle_loop") then  -- TODO:暂时用idle，未来要使用角色上下旋转的sg
                     inst.AnimState:PlayAnimation("idle_loop", true)
                 end
                 inst.sg:SetTimeout(inst.AnimState:GetCurrentAnimationLength() + 0.01)

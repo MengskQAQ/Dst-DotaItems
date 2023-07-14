@@ -9,7 +9,7 @@ local DotaFly = Class(function(self, inst)
 end)
 
 -- 生成龙卷风
-local function spawntornado(self, inst) --Todo: 龙卷风存在显示bug
+local function spawntornado(self, inst) --TODO: 龙卷风存在显示bug
     if inst._dotatornado == nil then
         inst:DoTaskInTime(0.1, function(inst)
             inst._dotatornado = SpawnPrefab("dota_fx_tornado")

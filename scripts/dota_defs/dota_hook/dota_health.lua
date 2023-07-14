@@ -14,8 +14,6 @@
 -- 为了保留其他mod的特色，我们尽量采用原函数进行结算，避免影响其他mod
 -------------------------------------------------------------------------------------
 
---Todo: 重大bug，重进游戏导致满血
-
 local health_system = GetModConfigData("health_system")
 local HEALTH_REGEN_TOTALTIME = TUNING.DOTA.HEALTH_REGEN_TOTALTIME
 	

@@ -155,7 +155,7 @@ dota_item_equipment.dota_infused_raindrop = {
     },
     maxuses = TUNING.DOTA.INFUSED_RAINDROP.MAXUSE,
     onfinishedfn = function(inst)
-        -- Todo:执行remove前需要将装备卸下吗？
+        -- TODO:执行remove前需要将装备卸下吗？
         inst:Remove()
     end,
 	onequipfn = function(inst,owner)

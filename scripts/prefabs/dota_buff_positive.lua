@@ -23,7 +23,6 @@ local function MakeBuff(defs)
         if defs.onattachedfn ~= nil then
             defs.onattachedfn(inst, target, followsymbol, followoffset, data)
         end
-        -- Todo:需要研究一下pushevent去兼容能力勋章
     end
 
 	local function OnDetached(inst, target)	-- 消除buff

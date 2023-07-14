@@ -3,11 +3,11 @@
 -- 来源 \scripts\prefabs\multivariate_certificate.lua
 -----------------------------------------------------------------------
 
--- Todo：有一点需要考虑，要不要hook Inventory组件让这个装备栏的物品无法被击落？
+-- TODO：有一点需要考虑，要不要hook Inventory组件让这个装备栏的物品无法被击落？
 
 require "prefabutil"
 
-local assets =  -- Todo: 更换素材
+local assets =  -- TODO: 更换素材
 {
     Asset("ANIM", "anim/dota_box.zip"),
     Asset("ATLAS", "images/dota_box.xml"),
@@ -42,7 +42,6 @@ local function doDotaListOnEquipFn(inst, item, owner)
 		if item.onequipwithrhfn then
 			item.onequipwithrhfn(inst,item,owner)	--(inst是box,item是装备,owner是佩戴者)
 		end
-        -- Todo：添加激活函数
 	end
 end
 --执行列表内的卸下函数
@@ -57,7 +56,6 @@ local function doDotaListOnUnequipFn(inst,item,owner)
 		if item.onunequipwithrhfn then
 			item.onunequipwithrhfn(inst,item,owner)
 		end
-        -- Todo：添加激活函数
 	end
 end
 -- 取出道具

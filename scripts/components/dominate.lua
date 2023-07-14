@@ -50,7 +50,7 @@ function Dominate:SpawnTargetEffect(inst)
 end
 
 function Dominate:CanBeDominate(target)
-    -- Todo:切斯特和星空要不要特别说明呢
+    -- TODO:切斯特和星空要不要特别说明呢
     if target:HasTag("companion") then return false end
     -- 猪人/兔人/鱼人/石虾/猫
     if target.components.follower ~= nil and target.components.follower.leader == nil then  -- 未被收买
@@ -110,12 +110,12 @@ function Dominate:DoDominate(owner, target)
             target.components.sleeper:WakeUp()
         end
 
-        if owner.components.minigame_participator == nil then   -- Todo:这个判断有什么用途？如果不执行的话，会造成下面的逻辑bug吗
+        if owner.components.minigame_participator == nil then   -- TODO:这个判断有什么用途？如果不执行的话，会造成下面的逻辑bug吗
             owner:PushEvent("makefriend")
             owner.components.leader:AddFollower(target)
         end
 
-        -- 模仿follower中的AddLoyaltyTime函数   -- Todo:缺少 targettime 应该没什么影响吧，或者我们直接去hook这个接口？
+        -- 模仿follower中的AddLoyaltyTime函数   -- TODO:缺少 targettime 应该没什么影响吧，或者我们直接去hook这个接口？
         target:PushEvent("gainloyalty", { leader = self.leader })
 		
 		succeed = true
@@ -171,7 +171,7 @@ end
 
 local function KillTarget(target)
     if target.components.health ~= nil and not target.components.health:IsDead() then
-        target.components.health:SetVal(0, "dota_dominate", nil)	-- Todo: 所有生物都可以这样致死吗？
+        target.components.health:SetVal(0, "dota_dominate", nil)	-- TODO: 所有生物都可以这样致死吗？
     end
 end
 

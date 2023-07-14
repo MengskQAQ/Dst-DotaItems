@@ -178,7 +178,7 @@ dota_item_magic.dota_dagon_level5 = {
 	end,
 }
 -------------------------------------------------纷争面纱-------------------------------------------------
-dota_item_magic.dota_veil_of_discord = {  -- Todo: 待制作(这个怎么做呢)
+dota_item_magic.dota_veil_of_discord = {  -- TODO: 待制作(这个怎么做呢)
     name = "dota_veil_of_discord",
     animname = "dota_veil_of_discord",
 	animzip = "dota_magic", 
@@ -253,7 +253,7 @@ local function ReticuleTargetFn()
     return pos
 end
 
-dota_item_magic.dota_gleipnir = {  -- Todo: 待制作(这个怎么做呢)
+dota_item_magic.dota_gleipnir = {  -- TODO: 待制作(这个怎么做呢)
     name = "dota_gleipnir",
     animname = "dota_gleipnir",
 	animzip = "dota_magic", 

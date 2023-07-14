@@ -5,7 +5,7 @@ local dota_item_accessories = {}
 --------------------------------------------------------------------------------------------------------
 
 ---------------------------------------------动力鞋 or 假腿-------------------------------------------------
-dota_item_accessories.dota_power_treads = { -- Todo:贴图切换
+dota_item_accessories.dota_power_treads = {
     name = "dota_power_treads",
     animname = "dota_power_treads",
 	animzip = "dota_accessories", 

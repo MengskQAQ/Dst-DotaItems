@@ -1,4 +1,4 @@
--- Todo：待制作，让食物拥有魔法回复效果
+-- TODO：待制作，让食物拥有魔法回复效果
 AddComponentPostInit("edible", function(self)
     function self:Dota_GetMana(eater)
         local health = math.max(self:GetHealth(eater), 1)
