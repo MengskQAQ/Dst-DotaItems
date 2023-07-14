@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Atlas>
+    <Texture filename="dota_radiance.tex"/>
+    <Elements>
+        <Element name="dota_radiance.tex" u1="0" u2="0.496063" v1="0.503937" v2="1"/>
+        <Element name="dota_radiance_off.tex" u1="0" u2="0.496063" v1="0" v2="0.496063"/>
+        <Element name="dota_radiance_on.tex" u1="0.503937" u2="1" v1="0.503937" v2="1"/>
+    </Elements>
+    <StraightAlpha>false</StraightAlpha>
+</Atlas>
+
