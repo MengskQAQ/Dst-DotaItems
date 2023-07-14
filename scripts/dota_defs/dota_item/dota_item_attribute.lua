@@ -231,5 +231,20 @@ dota_item_attribute.dota_mantle_of_intelligence = {
         owner.components.dotacharacter:RemoveIntelligence(TUNING.DOTA.MANTLE_OF.INTELLIGENCE.INTELLIGENCE)
 	end,
 }
+-------------------------------------------------宝冕-------------------------------------------------
+dota_item_attribute.dota_diadem = {
+    name = "dota_diadem",
+    animname = "dota_diadem",
+	animzip = "dota_attribute", 
+	taglist = {
+    },
+	onequipfn = function(inst,owner)
+        owner.components.dotacharacter:AddAttributes(TUNING.DOTA.DIADEM.ATTRIBUTES)
+	end,
+	onunequipfn = function(inst,owner)
+        owner.components.dotacharacter:RemoveAttributes(TUNING.DOTA.DIADEM.ATTRIBUTES)
+	end,
+}
+
 
 return {dota_item_attribute = dota_item_attribute}

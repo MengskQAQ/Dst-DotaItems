@@ -202,5 +202,23 @@ dota_item_mysteryshop.dota_hyperstone = {
         owner.components.dotacharacter:RemoveAttackSpeed(TUNING.DOTA.HYPERSTONE.ATTACKSPEED)
 	end,
 }
+-------------------------------------------------丰饶之环-------------------------------------------------
+dota_item_mysteryshop.dota_cornucopia = {
+    name = "dota_cornucopia",
+    animname = "dota_cornucopia",
+	animzip = "dota_accessories", 
+	taglist = {
+    },
+	onequipfn = function(inst,owner)
+        owner.components.dotacharacter:AddHealthRegen(TUNING.DOTA.CORNUCOPIA.HEALTHREGEN)
+        owner.components.dotacharacter:AddManaRegen(TUNING.DOTA.CORNUCOPIA.MANAREGEN)
+		owner.components.dotacharacter:AddExtraDamage(TUNING.DOTA.CORNUCOPIA.EXTRADAMAGE)
+	end,
+	onunequipfn = function(inst,owner)
+        owner.components.dotacharacter:RemoveHealthRegen(TUNING.DOTA.CORNUCOPIA.HEALTHREGEN)
+        owner.components.dotacharacter:RemoveManaRegen(TUNING.DOTA.CORNUCOPIA.MANAREGEN)
+		owner.components.dotacharacter:RemoveExtraDamage(TUNING.DOTA.CORNUCOPIA.EXTRADAMAGE)
+	end,
+}
 
 return {dota_item_mysteryshop = dota_item_mysteryshop}

@@ -500,5 +500,23 @@ dota_item_weapon.dota_meteor_hammer = {
         owner.components.dotacharacter:RemoveManaRegen(TUNING.DOTA.METEOR_HAMMER.MANAREGEN)
 	end,
 }
+-------------------------------------------------散魂剑-------------------------------------------------
+dota_item_weapon.dota_disperser = {
+    name = "dota_disperser",
+    animname = "dota_disperser",
+	animzip = "dota_precious", 
+	taglist = {
+    },
+	onequipfn = function(inst,owner)
+        owner.components.dotacharacter:AddAgility(TUNING.DOTA.DISPERSER.AGILITY)
+        owner.components.dotacharacter:AddIntelligence(TUNING.DOTA.DISPERSER.INTELLIGENCE)
+        owner.components.dotacharacter:AddExtraDamage(TUNING.DOTA.DISPERSER.EXTRADAMAGE)
+	end,
+	onunequipfn = function(inst,owner)
+        owner.components.dotacharacter:RemoveAgility(TUNING.DOTA.DISPERSER.AGILITY)
+        owner.components.dotacharacter:RemoveIntelligence(TUNING.DOTA.DISPERSER.INTELLIGENCE)
+        owner.components.dotacharacter:RemoveExtraDamage(TUNING.DOTA.DISPERSER.EXTRADAMAGE)
+	end,
+}
 
 return {dota_item_weapon = dota_item_weapon}

@@ -170,5 +170,12 @@ dota_item_consumables.dota_healing_salve = {
     animzip = "dota_consumables",
     maxsize = TUNING.DOTA.HEALING_SALVE.MAXSIZE,
 }
+-------------------------------------------------血腥榴弹-------------------------------------------------
+dota_item_consumables.dota_blood_grenade = {
+    name = "dota_blood_grenade",
+    animname = "dota_blood_grenade",
+    animzip = "dota_consumables",
+    maxsize = TUNING.DOTA.BLOOD_GRENADE.MAXSIZE,
+}
 
 return {dota_item_consumables = dota_item_consumables}

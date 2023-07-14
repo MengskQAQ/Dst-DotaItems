@@ -169,6 +169,16 @@ local dota_recipes={
 			},
         },
     },
+    -------------------------------------------------血腥榴弹-------------------------------------------------
+    {
+        name = "dota_blood_grenade",
+        dotatype = "dota_consumables",
+        ingredients = {
+			{
+				Ingredient("goldnugget", TUNING.DOTA.BLOOD_GRENADE.GOLD),
+			},
+        },
+    },
     --------------------------------------------------------------------------------------------------------
     --------------------------------------------------属性--------------------------------------------------
     --------------------------------------------------------------------------------------------------------
@@ -289,6 +299,16 @@ local dota_recipes={
         ingredients = {
 			{
 				Ingredient("goldnugget", TUNING.DOTA.MANTLE_OF_INTELLIGENCE.GOLD),
+			},
+        },
+    },
+    -------------------------------------------------宝冕-------------------------------------------------
+    {
+        name = "dota_diadem",
+        dotatype = "dota_attribute",
+        ingredients = {
+			{
+				Ingredient("goldnugget", TUNING.DOTA.DIADEM.GOLD),
 			},
         },
     },
@@ -721,6 +741,16 @@ local dota_recipes={
 			},
         },
     },
+    -------------------------------------------------丰饶之环-------------------------------------------------
+    {
+        name = "dota_cornucopia",
+        dotatype = "dota_mysteryshop",
+        ingredients = {
+			{
+				Ingredient("goldnugget", TUNING.DOTA.CORNUCOPIA.GOLD),
+			},
+        },
+    },
     --------------------------------------------------------------------------------------------------------
     --------------------------------------------------配件--------------------------------------------------
     --------------------------------------------------------------------------------------------------------
@@ -1140,6 +1170,19 @@ local dota_recipes={
                 Ingredient("dota_vladmirs_offering", 1,  "images/dota_assisted/dota_vladmirs_offering.xml"),
                 Ingredient("dota_point_booster", 1,  "images/dota_mysteryshop/dota_point_booster.xml"),
 			},
+        },
+    },
+    -------------------------------------------------长盾-------------------------------------------------
+    {
+        name = "dota_pavise",
+        dotatype = "dota_assisted",
+        ingredients = {
+            {
+                Ingredient("goldnugget", TUNING.DOTA.WRAITH_PACT.GOLD),
+                Ingredient("dota_void_stone", 1,  "images/dota_mysteryshop/dota_void_stone.xml"),
+                Ingredient("dota_ring_of_protection", 1,  "images/dota_equipment/dota_ring_of_protection.xml"),
+                Ingredient("dota_fluffy_hat", 1, "images/dota_other/dota_fluffy_hat.xml"),
+            },
         },
     },
     --------------------------------------------------------------------------------------------------------
@@ -1813,6 +1856,18 @@ local dota_recipes={
 			},
         },
     },
+    -------------------------------------------------散魂剑-------------------------------------------------
+    {
+        name = "dota_disperser",
+        dotatype = "dota_weapon",
+        ingredients = {
+			{
+				Ingredient("goldnugget", TUNING.DOTA.DISPERSER.GOLD),
+                Ingredient("dota_diffusal_blade", 1,  "images/dota_precious/dota_diffusal_blade.xml"),
+                Ingredient("dota_demon_edge", 1,  "images/dota_mysteryshop/dota_demon_edge.xml"),
+			},
+        },
+    },
     --------------------------------------------------------------------------------------------------------
     --------------------------------------------------宝物--------------------------------------------------
     --------------------------------------------------------------------------------------------------------
@@ -2030,6 +2085,19 @@ local dota_recipes={
 				Ingredient("goldnugget", TUNING.DOTA.OVERWHELMING_BLINK.GOLD),
                 Ingredient("dota_blink_dagger", 1,  "images/dota_other/dota_blink_dagger.xml"),
                 Ingredient("dota_reaver", 1,  "images/dota_mysteryshop/dota_reaver.xml"),
+			},
+        },
+    },
+    -------------------------------------------------灵匣-------------------------------------------------
+    {
+        name = "dota_phylactery",
+        dotatype = "dota_precious",
+        ingredients = {
+			{
+				Ingredient("goldnugget", TUNING.DOTA.PHYLACTERY.GOLD),
+                Ingredient("dota_diadem", 1,  "images/dota_attribute/dota_diadem.xml"),
+                Ingredient("dota_point_booster", 1,  "images/dota_mysteryshop/dota_point_booster.xml"),
+                Ingredient("dota_sages_mask", 1, "images/dota_other/dota_sages_mask.xml"),
 			},
         },
     },

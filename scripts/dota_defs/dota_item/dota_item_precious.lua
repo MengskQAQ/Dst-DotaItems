@@ -681,5 +681,44 @@ dota_item_precious.dota_overwhelming_blink = {
 		end
     end,
 }
-
+-------------------------------------------------灵匣-------------------------------------------------
+dota_item_precious.dota_phylactery = {
+    name = "dota_phylactery",
+    animname = "dota_phylactery",
+	animzip = "dota_precious", 
+	taglist = {
+    },
+	onequipfn = function(inst,owner)
+        owner.components.dotacharacter:AddAttributes(TUNING.DOTA.PHYLACTERY.ATTRIBUTES)
+        owner.components.dotacharacter:AddManaRegen(TUNING.DOTA.PHYLACTERY.MANAREGEN)
+        owner.components.dotacharacter:AddMaxMana(TUNING.DOTA.PHYLACTERY.MAXMANA)
+        owner.components.dotacharacter:AddExtraHealth(TUNING.DOTA.PHYLACTERY.EXTRAHEALTH)
+	end,
+	onunequipfn = function(inst,owner)
+        owner.components.dotacharacter:RemoveAttributes(TUNING.DOTA.PHYLACTERY.ATTRIBUTES)
+        owner.components.dotacharacter:RemoveManaRegen(TUNING.DOTA.PHYLACTERY.MANAREGEN)
+        owner.components.dotacharacter:RemoveMaxMana(TUNING.DOTA.PHYLACTERY.MAXMANA)
+        owner.components.dotacharacter:RemoveExtraHealth(TUNING.DOTA.PHYLACTERY.EXTRAHEALTH)
+	end,
+}
+-------------------------------------------------鱼叉-------------------------------------------------
+dota_item_precious.dota_harpoon = {
+    name = "dota_harpoon",
+    animname = "dota_harpoon",
+	animzip = "dota_precious", 
+	taglist = {
+    },
+	onequipfn = function(inst,owner)
+        owner.components.dotacharacter:AddAttributes(TUNING.DOTA.PHYLACTERY.ATTRIBUTES)
+        owner.components.dotacharacter:AddManaRegen(TUNING.DOTA.PHYLACTERY.MANAREGEN)
+        owner.components.dotacharacter:AddMaxMana(TUNING.DOTA.PHYLACTERY.MAXMANA)
+        owner.components.dotacharacter:AddExtraHealth(TUNING.DOTA.PHYLACTERY.EXTRAHEALTH)
+	end,
+	onunequipfn = function(inst,owner)
+        owner.components.dotacharacter:RemoveAttributes(TUNING.DOTA.PHYLACTERY.ATTRIBUTES)
+        owner.components.dotacharacter:RemoveManaRegen(TUNING.DOTA.PHYLACTERY.MANAREGEN)
+        owner.components.dotacharacter:RemoveMaxMana(TUNING.DOTA.PHYLACTERY.MAXMANA)
+        owner.components.dotacharacter:RemoveExtraHealth(TUNING.DOTA.PHYLACTERY.EXTRAHEALTH)
+	end,
+}
 return {dota_item_precious = dota_item_precious}

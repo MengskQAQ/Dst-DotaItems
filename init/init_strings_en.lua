@@ -67,6 +67,10 @@ STRINGS.RECIPE_DESC.DOTA_TOME_OF_KNOWLEDGE = "reader"
 STRINGS.NAMES.DOTA_HEALING_SALVE = "Healing Salve"
 STRINGS.CHARACTERS.GENERIC.DESCRIBE.DOTA_HEALING_SALVE = "A magical salve that can quickly mend even the deepest of wounds."
 STRINGS.RECIPE_DESC.DOTA_TOME_OF_KNOWLEDGE = "heal"
+-- 血腥榴弹
+STRINGS.NAMES.DOTA_BLOOD_GRENADE = "Blood Grenade"
+STRINGS.CHARACTERS.GENERIC.DESCRIBE.DOTA_BLOOD_GRENADE = "Blood Grenade"
+STRINGS.RECIPE_DESC.DOTA_BLOOD_GRENADE = "Grenade"
 -------------------------------------------Attributes--------------------------------------------------
 -- 法师长袍
 STRINGS.NAMES.DOTA_ROBE_OF_THE_MAGI = "Robe Of The Magi"
@@ -116,6 +120,10 @@ STRINGS.RECIPE_DESC.DOTA_CIRCLET = "Attributes"
 STRINGS.NAMES.DOTA_MANTLE_OF_INTELLIGENCE = "Mantle Of Intelligence"
 STRINGS.CHARACTERS.GENERIC.DESCRIBE.DOTA_MANTLE_OF_INTELLIGENCE = "A beautiful sapphire mantle worn by generations of queens."
 STRINGS.RECIPE_DESC.DOTA_MANTLE_OF_INTELLIGENCE = "Intelligence"
+-- 宝冕
+STRINGS.NAMES.DOTA_DIADEM = "diadem"
+STRINGS.CHARACTERS.GENERIC.DESCRIBE.DOTA_DIADEM = "Null"
+STRINGS.RECIPE_DESC.DOTA_DIADEM = "Attributes"
 -------------------------------------------Equipment--------------------------------------------------
 --  标枪
 STRINGS.NAMES.DOTA_JAVELIN = "Javelin"
@@ -287,6 +295,10 @@ STRINGS.RECIPE_DESC.DOTA_EAGLESONG = "Agility"
 STRINGS.NAMES.DOTA_HYPERSTONE = "Hyperstone"
 STRINGS.CHARACTERS.GENERIC.DESCRIBE.DOTA_HYPERSTONE = "A mystical, carved stone that boosts the fervor of the holder."
 STRINGS.RECIPE_DESC.DOTA_HYPERSTONE = "attack speed"
+-- 丰饶之环
+STRINGS.NAMES.DOTA_CORNUCOPIA = "Cornucopia"
+STRINGS.CHARACTERS.GENERIC.DESCRIBE.DOTA_CORNUCOPIA = "Null"
+STRINGS.RECIPE_DESC.DOTA_CORNUCOPIA = "regen"
 -------------------------------------------Accessories--------------------------------------------------
 -- 动力鞋 or 假腿
 STRINGS.NAMES.DOTA_POWER_TREADS = "Power Treads"
@@ -425,6 +437,10 @@ STRINGS.RECIPE_DESC.DOTA_MEDALLION_OF_COURAGE = "armor"
 STRINGS.NAMES.DOTA_WRAITH_PACT = "Wraith Pact"
 STRINGS.CHARACTERS.GENERIC.DESCRIBE.DOTA_WRAITH_PACT = "A sentient amulet whose animus shakes the courage of even the strongest foes."
 STRINGS.RECIPE_DESC.DOTA_WRAITH_PACT = "call pig guardian"
+-- 长盾
+STRINGS.NAMES.DOTA_PAVISE = "pavise"
+STRINGS.CHARACTERS.GENERIC.DESCRIBE.DOTA_PAVISE = "Null"
+STRINGS.RECIPE_DESC.DOTA_PAVISE = "protect"
 -------------------------------------------Magical--------------------------------------------------
 -- 吹风 OR EUL的神圣法杖
 STRINGS.NAMES.DOTA_EULS_SCEPTER_OF_DIVINITY = "Eul's Scepter Of Divinity"
@@ -644,6 +660,10 @@ STRINGS.RECIPE_DESC.DOTA_INVIS_SWORD = "damage"
 STRINGS.NAMES.DOTA_METEOR_HAMMER = "Meteor Hammer"
 STRINGS.CHARACTERS.GENERIC.DESCRIBE.DOTA_METEOR_HAMMER = "An enchanted hammer forged of metals discovered in the ruins of a village destroyed by a great star storm."
 STRINGS.RECIPE_DESC.DOTA_METEOR_HAMMER = "meteor shower"
+-- 散魂剑
+STRINGS.NAMES.DOTA_DISPERSER = "Disperser"
+STRINGS.CHARACTERS.GENERIC.DESCRIBE.DOTA_DISPERSER = "Null"
+STRINGS.RECIPE_DESC.DOTA_DISPERSER = "In development"
 -------------------------------------------Artifacts--------------------------------------------------
 -- 法师克星
 STRINGS.NAMES.DOTA_MAGE_SLAYER = "Mage Slayer"
@@ -717,6 +737,10 @@ STRINGS.RECIPE_DESC.DOTA_ARCANE_BLINK = "Intelligence"
 STRINGS.NAMES.DOTA_OVERWHELMING_BLINK = "Overwhelming Blink"
 STRINGS.CHARACTERS.GENERIC.DESCRIBE.DOTA_OVERWHELMING_BLINK = "A horrifying dagger forged in the chaos maw and nigh untouchable by mortal hands."
 STRINGS.RECIPE_DESC.DOTA_OVERWHELMING_BLINK = "Strength"
+-- 鱼叉
+STRINGS.NAMES.DOTA_HARPOON = "Harpoon"
+STRINGS.CHARACTERS.GENERIC.DESCRIBE.DOTA_HARPOON = "Null"
+STRINGS.RECIPE_DESC.DOTA_HARPOON = "fish"
 -------------------------------------------肉山--------------------------------------------------
 -- 不朽之守护
 STRINGS.NAMES.DOTA_AEGIS_OF_THE_IMMORTAL = "Aegis Of The Immortal"

@@ -547,5 +547,23 @@ dota_item_assisted.dota_wraith_pact = {
         end
     },
 }
+-------------------------------------------------长盾-------------------------------------------------
+dota_item_assisted.dota_pavise = {
+    name = "dota_pavise",
+    animname = "dota_pavise",
+	animzip = "dota_assisted", 
+	taglist = {
+    },
+	onequipfn = function(inst,owner)
+        owner.components.dotacharacter:AddExtraHealth(TUNING.DOTA.PAVISE.EXTRAHEALTH)
+        owner.components.dotacharacter:AddManaRegen(TUNING.DOTA.PAVISE.MANAREGEN)
+        owner.components.dotacharacter:AddExtraArmor(TUNING.DOTA.PAVISE.EXTRAARMOR)
+	end,
+	onunequipfn = function(inst,owner)
+        owner.components.dotacharacter:RemoveExtraHealth(TUNING.DOTA.PAVISE.EXTRAHEALTH)
+        owner.components.dotacharacter:RemoveManaRegen(TUNING.DOTA.PAVISE.MANAREGEN)
+        owner.components.dotacharacter:RemoveExtraArmor(TUNING.DOTA.PAVISE.EXTRAARMOR)
+	end,
+}
 
 return {dota_item_assisted = dota_item_assisted}

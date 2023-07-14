@@ -173,6 +173,15 @@ local DOTATUNING = {
 		DURATION = 13 * duration_ratio,		-- 持续时间
 		INTERVAL = 0.5,	-- 回复间隔
 	},
+--血腥榴弹
+	BLOOD_GRENADE = {
+		GOLD = 65 * gold_ratio,
+		MAXSIZE = stack_size,
+		GRENADE = {
+			HEALTH = 75 * extrahealth_ratio,
+			CD = 10 * cd_ratio,
+		},
+	},
 ---------------------------------属性-----------------------------
 --法师长袍
 	ROBE_OF_THE_MAGI = {
@@ -231,8 +240,13 @@ local DOTATUNING = {
 	},
 --智力斗篷
 	MANTLE_OF_INTELLIGENCE = {
-		GOLD  =140 * gold_ratio,
+		GOLD  = 140 * gold_ratio,
 		INTELLIGENCE = 3,
+	},
+--宝冕
+	DIADEM = {
+		GOLD  = 1000 * gold_ratio,
+		ATTRIBUTES = 6,
 	},
 ---------------------------------装备-----------------------------
 --标枪
@@ -295,7 +309,7 @@ local DOTATUNING = {
 		MINDAMAGE = 75,
 		DAMAGEBLOCK = 120,
 		MANAREGEN = 0.6,
-		CD = 6,
+		CD = 6 * cd_ratio,
 	},
 --闪电指套
 	BLITZ_KNUCKLES = {
@@ -491,6 +505,13 @@ local DOTATUNING = {
 	HYPERSTONE = {
 		GOLD  = 2000 * gold_ratio,
 		ATTACKSPEED = 60 * attackspeed_ratio,
+	},
+--丰饶之环
+	CORNUCOPIA = {
+		GOLD  = 1200 * gold_ratio,
+		HEALTHREGEN = 5 * healthregen_ratio,
+		MANAREGEN = 2,
+		EXTRADAMAGE = 7 * extradamage_ratio,
 	},
 ---------------------------------配件-----------------------------
 --动力鞋 or 假腿
@@ -919,6 +940,19 @@ local DOTATUNING = {
 			MANA = 100,
 			CD = 60 * cd_ratio,
 			DAMAGEMULTI = -0.3,
+		},
+	},
+--长盾
+	PAVISE = {
+		GOLD  = 275 * gold_ratio, -- 卷轴
+		EXTRAHEALTH = 175 * extrahealth_ratio,
+		MANAREGEN = 2.5,
+		EXTRAARMOR = 6,
+		PROTECT = {
+			DAMAGE = 300 * extrahealth_ratio,
+			DURATION = 8 * duration_ratio,
+			MANA = 75,
+			CD = 18,
 		},
 	},
 ---------------------------------法器-----------------------------
@@ -1595,6 +1629,16 @@ local DOTATUNING = {
 			CD = 24,
 		},
 	},
+--散魂剑
+	DISPERSER = {
+		GOLD = 1000 * gold_ratio,
+		AGILITY = 20,
+		INTELLIGENCE = 10,
+		EXTRADAMAGE = 45 * extradamage_ratio,
+		SUPPRESS = {
+
+		},
+	},
 ---------------------------------宝物-----------------------------
 --法师克星
 	MAGE_SLAYER = {
@@ -1806,9 +1850,39 @@ local DOTATUNING = {
 			RANGE = 800 * range_ratio,
 			SPEEDMULTI = -0.5,
 			ATTACKSPEED = -50 * attackspeed_ratio,
-			DAMAGE = 100,
+			DAMAGE = 100 * extradamage_ratio,
 			RATIO = 1.5,
 			DURATION = 6 * duration_ratio,
+		},
+	},
+--灵匣
+	PHYLACTERY = {
+		GOLD = 0 * gold_ratio,
+		ATTRIBUTES = 7,
+		EXTRAHEALTH = 200 * extrahealth_ratio,
+		MAXMANA = 200,
+		MANAREGEN = 0.7,
+		EMPOWERSPELL = {
+			DAMAGE = 150 * extradamage_ratio,
+			SPEEDMULTI = -0.5,
+			DURATION = 1.5 * duration_ratio,
+			CD = 6 * cd_ratio,
+		},
+	},
+-- 鱼叉
+	HARPOON = {
+		ATTACKSPEED = 15 * attackspeed_ratio,	-- 攻速
+		EXTRADAMAGE = 15 * extradamage_ratio,
+		STRENGTH = 20,
+		AGILITY = 10,
+		INTELLIGENCE = 16,
+		MANAREGEN = 2,
+		DRAWFORTH = {
+			SPELLRANGE = 800 * spellrange_ratio,
+			CD = 19 * cd_ratio,
+			MINPULLDIST = 100,
+			MAXPULLDIST = 1000,
+			DURATION = 0.3 * duration_ratio,
 		},
 	},
 ---------------------------------肉山-----------------------------
