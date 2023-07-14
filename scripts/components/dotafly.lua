@@ -16,6 +16,7 @@ local function spawntornado(self, inst) --TODO: 龙卷风存在显示bug
             inst._dotatornado.entity:AddFollower()
             inst._dotatornado.entity:SetParent(self.owner.entity)
             inst._dotatornado.Transform:SetPosition(inst.Transform:GetWorldPosition())
+            inst._dotatornado.AnimState:PushAnimation("tornado_loop", false)
         end)
     end
 end

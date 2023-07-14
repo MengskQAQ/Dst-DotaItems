@@ -170,8 +170,8 @@ local dota_recipes={
         },
     },
     -------------------------------------------------血腥榴弹-------------------------------------------------
-    {
-        name = "dota_blood_grenade",
+    {   -- dota_blood_grenade
+        name = "bomb_lunarplant",
         dotatype = "dota_consumables",
         ingredients = {
 			{

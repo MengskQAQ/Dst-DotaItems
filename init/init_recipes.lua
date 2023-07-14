@@ -84,15 +84,18 @@ if recipes_status then
         end
     end
 
-	-- if recipes_data.DeconstructRecipes then
-	-- 	for _,data in pairs(recipes_data.DeconstructRecipes) do
-	-- 		local ingredientID = nil	--配方编号
-	-- 		if #data.ingredients < recipes_mode then
-	-- 			ingredientID = 1
-	-- 		else
-	-- 			ingredientID = recipes_mode
-	-- 		end
-	-- 		AddDeconstructRecipe(data.name,data.ingredients[ingredientID])
-	-- 	end
-	-- end
+	-- TODO：存在bug，分解配方无法正常生效，启用此部分代码会导致物品无法合成
+	--[[
+	if recipes_data.DeconstructRecipes then
+		for _,data in pairs(recipes_data.DeconstructRecipes) do
+			local ingredientID = nil	--配方编号
+			if #data.ingredients < recipes_mode then
+				ingredientID = 1
+			else
+				ingredientID = recipes_mode
+			end
+			AddDeconstructRecipe(data.name,data.ingredients[ingredientID])
+		end
+	end
+	]]--
 end
