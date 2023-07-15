@@ -112,6 +112,23 @@ local tinyratio = {
     {description = "0.030", data = 0.030},
 }
 
+local numtable = {
+    {description = "0", data = 0},
+    {description = "1", data = 1},
+    {description = "2", data = 2},
+    {description = "3", data = 3},
+    {description = "4", data = 4},
+    {description = "5", data = 5},
+    {description = "6", data = 6},
+    {description = "7", data = 7},
+    {description = "8", data = 8},
+    {description = "9", data = 9},
+    {description = "10", data = 10},
+    {description = "13", data = 13},
+    {description = "15", data = 15},
+    {description = "20", data = 20},
+}
+
 configuration_options = 
 {
     {
@@ -313,6 +330,13 @@ configuration_options =
         label = L and "Tpscroll CD plus" or "回城卷轴额外CD",
         hover = L and "Tpscroll's extra cd ratio." or "回城卷轴额外冷却时间系数",
         options = multipliertable,
+        default = 1,
+    },
+    {
+        name = "bottle_bananalimit",
+        label = L and "LImit of fill bottle" or "装满瓶子的条件",
+        hover = L and "How many bananas need to fill bottle" or "需要多少香蕉才允许猴王装满瓶子",
+        options = numtable,
         default = 1,
     },
 }

@@ -41,6 +41,7 @@ local attackspeed_ratio = GetModConfigData("attackspeed_ratio") or 0.005
 local handofmidas_cdplus = GetModConfigData("hand_of_midas_cdplus") or 1
 local blinkdagger_cdplus = GetModConfigData("blink_dagger_cdplus") or 1
 local tpscroll_cdplus = GetModConfigData("tpscroll_cdplus") or 1
+local bananalimit = GetModConfigData("bottle_bananalimit") or 1
 
 local DOTATUNING = {
 --首选项
@@ -132,6 +133,7 @@ local DOTATUNING = {
 --魔瓶 or 瓶子
 	BOTTLE = {
 		GOLD = 675 * gold_ratio,
+		BANANALIMIT = bananalimit,
 		REGENERATE = {
 			HEALTH = 115 * extrahealth_ratio,		-- 使用回复生命
 			MANA = 65,					-- 使用回复魔法

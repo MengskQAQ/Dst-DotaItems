@@ -1,9 +1,8 @@
-################# 基础 #################
+################# 基础 Basics Items #################
 
-#消耗品
+#消耗品Consumables - 13个
 
 # 净化药水：Clarity 
-# 动物信使：Animal Courier（Courier/Chicken/Crow飞行信使/Chick/Cour）
 # 回城卷轴：Town Portal Scroll（TP/TP Scroll/Teleport Scroll）
 # 仙灵之火：Faerie Fire
 # 魔法芒果：Enchanted Mango（Mango）
@@ -12,13 +11,12 @@
 # 树之祭祀：Tango
 # 岗哨守卫：Sentry Ward（Sentry）
 # 治疗药膏：Healing Salve（Salve）
-# 知识之书：Tome of Knowledge（Tome）
 # 显影之尘：Dust of Appearance （Dust）
 # 魔瓶：Bottle 
 # 阿哈利姆魔晶：Aghanim's Shard
 # 血腥榴弹：Blood Grenade 
 
-#属性
+#属性Attributes   - 13个
 
 # 铁树枝干：Iron Branch （GG branch/branch）
 # 力量手套：Gauntlets of Strength（Gauntlets）
@@ -34,11 +32,10 @@
 # 食人魔之斧：Ogre Axe（Axe）
 # 宝冕：Diadem
 
-#装备
+#装备Equipment   -15个
 
 # 守护指环：Ring of Protection
 # 压制之刃：Quelling Blade（Qblade/Quelling/QB）
-# 圆盾：Stout Shield（Shield/Stout）
 # 凝魂之露：Infused Raindrop（Raindrop）
 # 淬毒之珠：Orb of Venom（veno orb/OoV）
 # 枯萎之石：Blight Stone 
@@ -53,7 +50,7 @@
 # 大剑：Claymore
 # 秘银锤：Mithril Hammer（Hammer）
 
-#其他
+#其他Miscellaneous   -13个
 
 # 魔棒：Magic Stick （Stick）
 # 风灵之纹：Wind Lace
@@ -69,7 +66,7 @@
 # 幽魂权杖：Ghost Scepter
 # 闪烁匕首：Blink Dagger(Dagger/Blink)
 
-#神秘商店
+#神秘商店Secret   -15个
 
 # 治疗指环：Ring of Health （RoH）
 # 虚无宝石：Void Stone （Void）
@@ -87,9 +84,9 @@
 # 鹰歌弓：Eaglesong
 # 圣者遗物：Sacred Relic （Relic）
 
-################# 升级 #################
+################# 升级 Upgraded Items #################
 
-#配件
+#配件Accessories   -17个
 
 # 魔杖：Magic Wand（Wand）
 # 怨灵系带：Wraith Band
@@ -109,7 +106,7 @@
 # 银月之晶：Moon Shard
 # 统御头盔：Helm of the Overlord
 
-#辅助
+#辅助Support   -16个
 
 # 天鹰之戒：Ring of Aquila（RoA/Aquila）
 # 王者之戒：Ring of Basilius（RoB/Basilius）
@@ -129,31 +126,28 @@
 # 韧鼓：Drum of Endurance （Drum）
 # 宽容之靴：Boots of Bearing
 
-#法器
+#法器Magical   -16个
 
 # 微光披风：Glimmer Cape （Glimmer）
 # 原力法杖：Force Staff（Forcestaff）
 # 纷争面纱：Veil of Discord（Veil）
 # 以太之镜：Aether Lens（Lens）
 # 巫师之刃：Witch Blade
-# 死灵书：Necronomicon（NecroBook/NecBook）
 # 炎阳纹章：Solar Crest
 # 达贡之神力：Dagon
 # EUL的神圣法杖：Eul's Scepter of Divinity（Euls）
 # 阿托斯之棍：Rod of Atos（Atos）
 # 紫苑：Orchid Malevolence（Orchid）
 # 阿哈利姆神杖：Aghanim's Scepter （Scepter/AGHS）
-# 否决挂饰：Nullifier
 # 刷新球：Refresher Orb（Refresher）
 # 邪恶镰刀：Scythe of Vyse（sheep stick/sheep/hex）
 # 玲珑心：Octarine Core（Octarine/Octcore）
 # 缚灵索：Gleipnir
 # 风之杖：Wind Waker
 
-#防具
+#防具Armor   -15个
 
 # 赤红甲：Crimson Guard （Crimson）
-# 挑战头巾：Hood of Defiance（Hood）
 # 先锋盾：Vanguard 
 # 刃甲：Blade Mail（BM/Bmail）
 # 青莲宝珠：Lotus Orb（Lotus）
@@ -169,16 +163,16 @@
 # 恐鳌之心：Heart of Tarrasque（Heart）
 # 强袭胸甲：Assault Cuirass（Assault/AC）
 
-#武器
+#武器Weapons   -19个
 
 # 水晶剑：Crystalys（Crit）
-# 莫尔迪基安的臂章：Armlet of Mordiggian（Armlet）
 # 陨星锤：Meteor Hammer
+# 莫尔迪基安的臂章：Armlet of Mordiggian（Armlet）
+# 碎颅锤：Skull Basher（Basher）
 # 影刃：Shadow Blade（SB/Sblade）
 # 黯灭：Desolator （Deso）
 # 否决坠饰：Nullifier
 # 狂战斧：Battle Fury（BF）
-# 碎颅锤：Skull Basher（Basher）
 # 金箍棒：Monkey King Bar（MKB）
 # 虚灵之刃：Ethereal Blade（E-Blade）
 # 辉耀：Radiance（Rad）
@@ -191,7 +185,7 @@
 # 英灵胸针：Revenant's Brooch
 # 散魂剑：Disperser
 
-#宝物
+#宝物Artifacts   -20个
 
 # 魔龙枪：Dragon Lance（Lance）
 # 慧光：Kaya
@@ -200,6 +194,7 @@
 # 回音战刃：Echo Sabre（Echo）
 # 旋涡：Maelstrom（Mael）
 # 净魂之刃：Diffusal Blade（Diffusal）
+# 法师克星：Mage Slayer
 # 天堂之戟：Heaven's Halberd（Halberd/hh）
 # 散夜对剑：Sange and Yasha （S&Y/SnY）
 # 散慧对剑：Kaya and Sange
@@ -213,10 +208,145 @@
 # 秘奥闪光：Arcane Blink
 # 灵匣：Phylactery
 
-#肉山
+######################################################
+
+#肉山Roshan   -3个
 
 # 不朽之守护：Aegis of the Immortal（Aegis）
 # 刷新球碎片：Refresher Shard
 # 奶酪：Cheese
 
-# 共280个物品
+#可收集Collectible Items    -4个
+
+# 疗伤莲花：Healing Lotus 
+# 大疗伤莲花：Great Healing Lotus
+# 巨大疗伤莲花：Greater Healing Lotus
+# 超级大莲花：Block of Cheese
+
+#####################中立物品########################
+
+#第1级  -11个
+
+# 可靠铁铲
+# 奥术指环
+# 仙灵饰品
+# 豚杆
+# 杂技玩具
+# 宁静种籽
+# 追击之矛
+# 玄奥手镯
+# 手套
+# 扫帚柄
+# 暗淡胸针
+# 锤子
+
+#第2级  -11个
+
+# 天鹰之戒
+# 炎龙之鳞
+# 学徒之礼
+# 臂甲
+# 林野长弓
+# 凌厉长鞭
+# 贤者石
+# 毁灭灵球
+# 行家阵列
+# 维齐尔之眼
+# 吸血鬼獠牙
+# 蛛网
+
+#第3级  -11个
+
+# 加速护符
+# 不羁甲壳
+# 骑士剑
+# 斧头
+# 蒲公英护盾
+# 魔力箭袋
+# 巨神残铁
+# 精灵外衣
+# 火焰斗篷
+# 祭礼长袍
+# 通灵头带
+# 食人魔海豹图腾
+
+#第4级  -10个
+
+# 法术棱镜
+# 永恒遗物
+# 简朴短帽
+# 忍者用具
+# 望远镜
+# 欺诈师斗篷
+# 风暴宝器
+# 五锋长剑
+# 浩劫巨锤
+# 智灭
+# 圣洁护甲
+
+#第5级  -11个
+
+# 原力鞋
+# 寂灭
+# 先哲之石
+# 神镜盾
+# 极
+# 冥灵书
+# 天崩
+# 秘术师铠甲
+# 海盗帽
+# 机械之心
+# 巨人之戒
+# 暗影邪典
+
+
+######################################################
+
+#已移除Removed Items    -37个
+
+# 知识之书：Tome of Knowledge（Tome）
+# 香蕉：Banana
+# 穷鬼盾
+# 寒铁钢爪
+# 死灵书：Necronomicon（NecroBook/NecBook）
+# 圆盾：Stout Shield（Shield/Stout）
+# 挑战头巾：Hood of Defiance（Hood）
+# 动物信使：Animal Courier（Courier/Chicken/Crow飞行信使/Chick/Cour）
+# 恐鳌之戒：Ring of Tarrasque
+# 净魂之刃等级2：Diffusal Blade 2
+# 怨灵之契：Wraith Pact
+
+# 基恩镜片
+# 蜂王浆
+# 海洋之心
+# 芒果树
+# 铁树之木
+
+# 魔童之爪
+# 幽冥披巾
+# 精华指环
+# 笨拙渔网
+
+# 维修工具
+# 崎岖外衣
+# 高级仙灵之火
+# 网虫腿
+
+# 无知小帽
+# 亲王短刀
+# 闪灵
+# 幻术师披风
+# 魔力明灯
+# 平世剑
+# 灵犀角
+
+# 凤凰余烬
+# 聚合神符
+# 弩炮
+# 林地神行靴
+# 三叉戟
+# 机械之心
+
+######################################################
+
+# 共270个物品

@@ -109,10 +109,10 @@ local function blinkdaggercheck(inst)
 	end
 	return false
 	-- inst.components.container:FindItem(function(item) 
-		-- if item and item.prefab == "dota_blink_dagger" 
+		-- if item and (item.prefab == "dota_blink_dagger" 
 		 -- or item.prefab == "dota_swift_blink" 
 		 -- or item.prefab == "dota_arcane_blink" 
-		 -- or item.prefab == "dota_overwhelming_blink" 
+		 -- or item.prefab == "dota_overwhelming_blink" )
 		 -- then
 			-- return true
 		-- end
