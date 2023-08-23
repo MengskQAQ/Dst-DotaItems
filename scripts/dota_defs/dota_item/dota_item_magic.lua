@@ -186,6 +186,7 @@ dota_item_magic.dota_veil_of_discord = {  -- TODO: 待制作(这个怎么做呢)
     },
     activatename = "DOTA_WEAKNESS",
     sharedcoolingtype = "veil",
+    manacost = TUNING.DOTA.VEIL_OF_DISCORD.WEAKNESS.MANA,
 	onequipfn = function(inst,owner)
         -- PlaySound(target, "mengsk_dota2_sounds/items/veil_of_discord", nil, BASE_VOICE_VOLUME)
         owner.components.dotacharacter:AddAttributes(TUNING.DOTA.VEIL_OF_DISCORD.ATTRIBUTES)
@@ -253,7 +254,7 @@ local function ReticuleTargetFn()
     return pos
 end
 
-dota_item_magic.dota_gleipnir = {  -- TODO: 待制作(这个怎么做呢)
+dota_item_magic.dota_gleipnir = {
     name = "dota_gleipnir",
     animname = "dota_gleipnir",
 	animzip = "dota_magic", 
@@ -282,7 +283,14 @@ dota_item_magic.dota_gleipnir = {  -- TODO: 待制作(这个怎么做呢)
         invalidcolour = { .5, 0, 0, 1 },
         ease = true,
         mouseenabled = true,
-    }
+    },
+    fakeweapon = {
+        name = "FakeWeapon_Eternal",
+        damage = 0,
+        range = TUNING.DOTA.GLEIPNIR.ETERNAL.SPELLRANGE,
+        projectile = "dota_projectile_eternal",
+        tag = "fakeweapon_eternal",
+    },
 }
 -------------------------------------------------玲珑心-------------------------------------------------
 dota_item_magic.dota_octarine_core = {

@@ -111,11 +111,25 @@ dota_item_consumables.dota_enchanted_mango = {
 }
 ---------------------------------------------------魔瓶 or 瓶子---------------------------------------------------
 local levelimages = {
-    {level = 1 , image = "dota_bottle_empty"},
-    {level = 2 , image = "dota_bottle_small"},
-    {level = 3 , image = "dota_bottle_medium"},
-    {level = 4 , image = "dota_bottle"},
+    {level = 1 , image = "dota_bottle_empty",   buff = nil},
+    {level = 2 , image = "dota_bottle_small",   buff = "buff_dota_regenerate"},
+    {level = 3 , image = "dota_bottle_medium",  buff = "buff_dota_regenerate"},
+    {level = 4 , image = "dota_bottle",         buff = "buff_dota_regenerate"},
 }
+
+local runestates = {
+    {rune = "dota_rune_arcane",       level = 4, image = "dota_rune_arcane", 		buff = "buff_dota_rune_arcane"},    -- 奥术
+    {rune = "dota_rune_bounty",       level = 3, image = "dota_rune_bounty", 		buff = "buff_dota_rune_bounty"},    -- 赏金
+    {rune = "dota_rune_double",       level = 4, image = "dota_rune_double", 		buff = "buff_dota_rune_double"},    -- 双倍伤害
+    {rune = "dota_rune_haste",        level = 4, image = "dota_rune_haste", 		buff = "buff_dota_rune_haste"},    -- 急速
+    {rune = "dota_rune_illusion",     level = 4, image = "dota_rune_illusion", 		buff = "buff_dota_rune_illusion"},    -- 幻象
+    {rune = "dota_rune_invisbility",  level = 4, image = "dota_rune_invisbility",	buff = "buff_dota_rune_invisbility"},    -- 隐身
+    {rune = "dota_rune_regeneration", level = 4, image = "dota_rune_regeneration",	buff = "buff_dota_rune_regeneration"},    -- 恢复
+    {rune = "dota_rune_shield",       level = 4, image = "dota_rune_shield", 		buff = "buff_dota_rune_shield"},    -- 护盾
+    {rune = "dota_rune_water",        level = 4, image = "dota_rune_water", 		buff = "buff_dota_rune_water"},    -- 圣水
+    {rune = "dota_rune_wisdom",       level = 4, image = "dota_rune_wisdom", 		buff = "buff_dota_rune_wisdom"},    -- 智慧
+}
+
 dota_item_consumables.dota_bottle = {
     name = "dota_bottle",
     animname = "dota_bottle",
@@ -127,8 +141,10 @@ dota_item_consumables.dota_bottle = {
         inst.components.dotabottle:UpdateImage()
 	end,
     extrafn=function(inst)
+        inst:AddComponent("timer")
         inst:AddComponent("dotabottle")
         inst.components.dotabottle:SetImages(levelimages)
+        inst.components.dotabottle:SetStates(runestates)
 		inst:AddComponent("tradable")
     end,
 }
@@ -176,6 +192,8 @@ dota_item_consumables.dota_blood_grenade = {
     animname = "dota_blood_grenade",
     animzip = "dota_consumables",
     maxsize = TUNING.DOTA.BLOOD_GRENADE.MAXSIZE,
+	healthcost = TUNING.DOTA.BLOOD_GRENADE.GRENADE.HEALTH,
+    activatename = "DOTA_GRENADE",
 }
 
 return {dota_item_consumables = dota_item_consumables}

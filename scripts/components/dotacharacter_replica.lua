@@ -92,9 +92,9 @@ end
 
 function DotaCharacter:SetActivateItem(item)
     self._activateitem:set(item)
-    if item and item.components.aoetargeting then
-        self:StartAOETargeting(item)
-    end
+    -- if TheWorld.ismastersim then
+    --     SendModRPCToClient(CLIENT_MOD_RPC["DOTARPC"]["ItemActivate"], self.inst.userid, item ~= nil)
+    -- end
 end
 function DotaCharacter:GetActivateItem()
     if self.inst.components.dotacharacter ~= nil then
@@ -103,10 +103,7 @@ function DotaCharacter:GetActivateItem()
         return self._activateitem:value()
     end
 end
-function DotaCharacter:StartAOETargeting(inst)
-    if TheWorld.ismastersim then
-        return
-    end
+function DotaCharacter:StartAOETargetingUsing(inst)
     local item = inst or self:GetActivateItem()
     local playercontroller = ThePlayer and ThePlayer.components.playercontroller
 	if playercontroller ~= nil then

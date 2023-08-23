@@ -2,10 +2,20 @@
 <Atlas>
     <Texture filename="dota_bottle.tex"/>
     <Elements>
-        <Element name="dota_bottle.tex" u1="0" u2="0.496063" v1="0.503937" v2="1"/>
-        <Element name="dota_bottle_empty.tex" u1="0" u2="0.496063" v1="0" v2="0.496063"/>
-        <Element name="dota_bottle_medium.tex" u1="0.503937" u2="1" v1="0.503937" v2="1"/>
-        <Element name="dota_bottle_small.tex" u1="0.503937" u2="1" v1="0" v2="0.496063"/>
+        <Element name="dota_bottle.tex" u1="0" u2="0.247059" v1="0.752941" v2="1"/>
+        <Element name="dota_bottle_empty.tex" u1="0" u2="0.247059" v1="0.501961" v2="0.74902"/>
+        <Element name="dota_bottle_medium.tex" u1="0" u2="0.247059" v1="0.25098" v2="0.498039"/>
+        <Element name="dota_bottle_small.tex" u1="0" u2="0.247059" v1="0" v2="0.247059"/>
+        <Element name="dota_rune_arcane.tex" u1="0.25098" u2="0.498039" v1="0.752941" v2="1"/>
+        <Element name="dota_rune_bounty.tex" u1="0.501961" u2="0.74902" v1="0.752941" v2="1"/>
+        <Element name="dota_rune_double.tex" u1="0.752941" u2="1" v1="0.752941" v2="1"/>
+        <Element name="dota_rune_haste.tex" u1="0.25098" u2="0.498039" v1="0.501961" v2="0.74902"/>
+        <Element name="dota_rune_illusion.tex" u1="0.25098" u2="0.498039" v1="0.25098" v2="0.498039"/>
+        <Element name="dota_rune_invisbility.tex" u1="0.25098" u2="0.498039" v1="0" v2="0.247059"/>
+        <Element name="dota_rune_regeneration.tex" u1="0.501961" u2="0.74902" v1="0.501961" v2="0.74902"/>
+        <Element name="dota_rune_shield.tex" u1="0.752941" u2="1" v1="0.501961" v2="0.74902"/>
+        <Element name="dota_rune_water.tex" u1="0.501961" u2="0.74902" v1="0.25098" v2="0.498039"/>
+        <Element name="dota_rune_wisdom.tex" u1="0.501961" u2="0.74902" v1="0" v2="0.247059"/>
     </Elements>
     <StraightAlpha>false</StraightAlpha>
 </Atlas>

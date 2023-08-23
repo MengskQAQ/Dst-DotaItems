@@ -1,53 +1,113 @@
 ------------------------------------------ 范围施法 --------------------------------------------------
 -- 这里仅对 aoetargrting 进行判断，对于 reticule ，如果将来有变化时再做考虑
-local function OnActivate(inst, data)
-    local item = data and data.item
-    if item and item.components.aoetargeting and item.components.aoetargeting:IsEnabled() then
-        local self = inst.components.playercontroller
-        self:StartAOETargetingUsing(item)
-    end
-end
 
-local function OnInActivate(inst, data)
-    local item = data and data.item
-    local self = inst.components.playercontroller
+-- TODO:核心在于与spellbook的兼容性问题，spellbook的优先级与activateaction优先级不会冲突
+-- 这导致没办法在取消激活后重现spellbook，因此展示搁置此兼容
 
-    if item and data.item.components.aoetargeting and item.components.aoetargeting:IsEnabled() then
-		-- self:ClearActionHold()
-		self:CancelPlacement()
-		self:CancelDeployPlacement()
-		self:CancelAOETargeting()
-    end
+-- AddClientModRPCHandler("DOTARPC", "ItemActivate", function (status)
+--     if not TheNet:GetIsClient() then return end
+--     local dotacharacter = ThePlayer and ThePlayer.replica.dotacharacter
+-- 	local self = ThePlayer and ThePlayer.components.playercontroller
+--     if dotacharacter ~= nil then
+--         if status then
+--             dotacharacter:StartAOETargetingUsing()
+--         elseif self then
+-- 			self:ClearActionHold()
+-- 			self:CancelPlacement()
+-- 			self:CancelDeployPlacement()
+-- 			self:CancelAOETargeting()
 
-    self:TryAOETargeting()
-end
+-- 			-- self:TryAOETargeting()
+--         end
+--     end
+-- end)
 
-local function OnInit(inst, self)
-    inst:ListenForEvent("dotaevent_activate", OnActivate)
-    inst:ListenForEvent("dotaevent_inactivate", OnInActivate)
-end
+-- local function OnActivate(inst, data)
+--     local item = data and data.item
+--     -- SendModRPCToClient(CLIENT_MOD_RPC["DOTARPC"]["ItemActivate"], inst.userid, true)
+--     local self = ThePlayer and ThePlayer.components.playercontroller
+--     if self and not self.ismastersim then
+--         self:StartAOETargetingUsing(item)
+--     end
+-- end
+
+-- local function OnInActivate(inst, data)
+--     local item = data and data.item
+--     local self = inst.components.playercontroller
+
+--     if item and data.item.components.aoetargeting and item.components.aoetargeting:IsEnabled() then
+-- 		self:ClearActionHold()
+-- 		self:CancelPlacement()
+-- 		self:CancelDeployPlacement()
+-- 		self:CancelAOETargeting()
+--     end
+
+--     self:TryAOETargeting()
+-- end
+
+-- local function OnInit(inst, self)
+--     inst:ListenForEvent("dotaevent_activate", OnActivate)
+--     inst:ListenForEvent("dotaevent_inactivate", OnInActivate)
+-- end
 
 AddComponentPostInit("playercontroller", function(self, inst)
 
-    inst:DoTaskInTime(0, OnInit, self)
+    self.dota_takeoveraoetargeting = false
 
-    local old_Activate = self.Activate
-    function self:Activate()
-        old_Activate(self)
-        if self.inst == ThePlayer and self.handler ~= nil then
-            self.inst:ListenForEvent("dotaevent_activate", OnActivate)
-            self.inst:ListenForEvent("dotaevent_inactivate", OnInActivate)
-        end
+-- if inst == GLOBAL.ThePlayer then
+
+    -- inst:DoTaskInTime(0, OnInit, self)
+
+    -- local old_Activate = self.Activate
+    -- function self:Activate()
+    --     old_Activate(self)
+    --     if self.inst == ThePlayer and not self.ismastersim then
+    --         self.inst:ListenForEvent("dotaevent_activate", OnActivate)
+    --         self.inst:ListenForEvent("dotaevent_inactivate", OnInActivate)
+    --     end
+    -- end
+
+    -- local old_Deactivate = self.Deactivate
+    -- function self:Deactivate()
+    --     old_Deactivate(self)
+    --     if not self.ismastersim then
+    --         self.inst:RemoveEventCallback("dotaevent_activate", OnActivate)
+    --         self.inst:RemoveEventCallback("dotaevent_inactivate", OnInActivate)
+    --     end
+    -- end
+
+-- end
+
+    local old_IsAOETargeting = self.IsAOETargeting
+    function self:IsAOETargeting()
+        return (self.dota_takeoveraoetargeting == false) and old_IsAOETargeting(self)
     end
 
-    local old_Deactivate = self.Deactivate
-    function self:Deactivate()
-        old_Deactivate(self)
-        if self.handler ~= nil then
-            self.inst:RemoveEventCallback("dotaevent_activate", OnActivate)
-            self.inst:RemoveEventCallback("dotaevent_inactivate", OnInActivate)
-        end
+    function self:Dota_TakeOverAOETargeting(istakeover)
+        self.dota_takeoveraoetargeting = istakeover
     end
+
+    function self:Dota_IsTakeOverAOETargeting()
+        return self.dota_takeoveraoetargeting
+    end
+
+    -- 在官方的设想里，右键是不能触发AOE的，因此我们需要在此处修改对我们武器的AOE的判定，使其能够右键执行
+    -- local old_OnRightClick = self.OnRightClick
+    -- function self:OnRightClick(down)
+    --     -- 如果当前触发 aoetargrting 的是我们的 dota 系武器，那么接管 IsAOETargeting ,使得 OnRightClick 能执行 DoAction
+    --     -- if self:Dota_IsTakeOverAOETargeting() then
+    --     --     local item = self.inst.components.dotacharacter and self.inst.components.dotacharacter:GetActivateItem()
+    --     --     if item and item.components.aoetargrting then
+    --     --         self:Dota_TakeOverAOETargeting(true) -- 我们在此处接管 IsAOETargeting ，然后在 action 里面放弃接管
+    --     --     else
+    --     --         self:Dota_TakeOverAOETargeting(false)
+    --     --     end
+    --     -- end
+    --     old_OnRightClick(self, down)
+    --     -- if not self.ismastersim and self:Dota_IsTakeOverAOETargeting() and self.inst.replica.dotacharacter then
+    --     --     self.inst.replica.dotacharacter:StartAOETargetingUsing()
+    --     -- end
+    -- end
 
     --------------------------------回城卷轴 or 远行鞋I or 飞鞋 or 远行鞋II or 大飞鞋---------------------------------------
     local old_OnMapAction = self.OnMapAction

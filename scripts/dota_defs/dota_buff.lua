@@ -1116,6 +1116,24 @@ buff_defs.buff_dota_cripple={
 		end
 	end,
 }
+-------------------------------------------------缚灵索-------------------------------------------------
+buff_defs.buff_dota_eternal={
+	name="buff_dota_eternal",
+	duration=TUNING.DOTA.GLEIPNIR.ETERNAL.DURATION,
+	onattachedfn=function(inst, target)
+		if target.components.locomotor ~= nil then
+			target.components.locomotor:Dota_CanMove(false)
+		end
+	end,
+	ondetachedfn=function(inst, target)
+		if target.components.locomotor ~= nil then
+			if target.components.locomotor:HasDestination() then
+				target.components.locomotor:FindPath()
+			end
+			target.components.locomotor:Dota_CanMove(true)
+		end
+	end,
+}
 -------------------------------------------------斯嘉蒂之眼  or 冰眼-------------------------------------------------
 buff_defs.buff_dota_skadi={
 	name="buff_dota_skadi",
@@ -1163,35 +1181,6 @@ buff_defs.buff_dota_avatar={
 		if target.components.dotaattributes then
 			target.components.dotaattributes.statusresistance:RemoveModifier("buff", "buff_dota_avatar")
 		end
-	end,
-}
----------------------------------------------------魔瓶 or 瓶子---------------------------------------------------
-local regenerate_ration = TUNING.DOTA.BOTTLE.REGENERATE.DURATION / TUNING.DOTA.BOTTLE.REGENERATE.INTERVAL
-local regenerate_health = TUNING.DOTA.BOTTLE.REGENERATE.HEALTH / regenerate_ration
-local regenerate_mana = TUNING.DOTA.BOTTLE.REGENERATE.MANA / regenerate_ration
-local function regeneratetick(inst, target)
-	if target.components.health ~= nil and
-	 not target.components.health:IsDead() and
-	 not target:HasTag("playerghost") then
-		target.components.health:DoDelta(regenerate_health, nil, "regenerate")
-		if target.components.dotaattributes ~= nil then
-			target.components.dotaattributes:Mana_DoDelta(regenerate_mana, nil, "regenerate")
-		end
-	end
-end
-
-buff_defs.buff_dota_regenerate={
-	name="buff_dota_regenerate",
-	duration=TUNING.DOTA.BOTTLE.REGENERATE.DURATION,
-	onattachedfn=function(inst, target)
-		inst.regeneratetask = inst:DoPeriodicTask(TUNING.DOTA.BOTTLE.REGENERATE.INTERVAL, regeneratetick, nil, target)
-	end,
-	onextendedfn=function(inst, target)
-		inst.regeneratetask:Cancel()
-    	inst.regeneratetask = inst:DoPeriodicTask(TUNING.DOTA.BOTTLE.REGENERATE.INTERVAL, regeneratetick, nil, target)
-	end,
-	ondetachedfn=function(inst, target)
-		inst.regeneratetask:Cancel()
 	end,
 }
 -------------------------------------------------虚灵之刃-------------------------------------------------
@@ -1504,6 +1493,233 @@ buff_defs.dota_hex={
 		if target.brain ~= nil then
 			target.brain:Start()
 		end
+	end,
+}
+-------------------------------------------------纷争面纱-------------------------------------------------
+buff_defs.buff_dota_weakness={
+	name="buff_dota_weakness",
+	duration=TUNING.DOTA.VEIL_OF_DISCORD.WEAKNESS.DURATION,
+	onattachedfn=function(inst, target)
+		if target.components.dotaattributes ~= nil then
+			target.components.dotaattributes.spellweak:SetModifier("buff", TUNING.DOTA.VEIL_OF_DISCORD.WEAKNESS.SPELLWEAK, "buff_dota_weakness")
+		end
+	end,
+	ondetachedfn=function(inst, target)
+		if target.components.dotaattributes ~= nil then
+			target.components.dotaattributes.spellweak:RemoveModifier("buff", "buff_dota_weakness")
+		end
+	end,
+}
+
+---------------------------------------------------魔瓶 or 瓶子---------------------------------------------------
+local regenerate_ration = TUNING.DOTA.BOTTLE.REGENERATE.DURATION / TUNING.DOTA.BOTTLE.REGENERATE.INTERVAL
+local regenerate_health = TUNING.DOTA.BOTTLE.REGENERATE.HEALTH / regenerate_ration
+local regenerate_mana = TUNING.DOTA.BOTTLE.REGENERATE.MANA / regenerate_ration
+local function regeneratetick(inst, target)
+	if target.components.health ~= nil and
+	 not target.components.health:IsDead() and
+	 not target:HasTag("playerghost") then
+		target.components.health:DoDelta(regenerate_health, nil, "regenerate")
+		if target.components.dotaattributes ~= nil then
+			target.components.dotaattributes:Mana_DoDelta(regenerate_mana, nil, "regenerate")
+		end
+	end
+end
+
+buff_defs.buff_dota_regenerate={
+	name="buff_dota_regenerate",
+	duration=TUNING.DOTA.BOTTLE.REGENERATE.DURATION,
+	onattachedfn=function(inst, target)
+		inst.regeneratetask = inst:DoPeriodicTask(TUNING.DOTA.BOTTLE.REGENERATE.INTERVAL, regeneratetick, nil, target)
+	end,
+	onextendedfn=function(inst, target)
+		inst.regeneratetask:Cancel()
+    	inst.regeneratetask = inst:DoPeriodicTask(TUNING.DOTA.BOTTLE.REGENERATE.INTERVAL, regeneratetick, nil, target)
+	end,
+	ondetachedfn=function(inst, target)
+		inst.regeneratetask:Cancel()
+	end,
+}
+
+buff_defs.buff_dota_rune_arcane={
+	name="buff_dota_rune_arcane",
+	duration=TUNING.DOTA.BOTTLE.RUNE.ARCANE.DURATION,
+	onattachedfn=function(inst, target)
+	end,
+	ondetachedfn=function(inst, target)
+	end,
+}
+
+-- 取自pigking，让物品抛出
+local function launchitem(item, angle)
+    local speed = math.random() * 4 + 2
+    angle = (angle + math.random() * 60 - 30) * DEGREES
+    item.Physics:SetVel(speed * math.cos(angle), math.random() * 2 + 8, speed * math.sin(angle))
+end
+buff_defs.buff_dota_rune_bounty={
+	name="buff_dota_rune_bounty",
+	duration=0.1,
+	onattachedfn=function(inst, target)
+		local x, y, z = target.Transform:GetWorldPosition()
+		y = 2.5
+		local down = TheCamera:GetDownVec()
+		local angle = math.atan2(down.z, down.x) / DEGREES
+
+
+		-- 先生成余数的黄金
+		local nug = SpawnPrefab("goldnugget")
+		local gold = TUNING.DOTA.BOTTLE.RUNE.BOUNTY.GOLD
+		local maxsize = nug.components.stackable.maxsize
+		local a = math.floor(gold/maxsize)	-- 整数部分
+		local b = math.floor(gold%maxsize)	-- 余数部分
+		b = math.max(b, 1)	-- 确保有一个保底黄金
+		nug.Transform:SetPosition(x, y, z)
+		nug.components.stackable:SetStackSize(b)
+		launchitem(nug, angle)
+
+		-- 再生成整数的黄金
+		if a >= 1 then
+			for i = 1, a do
+				local nugs = SpawnPrefab("goldnugget")
+				nugs.Transform:SetPosition(x, y, z)
+				nugs.components.stackable:SetStackSize(maxsize)
+				launchitem(nug, angle)
+			end
+		end
+	end,
+}
+
+buff_defs.buff_dota_rune_double={
+	name="buff_dota_rune_double",
+	duration=TUNING.DOTA.BOTTLE.RUNE.DOUBLE.DURATION,
+	onattachedfn=function(inst, target)
+		if target.components.dotacharacter then
+			local damage = target.components.dotacharacter.extradamage
+			target.components.dotaattributes.extradamage:SetModifier("buff", damage, "buff_dota_rune_double")
+		end
+	end,
+	ondetachedfn=function(inst, target)
+		if target.components.dotacharacter then
+			target.components.dotaattributes.extradamage:RemoveModifier("buff", "buff_dota_rune_double")
+		end
+	end,
+}
+
+buff_defs.buff_dota_rune_haste={
+	name="buff_dota_rune_haste",
+	duration=TUNING.DOTA.BOTTLE.RUNE.HASTE.DURATION,
+	onattachedfn=function(inst, target)
+		if target.components.dotacharacter then
+			target.components.dotacharacter:AddExtraSpeed("buff", TUNING.DOTA.BOTTLE.RUNE.HASTE.EXTRASPEED, "haste")
+		end
+	end,
+	ondetachedfn=function(inst, target)
+		if target.components.dotacharacter then
+			target.components.dotacharacter:RemoveExtraSpeed("buff", "haste")
+		end
+	end,
+}
+
+buff_defs.buff_dota_rune_illusion={
+	name="buff_dota_rune_illusion",
+	duration=TUNING.DOTA.BOTTLE.RUNE.ILLUSION.DURATION,	-- 0
+	onattachedfn=function(inst, target)
+
+	end,
+	ondetachedfn=function(inst, target)
+
+	end,
+}
+
+buff_defs.buff_dota_rune_invisbility={
+	name="buff_dota_rune_invisbility",
+	duration=TUNING.DOTA.BOTTLE.RUNE.INVISBILITY.DURATION,
+	onattachedfn=function(inst, target)
+		if inst.fadingtimer ~= nil then
+			inst.fadingtimer:Cancel()
+		end
+		inst.fadingtimer = inst:DoTaskInTime(TUNING.DOTA.BOTTLE.RUNE.INVISBILITY.FADING, GoToShadow, target, "buff_dota_rune_invisbility")
+	end,
+	onextendedfn=function(inst, target)
+		LeaveShadow(target, "buff_dota_rune_invisbility")
+		if inst.fadingtimer ~= nil then
+			inst.fadingtimer:Cancel()
+		end
+		inst.fadingtimer = inst:DoTaskInTime(TUNING.DOTA.BOTTLE.RUNE.INVISBILITY.FADING, GoToShadow, target, "buff_dota_rune_invisbility")
+	end,
+	ondetachedfn=function(inst, target)
+		if inst.fadingtimer ~= nil then
+			inst.fadingtimer:Cancel()
+			inst.fadingtimer = nil
+		end
+		LeaveShadow(target, "buff_dota_rune_invisbility")
+	end,
+}
+
+local function runeregentick(inst, target)
+	if target.components.health ~= nil and
+	 not target.components.health:IsDead() and
+	 not target:HasTag("playerghost") then
+		target.components.health:DoDelta(inst.health, nil, "rune_regen")
+		if target.components.dotaattributes ~= nil then
+			target.components.dotaattributes:Mana_DoDelta(inst.mana, nil, "rune_regen")
+		end
+	end
+end
+
+buff_defs.buff_dota_rune_regeneration={
+	name="buff_dota_rune_regeneration",
+	duration=TUNING.DOTA.BOTTLE.RUNE.REGENERATION.DURATION,
+	onattachedfn=function(inst, target)
+		inst.health = target.compoents.health and (target.components.health.maxhealth * TUNING.DOTA.BOTTLE.RUNE.REGENERATION.MAXRATIO)
+		inst.mana = target.compoents.dotaattributes and (target.components.dotaattributes.maxmana * TUNING.DOTA.BOTTLE.RUNE.REGENERATION.MAXRATIO)
+		if inst.regeneratetask ~= nil then
+			inst.regeneratetask:Cancel()
+			inst.regeneratetask = nil
+		end
+		inst.regeneratetask = inst:DoPeriodicTask(TUNING.DOTA.BOTTLE.RUNE.REGENERATION.INTERVAL, runeregentick, nil, target)
+	end,
+	ondetachedfn=function(inst, target)
+		if inst.regeneratetask ~= nil then
+			inst.regeneratetask:Cancel()
+			inst.regeneratetask = nil
+		end
+	end,
+}
+
+buff_defs.buff_dota_rune_shield={
+	name="buff_dota_rune_shield",
+	duration=TUNING.DOTA.BOTTLE.RUNE.SHIELD.DURATION,
+	onattachedfn=function(inst, target)
+
+	end,
+	ondetachedfn=function(inst, target)
+
+	end,
+}
+
+buff_defs.buff_dota_rune_water={
+	name="buff_dota_rune_water",
+	duration=0.1,
+	onattachedfn=function(inst, target)
+		if target.components.health ~= nil and not target.components.health:IsDead() and
+		not target:HasTag("playerghost") then
+		   target.components.health:DoDelta(TUNING.DOTA.BOTTLE.RUNE.SHIELD.HEALTH, nil, "rune_water")
+		   if target.components.dotaattributes ~= nil then
+			   target.components.dotaattributes:Mana_DoDelta(TUNING.DOTA.BOTTLE.RUNE.SHIELD.MANA, nil, "rune_water")
+		   end
+	   end
+	end,
+}
+
+buff_defs.buff_dota_rune_wisdom={
+	name="buff_dota_rune_wisdom",
+	duration=0.1,
+	onattachedfn=function(inst, target)
+
+	end,
+	ondetachedfn=function(inst, target)
+
 	end,
 }
 

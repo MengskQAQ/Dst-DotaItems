@@ -713,12 +713,14 @@ dota_item_precious.dota_harpoon = {
         owner.components.dotacharacter:AddManaRegen(TUNING.DOTA.PHYLACTERY.MANAREGEN)
         owner.components.dotacharacter:AddMaxMana(TUNING.DOTA.PHYLACTERY.MAXMANA)
         owner.components.dotacharacter:AddExtraHealth(TUNING.DOTA.PHYLACTERY.EXTRAHEALTH)
+        owner.components.dotacharacter:AddAbility(inst, "ability_dota_echo", "ability_dota_echo")
 	end,
 	onunequipfn = function(inst,owner)
         owner.components.dotacharacter:RemoveAttributes(TUNING.DOTA.PHYLACTERY.ATTRIBUTES)
         owner.components.dotacharacter:RemoveManaRegen(TUNING.DOTA.PHYLACTERY.MANAREGEN)
         owner.components.dotacharacter:RemoveMaxMana(TUNING.DOTA.PHYLACTERY.MAXMANA)
         owner.components.dotacharacter:RemoveExtraHealth(TUNING.DOTA.PHYLACTERY.EXTRAHEALTH)
+        owner.components.dotacharacter:RemoveAbility(inst, "ability_dota_echo")
 	end,
 }
 return {dota_item_precious = dota_item_precious}

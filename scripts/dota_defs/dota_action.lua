@@ -84,6 +84,13 @@ local function ActionFailed(player)
 	return true
 end
 
+local function AoeActionFailed(player)
+	if player.HUD ~= nil then
+		player.HUD:Dota_StartReticule()
+	end
+	return true
+end
+
 local function StateFail(player)
 	if player and player.components.dotacharacter then
 		player.components.dotacharacter:SetActionStata(false)
@@ -104,16 +111,23 @@ local function GetRandomStringFromTable(table)
 	return table[RandomKey] or nil
 end
 
-local function IsManaEnough(player, item)
+local function IsManaEnough(player, item, novoice)
 	if item and item.manacost
 	 and player.components.dotaattributes and player.components.dotaattributes.mana < item.manacost then
-		PlaySound(player, "mengsk_dota2_sounds/ui/deny_mana", nil, BASE_VOICE_VOLUME)
-		if player.components.talker ~= nil then
-			player.components.talker:Say(GetRandomStringFromTable(STRINGS.DOTA.SPEECH.NOMANA) or "lack mana")
+		if novoice == nil then
+			PlaySound(player, "mengsk_dota2_sounds/ui/deny_mana", nil, BASE_VOICE_VOLUME)
+			if player.components.talker ~= nil then
+				player.components.talker:Say(GetRandomStringFromTable(STRINGS.DOTA.SPEECH.NOMANA) or "lack mana")
+			end
 		end
 		return false
 	end
 	return true
+end
+
+local function IsManaEnough_Double(player, item)
+	return item and item.manacost
+		and player.replica.dotaattributes and player.replica.dotaattributes:GetMana_Double() >= item.manacost
 end
 
 local function PushMagicUseEvent(inst, magic)
@@ -129,8 +143,9 @@ end
 
 -- 如果属性系统关闭了, 就不再计算魔法值
 if TUNING.DOTA.ATTRIBUTES_SYSTEM == 3 then
-	IsManaEnough = function(player, item) return true end
+	IsManaEnough = function(player, item, novoice) return true end
 	ItemManaDelta = function(player, mana, overtime, cause) end
+	IsManaEnough_Double = function(player, item) return true end
 end
 
 local function PlaySound_CoolingDown(player)
@@ -235,6 +250,14 @@ local function FindActivateItemByDoer(owner, prefab)
 	return equipped
 end
 
+-- 改变playercontroller的接管状态
+local function TakeOverPlayerController(inst, istakeover)
+	if inst.components.playercontroller then
+		inst.components.playercontroller:Dota_TakeOverAOETargeting(istakeover)
+	end
+end
+
+-- 改变物品的激活状态
 local function ChangeActivate(inst, target, novoice)
 	if inst and inst.components.activatableitem then
 		if novoice then
@@ -277,11 +300,13 @@ end
 -- end
 
 local CANT_TAGS = {"INLIMBO", "playerghost"}
+local exceuce_tags = { "INLIMBO", "notarget", "noattack", "flight", "invisible", "player"}
 
 --自定义动作
 local actions = {}
 
 -----------------------------------------------激活装备-------------------------------------------------
+-- 早知道一个动作那么麻烦，当初就分成2个动作了
 actions.activateitem = {
 	id = "ACTIVATEITEM",
 	str = STRINGS.DOTA.NEWACTION.ACTIVATEITEM,
@@ -292,13 +317,36 @@ actions.activateitem = {
 				act.invobject.components.activatableitem:ResetAllItems(act.doer)
 				if IsManaEnough(act.doer, act.invobject) then
 					act.invobject.components.activatableitem:StartUsingItem(act.doer, false)
+					-- if act.invobject.components.aoetargeting then
+					-- 	TakeOverPlayerController(act.doer, true)
+					-- end
 				end
 			else
 				act.invobject.components.activatableitem:StopUsingItem(act.doer, false)
+				-- TakeOverPlayerController(act.doer, false)
 			end
 			return true
 		end
 		return ActionFailed(act.doer)
+	end,
+	pre_action_cb = function(act)
+
+		if act.doer.HUD then
+			local item = act.doer.HUD:Dota_GetActivateReticuleInv()
+			if item ~= act.invobject and IsManaEnough_Double(act.doer, act.invobject) then
+				act.doer.HUD:Dota_StartReticule(act.invobject)
+			else
+				act.doer.HUD:Dota_EndReticule()
+			end
+		end
+
+		if act.doer.components.playercontroller then
+			TakeOverPlayerController(act.doer, false)
+			if act.invobject and act.invobject.components.aoetargeting then
+				TakeOverPlayerController(act.doer, true)
+			end
+		end
+
 	end,
 	actiondata = {
 		priority=6,
@@ -307,7 +355,7 @@ actions.activateitem = {
 		mount_valid=true, -- 骑牛
 		encumbered_valid=true,
 		strfn = function(act)
-			return act.invobject ~= nil and STRINGS.ACTIONS.ACTIVATEITEM[act.invobject.activatename] and act.invobject.activatename or "ACTIVATEITEM" or nil
+			return act.invobject and STRINGS.ACTIONS.ACTIVATEITEM[act.invobject.activatename] and act.invobject.activatename or "ACTIVATEITEM" or nil
 		end,
 	},
 }
@@ -590,15 +638,31 @@ actions.regenerate = {
 	fn = function(act)
 		if StandardInvobjectActioniTest(act, "dota_bottle") and act.invobject.components.dotabottle ~= nil then
 			if not RechargeCheck(act.invobject, TUNING.DOTA.BOTTLE.REGENERATE.CD, act.doer) then return true end
-			if act.invobject.components.dotabottle:CanDelta() then
-				act.invobject.components.dotabottle:DoDelta(-1)
-				AddDebuff(act.doer, "buff_dota_regenerate")
-			end
+			act.invobject.components.dotabottle:Drink(act.doer)
 			PlaySound(act.doer, "mengsk_dota2_sounds/ui/bottle_pour", nil, BASE_VOICE_VOLUME)
 			-- PlaySound(act.doer, "mengsk_dota2_sounds/ui/bottle_corked", nil, BASE_VOICE_VOLUME)
 			return true
 		end
 		return ActionFailed(act.doer)
+	end,
+	actiondata = {
+		priority=7,
+		mount_valid=true,
+	},
+}
+
+actions.bottlerune = {
+	id = "DOTA_BOTTLERUNE",
+	str = STRINGS.DOTA.NEWACTION.DOTA_BOTTLERUNE,
+	fn = function(act)
+		if act.target and act.target:HasTag("dota_rune") and act.invobject and act.invobject.prefab == "dota_bottle" then
+			if act.invobject.components.dotabottle then
+				PlaySound(act.invobject, "mengsk_dota2_sounds/ui/bottle_corked", nil, BASE_VOICE_VOLUME)
+				act.invobject.components.dotabottle:StoreRune(act.target)
+				return true
+			end
+		end
+		return false
 	end,
 	actiondata = {
 		priority=7,
@@ -1572,11 +1636,29 @@ actions.chains = {
 	id = "DOTA_CHAINS",
 	str = STRINGS.DOTA.NEWACTION.DOTA_CHAINS,
 	fn = function(act)	-- TODO: 待制作
-		-- if not IsManaEnough(act.doer, chains_mana) then return true end
-		-- ItemManaDelta(act.doer, -chains_mana, nil ,"dota_chains")
-		-- PlaySound(act.doer, "mengsk_dota2_sounds/items/gleipnir_cast", nil, BASE_VOICE_VOLUME)
-		-- PlaySound(act.doer, "mengsk_dota2_sounds/items/gleipnir_target", nil, BASE_VOICE_VOLUME)
-		return ActionWalking(act.doer)
+		if act.doer ~= nil and act.doer:HasTag("player") and act.doer:HasTag("dota_chains") then
+			local item = FindActivateItemByDoer(act.doer, "dota_gleipnir")
+			if item == nil then return ActionFailed(act.doer) end
+			if not IsManaEnough(act.doer, item) then return AoeActionFailed(act.doer) end
+			if not RechargeCheck(item, TUNING.DOTA.GLEIPNIR.ETERNAL.CD, act.doer) then return AoeActionFailed(act.doer) end
+
+			if item.fakeweapon == nil then item.EquipWeapons(item) end	-- 创建虚拟武器
+
+			local pos = act:GetActionPoint() or act.doer:GetPosition()
+			local ents = TheSim:FindEntities(pos.x, pos.y, pos.z, TUNING.DOTA.GLEIPNIR.ETERNAL.RANGE, { "_combat" }, exceuce_tags)
+			for _, ent in ipairs(ents) do
+				if item.fakeweapon then
+					item.fakeweapon.components.weapon:LaunchProjectile(act.doer, ent)
+				end
+			end
+
+			PlaySound(act.doer, "mengsk_dota2_sounds/items/rod_of_atos", nil, BASE_VOICE_VOLUME)
+			ItemManaDelta(act.doer, item, nil ,"dota_cripple")
+			ChangeActivate(item, act.doer)
+			-- TakeOverPlayerController(act.doer, false)
+			return true
+		end
+		return ActionFailed(act.doer)
 	end,
 	actiondata = {
 		priority=7,
@@ -2335,15 +2417,16 @@ actions.meteor = {
 		if act.doer and act.doer:HasTag("player") and act.doer:HasTag("dota_meteor") then
 			local item = FindActivateItemByDoer(act.doer, "dota_meteor_hammer")
 			if item == nil then return true end
-			if not IsManaEnough(act.doer, item) then return true end
-			if not RechargeCheck(item, TUNING.DOTA.METEOR_HAMMER.METEOR.CD, act.doer) then return true end
+			if not IsManaEnough(act.doer, item) then return AoeActionFailed(act.doer) end
+			if not RechargeCheck(item, TUNING.DOTA.METEOR_HAMMER.METEOR.CD, act.doer) then return AoeActionFailed(act.doer) end
 			local x, y, z = act:GetActionPoint():Get()
 			MeteorShower(act.doer, x, y, z)
 			ItemManaDelta(act.doer, item, nil ,"dota_meteor")
 			ChangeActivate(item, act.doer)
+			-- TakeOverPlayerController(act.doer, false)
 			return true
 		end
-		return true
+		return ActionFailed(act.doer)
 	-- PlaySound(act.doer, "mengsk_dota2_sounds/items/meteor_fall", nil, BASE_VOICE_VOLUME)
 	-- PlaySound(act.doer, "mengsk_dota2_sounds/items/meteor_hammer_channel", nil, BASE_VOICE_VOLUME)
 	-- PlaySound(act.doer, "mengsk_dota2_sounds/items/meteor_impact", nil, BASE_VOICE_VOLUME)
@@ -2480,8 +2563,24 @@ actions.weakness = {
 	id = "DOTA_WEAKNESS",
 	str = STRINGS.DOTA.NEWACTION.DOTA_WEAKNESS,
 	fn = function(act)	-- TODO: 待制作
+		if act.doer ~= nil and act.doer:HasTag("player") and act.doer:HasTag("dota_weakness") then
+			local item = FindActivateItemByDoer(act.doer, "dota_veil_of_discord")
+			if item == nil then return ActionFailed(act.doer) end
+			if not IsManaEnough(act.doer, item) then return AoeActionFailed(act.doer) end
+			if not RechargeCheck(item, TUNING.DOTA.VEIL_OF_DISCORD.WEAKNESS.CD, act.doer) then return AoeActionFailed(act.doer) end
 
-		return ActionWalking(act.doer)
+			local pos = act:GetActionPoint() or act.doer:GetPosition()
+			local ents = TheSim:FindEntities(pos.x, pos.y, pos.z, TUNING.DOTA.VEIL_OF_DISCORD.WEAKNESS.RANGE, { "_combat" }, exceuce_tags)
+			for _, ent in ipairs(ents) do
+				AddDebuff(ent, "buff_dota_weakness")
+			end
+
+			ItemManaDelta(act.doer, item, nil ,"dota_weakness")
+			ChangeActivate(item, act.doer)
+			-- TakeOverPlayerController(act.doer, false)
+			return true
+		end
+		return ActionFailed(act.doer)
 	end,
 	actiondata = {
 		priority=7,
@@ -2489,7 +2588,69 @@ actions.weakness = {
 		distance = TUNING.DOTA.VEIL_OF_DISCORD.WEAKNESS.SPELLRANGE,
 	},
 }
+-------------------------------------------------血腥榴弹-------------------------------------------------
+actions.grenade = {
+	id = "DOTA_GRENADE",
+	str = STRINGS.DOTA.NEWACTION.DOTA_GRENADE,
+	fn = function(act)	-- TODO: 待制作
+		if StandardTargetAndActivateActioniTest(act, "dota_grenade") then
+			local item = FindActivateItemByDoer(act.doer, "dota_blood_grenade") 
+			if item == nil then return ActionFailed(act.doer) end
+			if not RechargeCheck(item, TUNING.DOTA.BLOOD_GRENADE.GRENADE.CD, act.doer) then return true end
+			UseOne(item)
 
+			local bomb = SpawnPrefab("bomb_lunarplant")
+			local projectile = act.doer.components.inventory:DropItem(bomb, false)	-- 此处用了 SetPosition ,并检测了 bomb
+			if projectile and projectile.components.complexprojectile then
+				local pos = nil
+				if act.target then
+					pos = act.target:GetPosition()
+					projectile.components.complexprojectile.targetoffset = {x=0,y=1.5,z=0}
+				else
+					pos = act:GetActionPoint()
+				end
+				projectile.components.complexprojectile:Launch(pos, act.doer)
+			end
+
+			local delta = TUNING.DOTA.BLOOD_GRENADE.GRENADE.HEALTH
+			act.doer.components.health:DoDelta(-delta, nil, "dota_grenade")
+			return true
+		end
+		return ActionFailed(act.doer)
+	end,
+	actiondata = {
+		priority=2,
+		mount_valid=true,
+		distance = TUNING.DOTA.BLOOD_GRENADE.GRENADE.SPELLRANGE,
+	},
+}
+-------------------------------------------------长盾------------------------------------------------- 
+local protect_mana = TUNING.DOTA.PAVISE.PROTECT.MANA
+actions.protect = {
+	id = "DOTA_PROTECT",
+	str = STRINGS.DOTA.NEWACTION.DOTA_PROTECT,
+	fn = function(act)
+		if StandardTargetAndActivateActioniTest(act, "dota_pavise") and
+		 act.target:HasTag("player") and not act.target:HasTag("playerghost") then
+			local item = FindActivateItemByDoer(act.doer, "dota_pavise")
+			if item == nil then return ActionFailed(act.doer) end
+			if not IsManaEnough(act.doer, item) then return true end
+			if not RechargeCheck(item, TUNING.DOTA.PAVISE.PROTECT.CD, act.doer) then return true end
+			if act.target.components.dotaattributes ~= nil then
+				act.target.components.dotaattributes:CreateNormalShield("dota_shield_protectfx")
+			end
+			ChangeActivate(item, act.doer)
+			ItemManaDelta(act.doer, item, nil ,"dota_protect")
+			return true
+		end
+		return ActionFailed(act.doer)
+	end,
+	actiondata = {
+		priority=7,
+		mount_valid=false,
+		distance = TUNING.DOTA.PAVISE.PROTECT.SPELLRANGE,
+	},
+}
 -------------------------------------------------------------------------------------------------------------------
 ----------------------------------------------- 动作与组件绑定 -----------------------------------------------------
 -------------------------------------------------------------------------------------------------------------------
@@ -2873,6 +3034,16 @@ local component_actions = {
 					return false
 				end,
 			},
+			---------------------------------------------------魔瓶 or 瓶子---------------------------------------------------
+			{
+				action = "DOTA_BOTTLERUNE",
+				testfn = function(inst, doer, target, actions, right)
+					if inst.prefab == "dota_bottle" and target:HasTag("dota_rune") then
+						return right
+					end
+					return false
+				end,
+			},
 		},
 	},
 	{	-- 需要激活的
@@ -3163,6 +3334,15 @@ local component_actions = {
 						and not IsEntityDead(inst, true) and inst.replica.combat ~= nil
 				end,
 			},
+			-------------------------------------------------长盾-------------------------------------------------
+			{
+				action = "DOTA_PROTECT",
+				testfn = function(inst, doer, actions, right)
+					return doer:HasTag("dota_protect") and right
+						and inst:HasTag("player") and not inst:HasTag("ghost")
+						and not IsEntityDead(inst, true) and inst.replica.combat ~= nil
+				end,
+			},
 		},
 	},
 	{	
@@ -3242,6 +3422,17 @@ local component_actions = {
 					return false
 				end,
 			},
+			-------------------------------------------------血腥榴弹-------------------------------------------------
+			{
+				action = "DOTA_GRENADE",
+				testfn = function(inst, doer, pos, actions, right, target)
+					return doer:HasTag("dota_grenade") and right 
+					 and not TheWorld.Map:IsGroundTargetBlocked(pos)
+				end,
+			},
+
+
+			
 		},
 	},
 }

@@ -461,23 +461,11 @@ AddComponentPostInit("combat", function(self)
 	-- 我们改一下命中的判定范围，考虑装备带来的攻击距离变化
 	local old_GetHitRange = self.GetHitRange
 	function self:GetHitRange()
-		if self.inst.components.dotaattributes ~= nil then
-			local oldhitrange = old_GetHitRange(self)
-			return oldhitrange + self.dota_damagerange
-		end
-		if old_GetHitRange then
-			return old_GetHitRange(self)
-		end
+		return old_GetHitRange(self) + self.dota_damagerange + 10
 	end
 	local old_GetAttackRange = self.GetAttackRange
 	function self:GetAttackRange()
-		if self.inst.components.dotaattributes ~= nil then
-			local oldattackrange = old_GetAttackRange(self)
-			return oldattackrange + self.dota_damagerange
-		end
-		if old_GetAttackRange then
-			return old_GetAttackRange(self)
-		end
+		return old_GetAttackRange(self) + self.dota_damagerange + 10
 	end
 
 	-- 用于更新attackrange
@@ -631,6 +619,8 @@ AddClassPostConstruct("components/combat_replica", function(self, inst)
 		if self:Dota_IsEthereal() then valid = true end
 		return dest, valid, cooldown
 	end
+
+	
 end)
 
 -- local function updatecanattack(val)

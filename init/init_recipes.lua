@@ -36,6 +36,8 @@ local CRAFTING_FILTERS = GLOBAL.CRAFTING_FILTERS
 
 -------------------------------导入自定义配方----------------------------------
 local recipes_status,recipes_data = pcall(require,"dota_defs/dota_recipes")
+-- local recipes_data = require("dota_defs/dota_recipes")
+-- local recipes_status = true
 local recipes_mode = 1 -- 采用原dota配方
 if TUNING.DOTA.DSTRECIPES_MODE == true then
 	recipes_mode = 2 -- 采用饥荒配方

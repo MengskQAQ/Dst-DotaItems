@@ -65,6 +65,7 @@ modimport("scripts/dota_defs/dota_hook/dota_avatar")   -- bkb期间无硬直
 -- modimport("scripts/dota_defs/dota_hook/dota_debuffable")   -- 装备被动属性
 -- modimport("scripts/dota_defs/dota_hook/dota_widgets_craftingmenu")   -- 多配方
 modimport("scripts/dota_defs/dota_hook/dota_widgets_manaui")   -- 魔法值ui
+modimport("scripts/dota_defs/dota_hook/dota_hud")   -- AOE旋转
 
 --sg 新动作
 modimport("scripts/stategraphs/dota_nilsg")

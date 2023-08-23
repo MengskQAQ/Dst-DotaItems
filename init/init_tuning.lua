@@ -141,6 +141,51 @@ local DOTATUNING = {
 			INTERVAL = 0.5 * duration_ratio,
 			CD = 0.5 * cd_ratio,
 		},
+		RUNE = {
+			ARCANE = {
+				DURATION = 50 * duration_ratio,
+				REDUCTION = 0.3,
+				MANACOST = 0.3,
+			},
+			BOUNTY = {
+				GOLD = 36 * gold_ratio,
+				ADDPERDAY = 9 * gold_ratio,
+			},
+			DOUBLE = {
+				DURATION = 45 * duration_ratio,
+			},
+			HASTE = {
+				EXTRASPEED = 90 * extraspeed_ratio,
+				DURATION = 22 * duration_ratio,
+			},
+			ILLUSION = {
+				NUM = 2,
+				DAMAGEMULTI = 3,
+				DURATION = 75 * duration_ratio,
+			},
+			INVISBILITY = {
+				FADING = 1,
+				DURATION = 45 * duration_ratio,
+			},
+			REGENERATION = {
+				INTERVAL = 1,
+				MAXRATIO = 0.1,
+				DURATION = 30 * duration_ratio,
+			},
+			SHIELD = {
+				MAXRATIO = 0.5,
+				DURATION = 75 * duration_ratio,
+			},
+			WATER = {
+				HEALTH = 80 * extrahealth_ratio,
+				MANA = 80,
+				MAXRATIO = 0.1,
+			},
+			WISDOM = {
+				EXP = 700,
+				EXTREXP = 135,
+			},
+		},
 	},
 --树之祭祀 or 吃树
 	TANGO = {
@@ -182,6 +227,7 @@ local DOTATUNING = {
 		GRENADE = {
 			HEALTH = 75 * extrahealth_ratio,
 			CD = 10 * cd_ratio,
+			SPELLRANGE = 1400 * range_ratio,
 		},
 	},
 ---------------------------------属性-----------------------------
@@ -955,6 +1001,7 @@ local DOTATUNING = {
 			DURATION = 8 * duration_ratio,
 			MANA = 75,
 			CD = 18,
+			SPELLRANGE = 1400 * range_ratio,
 		},
 	},
 ---------------------------------法器-----------------------------
@@ -1068,7 +1115,7 @@ local DOTATUNING = {
 			SPELLRANGE = 1100 * spellrange_ratio,
 			RANGE = 450 * range_ratio,
 			DURATION = 2 * duration_ratio,
-			DAMAGE = 220,
+			DAMAGE = 220 * extradamage_ratio,
 			MANA = 200,
 			CD = 18 * cd_ratio,
 		},
@@ -1873,6 +1920,7 @@ local DOTATUNING = {
 	},
 -- 鱼叉
 	HARPOON = {
+		GOLD = 1000 * gold_ratio,	
 		ATTACKSPEED = 15 * attackspeed_ratio,	-- 攻速
 		EXTRADAMAGE = 15 * extradamage_ratio,
 		STRENGTH = 20,

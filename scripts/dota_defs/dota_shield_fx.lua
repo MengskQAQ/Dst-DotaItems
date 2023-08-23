@@ -55,5 +55,21 @@ dota_shield.shroud = {
         end
     end,
 }
+-------------------------------------------------挑战头巾-------------------------------------------------
+dota_shield.protect = {
+    name = "dota_shield_protectfx",
+    animzip = "forcefield",
+    bank = "forcefield",
+    build = "forcefield",
+    anim = "open",
+    loopanim = "idle_loop",
+    killanim = "close",
+
+    maxhealth = TUNING.DOTA.PAVISE.PROTECT.DAMAGE,
+    duration = TUNING.DOTA.PAVISE.PROTECT.DURATION,
+    oncreatefn = OnCreateFn,
+}
+-------------------------------------------------护盾神符-------------------------------------------------
+
 
 return dota_shield

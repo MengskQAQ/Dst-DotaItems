@@ -1,6 +1,11 @@
 local BASE_VOICE_VOLUME = TUNING.DOTA.BASE_VOICE_VOLUME
 local dota_projectile = {}
-
+local function PlaySound(inst, sound, ...)
+	if inst.SoundEmitter ~= nil and sound ~= nil then
+		inst.SoundEmitter:PlaySound(sound, ...)
+		-- SoundEmitter:PlaySound(emitter, event, name, volume, ...)
+	end
+end
 -------------------------------------------------阿托斯之棍-------------------------------------------------
 dota_projectile.cripple = {
     name = "dota_projectile_cripple",
@@ -29,6 +34,51 @@ dota_projectile.cripple = {
 
         if target.components.debuffable ~= nil then
             target.components.debuffable:AddDebuff("buff_dota_cripple", "buff_dota_cripple")
+        end
+
+        inst:Remove()
+    end,
+    onmissfn = function(inst, attacker, target)
+        inst:Remove()
+    end,
+}
+-------------------------------------------------缚灵索-------------------------------------------------
+local ETERNAL_DAMAGE = TUNING.DOTA.GLEIPNIR.ETERNAL.DAMAGE
+dota_projectile.eternal = {
+    name = "dota_projectile_eternal",
+    animzip = "staff_projectile",
+    prefabs = {
+        "shatter",
+        "spat_splat_fx",
+    },
+    bank = "projectile",
+    build = "staff_projectile",
+    anim = "ice_spin_loop",
+    extrafn = function(inst)
+        inst.AnimState:SetBloomEffectHandle("shaders/anim.ksh")
+    end,
+
+    projectile = true,
+    speed = 50,
+    onthrownfn = function(inst, owner, target, attacker)
+        inst.owner = owner
+		inst.attacker = attacker
+        PlaySound(owner, "mengsk_dota2_sounds/items/gleipnir_cast", nil, BASE_VOICE_VOLUME)
+    end,
+    onhitfn = function(inst, weapon, target)
+        if not target:IsValid() then return end
+
+        local attacker = inst.attacker
+        local x, y, z = inst.Transform:GetWorldPosition()
+        SpawnPrefab("spat_splat_fx").Transform:SetPosition(x, 0, z)
+
+        if target and target.components.combat ~= nil and attacker and attacker.components.combat and attacker:IsValid() then
+            target.components.combat:GetAttacked(attacker, ETERNAL_DAMAGE, nil, "dotamagic")
+        end
+
+        if target.components.debuffable ~= nil then
+            target.components.debuffable:AddDebuff("buff_dota_eternal", "buff_dota_eternal")
+            PlaySound(target, "mengsk_dota2_sounds/items/gleipnir_target", nil, BASE_VOICE_VOLUME)
         end
 
         inst:Remove()
@@ -150,9 +200,7 @@ dota_projectile.chain = {
             inst.bounces = 1
             inst.initial_hostile = target ~= nil and target:IsValid() and target:HasTag("hostile")
         end
-        if inst.SoundEmitter ~= nil then
-            inst.SoundEmitter:PlaySound("mengsk_dota2_sounds/items/item_mael_lightning_01", nil, BASE_VOICE_VOLUME)
-        end
+        PlaySound(inst, "mengsk_dota2_sounds/items/item_mael_lightning_01", nil, BASE_VOICE_VOLUME)
     end,
     onhitfn = function(inst, weapon, target)	
 		-- inst 为 projectile ; weapon 为 虚拟武器 ; target 为 攻击目标
@@ -225,9 +273,7 @@ dota_projectile.maelstorm = {
             inst.bounces = 1
             inst.initial_hostile = target ~= nil and target:IsValid() and target:HasTag("hostile")
         end
-        if inst.SoundEmitter ~= nil then
-            inst.SoundEmitter:PlaySound("mengsk_dota2_sounds/items/item_mael_lightning_01", nil, BASE_VOICE_VOLUME)
-        end
+        PlaySound(inst, "mengsk_dota2_sounds/items/item_mael_lightning_01", nil, BASE_VOICE_VOLUME)
     end,
     onhitfn = function(inst, weapon, target)
         local x, y, z
@@ -344,9 +390,7 @@ dota_projectile.ethereal = {
     onthrownfn = function(inst, owner, target, attacker)
         inst.owner = owner
 		inst.attacker = attacker
-        if inst.SoundEmitter ~= nil then
-            inst.SoundEmitter:PlaySound("mengsk_dota2_sounds/weapon/crit1", nil, BASE_VOICE_VOLUME)
-        end
+        PlaySound(inst, "mengsk_dota2_sounds/weapon/crit1", nil, BASE_VOICE_VOLUME)
     end,
     onhitfn = function(inst, weapon, target)
         -- local blast = SpawnPrefab("brilliance_projectile_blast_fx")
@@ -377,11 +421,9 @@ dota_projectile.ethereal = {
         local ETHEREAL_DAMEGE = TUNING.DOTA.ETHEREAL_BLADE.ETHEREAL.DAMAGE + PRIMARY * TUNING.DOTA.ETHEREAL_BLADE.ETHEREAL.PRIMARYMULTI
         if not target:HasTag("player") and target.components.combat ~= nil then
             target.components.combat:GetAttacked(attacker, ETHEREAL_DAMEGE, nil, "dotamagic")
-            if target.SoundEmitter ~= nil then
-                target.SoundEmitter:PlaySound("mengsk_dota2_sounds/items/item_ghost_etherealblade", nil, BASE_VOICE_VOLUME)
-            end
-        elseif target:HasTag("player") and target.SoundEmitter ~= nil then
-            target.SoundEmitter:PlaySound("mengsk_dota2_sounds/items/ethereal_blade_cast", nil, BASE_VOICE_VOLUME)
+            PlaySound(target, "mengsk_dota2_sounds/items/item_ghost_etherealblade", nil, BASE_VOICE_VOLUME)
+        elseif target:HasTag("player") then
+            PlaySound(target, "mengsk_dota2_sounds/items/ethereal_blade_cast", nil, BASE_VOICE_VOLUME)
         end
 
         inst:Remove()
@@ -403,9 +445,7 @@ dota_projectile.nullifier = {
     onthrownfn = function(inst, owner, target, attacker)
         inst.owner = owner
 		inst.attacker = attacker
-        if inst.SoundEmitter ~= nil then
-            inst.SoundEmitter:PlaySound("mengsk_dota2_sounds/items/nullifier_cast", nil, BASE_VOICE_VOLUME)
-        end
+        PlaySound(inst, "mengsk_dota2_sounds/items/nullifier_cast", nil, BASE_VOICE_VOLUME)
     end,
     onhitfn = function(inst, weapon, target)
         if not target:IsValid() then return end

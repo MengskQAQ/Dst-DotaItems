@@ -513,7 +513,7 @@ dota_item_weapon.dota_meteor_hammer = {
 dota_item_weapon.dota_disperser = {
     name = "dota_disperser",
     animname = "dota_disperser",
-	animzip = "dota_precious", 
+	animzip = "dota_weapon", 
 	taglist = {
     },
 	onequipfn = function(inst,owner)

@@ -23,7 +23,9 @@ AddPrefabPostInit("monkeyqueen", function(inst)
             -- 第一次给予时可以直接装满，后续才需要给予香蕉
 			local old_test = inst.components.trader.test
             local new_test = function(inst, item, giver)
-                if item.prefab == "dota_bottle" and inst.dota_canfillbottle and inst.dota_canfillbottle >= bananalimit then
+                if item.prefab == "dota_bottle" and inst.dota_canfillbottle and inst.dota_canfillbottle >= bananalimit
+                 and item.components.dotabottle and not item.components.dotabottle:IsStoreRune() and not item.components.dotabottle:IsFull()
+                 then
                     return true
                 else
                     return old_test(inst, item, giver)

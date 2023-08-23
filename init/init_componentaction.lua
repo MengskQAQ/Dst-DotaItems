@@ -24,6 +24,11 @@ if actions_status then
                     action[k] = data
                 end
             end
+
+            if act.pre_action_cb ~= nil then
+                action.pre_action_cb = act.pre_action_cb
+            end
+
 			--兼容排队论
 			if act.canqueuer then
 				queueractlist[act.id]=act.canqueuer

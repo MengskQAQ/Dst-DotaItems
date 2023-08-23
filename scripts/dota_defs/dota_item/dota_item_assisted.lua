@@ -554,6 +554,9 @@ dota_item_assisted.dota_pavise = {
 	animzip = "dota_assisted", 
 	taglist = {
     },
+    manacost = TUNING.DOTA.PAVISE.PROTECT.MANA,
+    activatename = "DOTA_PROTECT",
+    sharedcoolingtype = "protect",
 	onequipfn = function(inst,owner)
         owner.components.dotacharacter:AddExtraHealth(TUNING.DOTA.PAVISE.EXTRAHEALTH)
         owner.components.dotacharacter:AddManaRegen(TUNING.DOTA.PAVISE.MANAREGEN)

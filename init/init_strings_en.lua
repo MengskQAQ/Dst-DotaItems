@@ -740,7 +740,11 @@ STRINGS.RECIPE_DESC.DOTA_OVERWHELMING_BLINK = "Strength"
 -- 鱼叉
 STRINGS.NAMES.DOTA_HARPOON = "Harpoon"
 STRINGS.CHARACTERS.GENERIC.DESCRIBE.DOTA_HARPOON = "Null"
-STRINGS.RECIPE_DESC.DOTA_HARPOON = "fish"
+STRINGS.RECIPE_DESC.DOTA_HARPOON = "In development"
+-- 灵匣
+STRINGS.NAMES.DOTA_PHYLACTERY = "Phylactery"
+STRINGS.CHARACTERS.GENERIC.DESCRIBE.DOTA_PHYLACTERY = "Null"
+STRINGS.RECIPE_DESC.DOTA_PHYLACTERY = "In development"
 -------------------------------------------肉山--------------------------------------------------
 -- 不朽之守护
 STRINGS.NAMES.DOTA_AEGIS_OF_THE_IMMORTAL = "Aegis Of The Immortal"
@@ -837,6 +841,9 @@ STRINGS.DOTA.NEWACTION = {
 	DOTA_METEOR = "Meteor Hammer",
 	DOTA_CHAINS = "Eternal Chains",
 	DOTA_WEAKNESS = "Magic Weakness",
+	DOTA_GRENADE = "Toss",
+	DOTA_PROTECT = "Protect",
+	DOTA_BOTTLERUNE = "Bottle rune",
 }
 
 -- STRINGS.DOTA.AOEACTION = {
@@ -851,15 +858,26 @@ if STRINGS.DOTA.SPEECH == nil then STRINGS.DOTA.SPEECH = {} end
 --通用台词
 STRINGS.DOTA.SPEECH = {
 	COOLDOWN = {
-		"Unready",
-		"Cooling down",
+		"It's not ready",
+		"It's not time yet",
+		"Not yet",
+		"It is not yet time",
+		"Almost",
+		"Wait for it",
+		"Just a little longer",
+		"All in due time",
+		"I can't do that now",
+		"Need a few more seconds"
 	},
 	NOMANA = {
-		"no enough mana",
-		"lack mana",
+		"Not enough mana",
+		"No mana",
+		"Out of mana",
+		"I need mana",
+		"Still need mana",
 	},
 	NOPOINT = {
-		"no power point",
+		"Running on empty here"
 	},
 }
 
@@ -926,3 +944,13 @@ STRINGS.NAMES.BUFF_DOTA_BLOODPACT = '血之契约'
 STRINGS.NAMES.BUFF_DOTA_BLOODPACTCD = "血之疲惫"
 STRINGS.NAMES.BUFF_DOTA_PROVINCE = "幻影之域"
 STRINGS.NAMES.BUFF_DOTA_NULLIFIER = "否决"
+STRINGS.NAMES.BUFF_DOTA_RUNE_ARCANE = "奥术"
+STRINGS.NAMES.BUFF_DOTA_RUNE_BOUNTY = "赏金"
+STRINGS.NAMES.BUFF_DOTA_RUNE_DOUBLE = "双倍伤害"
+STRINGS.NAMES.BUFF_DOTA_RUNE_HASTE = "急速"
+STRINGS.NAMES.BUFF_DOTA_RUNE_ILLUSION = "幻象"
+STRINGS.NAMES.BUFF_DOTA_RUNE_INVISBILITY = "隐身"
+STRINGS.NAMES.BUFF_DOTA_RUNE_REGENERATION = "恢复"
+STRINGS.NAMES.BUFF_DOTA_RUNE_SHIELD = "护盾"
+STRINGS.NAMES.BUFF_DOTA_RUNE_WATER = "圣水"
+STRINGS.NAMES.BUFF_DOTA_RUNE_WISDOM = "智慧"

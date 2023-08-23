@@ -171,7 +171,7 @@ local dota_recipes={
     },
     -------------------------------------------------血腥榴弹-------------------------------------------------
     {   -- dota_blood_grenade
-        name = "bomb_lunarplant",
+        name = "dota_blood_grenade",
         dotatype = "dota_consumables",
         ingredients = {
 			{
@@ -1178,7 +1178,7 @@ local dota_recipes={
         dotatype = "dota_assisted",
         ingredients = {
             {
-                Ingredient("goldnugget", TUNING.DOTA.WRAITH_PACT.GOLD),
+                Ingredient("goldnugget", TUNING.DOTA.PAVISE.GOLD),
                 Ingredient("dota_void_stone", 1,  "images/dota_mysteryshop/dota_void_stone.xml"),
                 Ingredient("dota_ring_of_protection", 1,  "images/dota_equipment/dota_ring_of_protection.xml"),
                 Ingredient("dota_fluffy_hat", 1, "images/dota_other/dota_fluffy_hat.xml"),
@@ -2098,6 +2098,18 @@ local dota_recipes={
                 Ingredient("dota_diadem", 1,  "images/dota_attribute/dota_diadem.xml"),
                 Ingredient("dota_point_booster", 1,  "images/dota_mysteryshop/dota_point_booster.xml"),
                 Ingredient("dota_sages_mask", 1, "images/dota_other/dota_sages_mask.xml"),
+			},
+        },
+    },
+    -------------------------------------------------鱼叉-------------------------------------------------
+    {
+        name = "dota_harpoon",
+        dotatype = "dota_precious",
+        ingredients = {
+			{
+				Ingredient("goldnugget", TUNING.DOTA.HARPOON.GOLD),
+                Ingredient("dota_diadem", 1,  "images/dota_attribute/dota_diadem.xml"),
+                Ingredient("dota_echo_sabre", 1,  "images/dota_precious/dota_echo_sabre.xml"),
 			},
         },
     },

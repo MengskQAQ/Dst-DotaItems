@@ -206,7 +206,7 @@ dota_item_mysteryshop.dota_hyperstone = {
 dota_item_mysteryshop.dota_cornucopia = {
     name = "dota_cornucopia",
     animname = "dota_cornucopia",
-	animzip = "dota_accessories", 
+	animzip = "dota_mysteryshop", 
 	taglist = {
     },
 	onequipfn = function(inst,owner)
