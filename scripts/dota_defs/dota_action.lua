@@ -64,33 +64,6 @@ local function PopColour(inst, source)
     end
 end
 
-local function PlaySound(inst, sound, ...)
-	if inst.SoundEmitter ~= nil and sound ~= nil then
-		inst.SoundEmitter:PlaySound(sound, ...)
-		-- SoundEmitter:PlaySound(emitter, event, name, volume, ...)
-	end
-end
-
-local function ActionWalking(player)
-	if player ~= nil and player.components.talker ~= nil then
-		player.components.talker:Say("此物品未完成/Still working")
-		return true
-	end
-	return false
-end
-
-local function ActionFailed(player)
-	PlaySound(player, "mengsk_dota2_sounds/ui/ui_general_deny", nil, BASE_VOICE_VOLUME)
-	return true
-end
-
-local function AoeActionFailed(player)
-	if player.HUD ~= nil then
-		player.HUD:Dota_StartReticule()
-	end
-	return true
-end
-
 local function StateFail(player)
 	if player and player.components.dotacharacter then
 		player.components.dotacharacter:SetActionStata(false)
@@ -155,6 +128,13 @@ local function PlaySound_CoolingDown(player)
 	end
 end
 
+local function PlaySound_NoPoint(player)
+	if player and player.components.talker ~= nil then
+		player.components.talker:Say(GetRandomStringFromTable(STRINGS.DOTA.SPEECH.NOPOINT) or "no power point")
+		PlaySound(player, "mengsk_dota2_sounds/ui/ui_general_deny", nil, BASE_VOICE_VOLUME)
+	end
+end
+
 -- 标准动作检测-装备需激活，有对象
 local function StandardTargetAndActivateActioniTest(act, tag)
 	return act.doer ~= nil and act.doer:HasTag("player") and act.doer:HasTag(tag)
@@ -210,10 +190,7 @@ local function FiniteusesAndRechargeCheck(inst, CD, player, usenum)
 		end
 
 		if inst.components.finiteuses:GetUses() < num then
-			if player and player.components.talker ~= nil then
-				player.components.talker:Say(GetRandomStringFromTable(STRINGS.DOTA.SPEECH.NOPOINT) or "no power point")
-				PlaySound(player, "mengsk_dota2_sounds/ui/ui_general_deny", nil, BASE_VOICE_VOLUME)
-			end
+			PlaySound_NoPoint(player)
 			return false
 		end
 
@@ -283,6 +260,34 @@ local function StateTest(inst, tag, state, mana)
 		and state or "dota_sg_nil"
 end
 
+local function PlaySound(inst, sound, ...)
+	if inst.SoundEmitter ~= nil and sound ~= nil then
+		inst.SoundEmitter:PlaySound(sound, ...)
+		-- SoundEmitter:PlaySound(emitter, event, name, volume, ...)
+	end
+end
+
+local function ActionWalking(player)
+	if player ~= nil and player.components.talker ~= nil then
+		player.components.talker:Say("此物品未完成/Still working")
+		return true
+	end
+	return false
+end
+
+local function ActionFailed(player)
+	PlaySound(player, "mengsk_dota2_sounds/ui/ui_general_deny", nil, BASE_VOICE_VOLUME)
+	return true
+end
+
+local function AoeActionFailed(player, item)
+	ChangeActivate(item, player)
+	-- if player.HUD ~= nil then
+	-- 	player.HUD:Dota_StartReticule()
+	-- end
+	return true
+end
+
 -- local function StateActionFailed(player)
 -- 	if player.components.dotacharacter then
 -- 		player.components.dotacharacter:SetActionStata(false)
@@ -317,13 +322,9 @@ actions.activateitem = {
 				act.invobject.components.activatableitem:ResetAllItems(act.doer)
 				if IsManaEnough(act.doer, act.invobject) then
 					act.invobject.components.activatableitem:StartUsingItem(act.doer, false)
-					-- if act.invobject.components.aoetargeting then
-					-- 	TakeOverPlayerController(act.doer, true)
-					-- end
 				end
 			else
 				act.invobject.components.activatableitem:StopUsingItem(act.doer, false)
-				-- TakeOverPlayerController(act.doer, false)
 			end
 			return true
 		end
@@ -1639,8 +1640,8 @@ actions.chains = {
 		if act.doer ~= nil and act.doer:HasTag("player") and act.doer:HasTag("dota_chains") then
 			local item = FindActivateItemByDoer(act.doer, "dota_gleipnir")
 			if item == nil then return ActionFailed(act.doer) end
-			if not IsManaEnough(act.doer, item) then return AoeActionFailed(act.doer) end
-			if not RechargeCheck(item, TUNING.DOTA.GLEIPNIR.ETERNAL.CD, act.doer) then return AoeActionFailed(act.doer) end
+			if not IsManaEnough(act.doer, item) then return AoeActionFailed(act.doer, item) end
+			if not RechargeCheck(item, TUNING.DOTA.GLEIPNIR.ETERNAL.CD, act.doer) then return AoeActionFailed(act.doer, item) end
 
 			if item.fakeweapon == nil then item.EquipWeapons(item) end	-- 创建虚拟武器
 
@@ -2417,8 +2418,8 @@ actions.meteor = {
 		if act.doer and act.doer:HasTag("player") and act.doer:HasTag("dota_meteor") then
 			local item = FindActivateItemByDoer(act.doer, "dota_meteor_hammer")
 			if item == nil then return true end
-			if not IsManaEnough(act.doer, item) then return AoeActionFailed(act.doer) end
-			if not RechargeCheck(item, TUNING.DOTA.METEOR_HAMMER.METEOR.CD, act.doer) then return AoeActionFailed(act.doer) end
+			if not IsManaEnough(act.doer, item) then return AoeActionFailed(act.doer, item) end
+			if not RechargeCheck(item, TUNING.DOTA.METEOR_HAMMER.METEOR.CD, act.doer) then return AoeActionFailed(act.doer, item) end
 			local x, y, z = act:GetActionPoint():Get()
 			MeteorShower(act.doer, x, y, z)
 			ItemManaDelta(act.doer, item, nil ,"dota_meteor")
@@ -2566,8 +2567,8 @@ actions.weakness = {
 		if act.doer ~= nil and act.doer:HasTag("player") and act.doer:HasTag("dota_weakness") then
 			local item = FindActivateItemByDoer(act.doer, "dota_veil_of_discord")
 			if item == nil then return ActionFailed(act.doer) end
-			if not IsManaEnough(act.doer, item) then return AoeActionFailed(act.doer) end
-			if not RechargeCheck(item, TUNING.DOTA.VEIL_OF_DISCORD.WEAKNESS.CD, act.doer) then return AoeActionFailed(act.doer) end
+			if not IsManaEnough(act.doer, item) then return AoeActionFailed(act.doer, item) end
+			if not RechargeCheck(item, TUNING.DOTA.VEIL_OF_DISCORD.WEAKNESS.CD, act.doer) then return AoeActionFailed(act.doer, item) end
 
 			local pos = act:GetActionPoint() or act.doer:GetPosition()
 			local ents = TheSim:FindEntities(pos.x, pos.y, pos.z, TUNING.DOTA.VEIL_OF_DISCORD.WEAKNESS.RANGE, { "_combat" }, exceuce_tags)

@@ -5,7 +5,7 @@
 --[[
 
 states = {
-    {rune = 神符id, level = 使用后瓶子的使用次数, image = 瓶子图片, buff = 使用后获得的buff名},
+    {rune = 神符名称, level = 使用后瓶子的使用次数, image = 瓶子图片, buff = 使用后获得的buff名},
 }
 
 level要求为连续不中断的实数
@@ -14,8 +14,6 @@ images = {
 }
 
 ]]--
-
--- TODO：添加神符(10种神符)
 
 local function OnTimerDone(inst, data)
     if data.name == "autodrink" then
@@ -148,7 +146,7 @@ function DotaBottle:CancelAutoDrinkTimer()
     self.inst.components.timer:StopTimer("autodrink")
 end
 
--- 仅保存id，在加载时通过id重新指向对应表
+-- 仅保存名称，在加载时通过名称重新指向对应表
 function DotaBottle:OnSave()
     return {
         level = self.level and self.level.level,

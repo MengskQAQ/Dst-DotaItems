@@ -17,7 +17,7 @@ AddClassPostConstruct("screens/playerhud", function(self)
     function self:Dota_EndReticule()
         local playercontroller = ThePlayer and ThePlayer.components.playercontroller
         if playercontroller ~= nil then
-            playercontroller:CancelAOETargeting()   -- 里面已经有item判空了
+            playercontroller:CancelAOETargeting()
         end 
     end
 end)

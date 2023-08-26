@@ -10,8 +10,8 @@ forumthread = ""    -- klei官方论坛地址，为空则默认是工坊的地�
 -- 描述
 description = L and
 [[
+【Version】
 Base on Dota version: 7.31  
-Current Version: 1.0.0_alpha
 【Warning】
 This mod is still in development, may crash sever at any time, DO NOT enable it UNLESS you know what you are going to do
 【Allowance】
@@ -19,10 +19,10 @@ The author of Functional Medal[workshop-1909182187] authorize me to use his code
 ]]
 or
 [[
+【版本】
 基于Dota版本 7.31 而来 
-目前版本：1.0.0_alpha
 【警告】
-该mod仍在alpha开发阶段，随时会导致服务器崩溃，请您在知晓此风险后再决定是否启用该mod
+该mod仍在开发阶段，可能会导致服务器崩溃，请您在知晓此风险后再决定是否启用该mod
 【授权】
 本Mod中使用了恒子大佬的能力勋章[workshop-1909182187]的部分代码，已获授权
 ]]
@@ -330,7 +330,7 @@ configuration_options =
         label = L and "Tpscroll CD plus" or "回城卷轴额外CD",
         hover = L and "Tpscroll's extra cd ratio." or "回城卷轴额外冷却时间系数",
         options = multipliertable,
-        default = 1,
+        default = 2,
     },
     {
         name = "bottle_bananalimit",

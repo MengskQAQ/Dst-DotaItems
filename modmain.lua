@@ -62,10 +62,12 @@ modimport("scripts/dota_defs/dota_hook/dota_playercontroller")  -- TP效果实�
 modimport("scripts/dota_defs/dota_hook/dota_arcane_buff")   -- 智力跳效果
 modimport("scripts/dota_defs/dota_hook/dota_monkeyqueen")   -- 猴王补充魔瓶
 modimport("scripts/dota_defs/dota_hook/dota_avatar")   -- bkb期间无硬直
--- modimport("scripts/dota_defs/dota_hook/dota_debuffable")   -- 装备被动属性
--- modimport("scripts/dota_defs/dota_hook/dota_widgets_craftingmenu")   -- 多配方
+-- modimport("scripts/dota_defs/dota_hook/dota_debuffable")   -- 装备被动属性(废案)
+-- modimport("scripts/dota_defs/dota_hook/dota_widgets_craftingmenu")   -- 多配方(未测试，不启用)
 modimport("scripts/dota_defs/dota_hook/dota_widgets_manaui")   -- 魔法值ui
 modimport("scripts/dota_defs/dota_hook/dota_hud")   -- AOE旋转
+modimport("scripts/dota_defs/dota_hook/dota_edible")    -- 食物回复魔法
+modimport("scripts/dota_defs/dota_hook/dota_edible")    -- 食物回复魔法
 
 --sg 新动作
 modimport("scripts/stategraphs/dota_nilsg")
