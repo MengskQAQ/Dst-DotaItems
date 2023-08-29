@@ -277,14 +277,4 @@ function BlinkDagger:Blink(pt, caster)
     return true
 end
 
-
---找到背包中的跳刀--该命令应该在其他地方注册--例如compoent
-function BlinkDagger:IsOwnBlinkDagger(inst)
-    return inst and inst.components.inventory and
-               inst.components.inventory:FindItem(function(inst)
-            return inst and type(inst.prefab) == "string" and inst.prefab ==
-                       "dota_blink_dagger"
-        end)
-end
-
 return BlinkDagger

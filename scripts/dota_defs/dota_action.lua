@@ -79,6 +79,13 @@ end
 -- 	return nil
 -- end
 
+local function PlaySound(inst, sound, ...)
+	if inst.SoundEmitter ~= nil and sound ~= nil then
+		inst.SoundEmitter:PlaySound(sound, ...)
+		-- SoundEmitter:PlaySound(emitter, event, name, volume, ...)
+	end
+end
+
 local function GetRandomStringFromTable(table)
 	local RandomKey = math.random(1,#table)
 	return table[RandomKey] or nil
@@ -258,13 +265,6 @@ local function StateTest(inst, tag, state, mana)
 		and not (inst.replica.dotaattributes ~= nil and inst.replica.dotaattributes:GetMana_Double() < mana)
 		and not (inst.replica.dotacharacter ~= nil and inst.replica.dotacharacter:GetActivateItem() and not inst.replica.dotacharacter:GetActivateItem():HasTag("dota_charged"))
 		and state or "dota_sg_nil"
-end
-
-local function PlaySound(inst, sound, ...)
-	if inst.SoundEmitter ~= nil and sound ~= nil then
-		inst.SoundEmitter:PlaySound(sound, ...)
-		-- SoundEmitter:PlaySound(emitter, event, name, volume, ...)
-	end
 end
 
 local function ActionWalking(player)
@@ -1639,7 +1639,7 @@ actions.chains = {
 	fn = function(act)	-- TODO: 待制作
 		if act.doer ~= nil and act.doer:HasTag("player") and act.doer:HasTag("dota_chains") then
 			local item = FindActivateItemByDoer(act.doer, "dota_gleipnir")
-			if item == nil then return ActionFailed(act.doer) end
+			if item == nil then return AoeActionFailed(act.doer, item) end
 			if not IsManaEnough(act.doer, item) then return AoeActionFailed(act.doer, item) end
 			if not RechargeCheck(item, TUNING.DOTA.GLEIPNIR.ETERNAL.CD, act.doer) then return AoeActionFailed(act.doer, item) end
 
@@ -2417,7 +2417,7 @@ actions.meteor = {
 	fn = function(act)
 		if act.doer and act.doer:HasTag("player") and act.doer:HasTag("dota_meteor") then
 			local item = FindActivateItemByDoer(act.doer, "dota_meteor_hammer")
-			if item == nil then return true end
+			if item == nil then return AoeActionFailed(act.doer, item) end
 			if not IsManaEnough(act.doer, item) then return AoeActionFailed(act.doer, item) end
 			if not RechargeCheck(item, TUNING.DOTA.METEOR_HAMMER.METEOR.CD, act.doer) then return AoeActionFailed(act.doer, item) end
 			local x, y, z = act:GetActionPoint():Get()
@@ -2590,14 +2590,29 @@ actions.weakness = {
 	},
 }
 -------------------------------------------------血腥榴弹-------------------------------------------------
+local grenade_health = TUNING.DOTA.BLOOD_GRENADE.GRENADE.HEALTH
+local grenade_range = TUNING.DOTA.BLOOD_GRENADE.GRENADE.RANGE
+local grenade_damage = TUNING.DOTA.BLOOD_GRENADE.GRENADE.DAMAGE
+local function Grenade_OnHit(inst, attacker, target)
+	local x, y, z = inst.Transform:GetWorldPosition()
+	local ents = TheSim:FindEntities(x, y, z, grenade_range, "_combat", exceuce_tags)
+    for _, ent in ipairs(ents) do
+		if ent.components.combat ~= nil then
+			inst.components.combat:GetAttacked(attacker, grenade_damage, nil, "dotamagic")
+		end
+		AddDebuff(ent, "buff_dota_grenade")
+	end
+	SpawnPrefab("bomb_lunarplant_explode_fx").Transform:SetPosition(x, y, z)
+	inst:Remove()
+end
 actions.grenade = {
 	id = "DOTA_GRENADE",
 	str = STRINGS.DOTA.NEWACTION.DOTA_GRENADE,
 	fn = function(act)	-- TODO: 待制作
 		if StandardTargetAndActivateActioniTest(act, "dota_grenade") then
 			local item = FindActivateItemByDoer(act.doer, "dota_blood_grenade") 
-			if item == nil then return ActionFailed(act.doer) end
-			if not RechargeCheck(item, TUNING.DOTA.BLOOD_GRENADE.GRENADE.CD, act.doer) then return true end
+			if item == nil then return AoeActionFailed(act.doer, item) end
+			if not RechargeCheck(item, TUNING.DOTA.BLOOD_GRENADE.GRENADE.CD, act.doer) then return AoeActionFailed(act.doer, item) end
 			UseOne(item)
 
 			local bomb = SpawnPrefab("bomb_lunarplant")
@@ -2611,10 +2626,10 @@ actions.grenade = {
 					pos = act:GetActionPoint()
 				end
 				projectile.components.complexprojectile:Launch(pos, act.doer)
+				projectile.components.complexprojectile:SetOnHit(Grenade_OnHit)
 			end
-
-			local delta = TUNING.DOTA.BLOOD_GRENADE.GRENADE.HEALTH
-			act.doer.components.health:DoDelta(-delta, nil, "dota_grenade")
+			
+			act.doer.components.health:DoDelta(-grenade_health, nil, "dota_grenade")
 			return true
 		end
 		return ActionFailed(act.doer)

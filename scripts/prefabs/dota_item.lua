@@ -194,6 +194,7 @@ local function MakeCertificate(def)
 		inst.AnimState:PlayAnimation(def.animname)
 
 		inst:AddTag("nosteal")
+		inst:AddTag("stronggrip")
 		inst:AddTag("meteor_protection")
 		inst:AddTag("dota_equipment")
 		inst:AddTag(def.name)
@@ -260,6 +261,8 @@ local function MakeCertificate(def)
 		inst:AddComponent("inventoryitem")
 		inst.components.inventoryitem.imagename = def.name
 		inst.components.inventoryitem.atlasname = "images/"..def.animzip.."/"..def.name..".xml"
+		inst.components.inventoryitem.keepondeath = true
+		inst.components.inventoryitem.keepondrown = true
 
 		inst:AddComponent("equippable")
 		inst.components.equippable.equipslot = EQUIPSLOTS.DOTASLOT or EQUIPSLOTS.NECK or EQUIPSLOTS.BODY or EQUIPSLOTS.HANDS

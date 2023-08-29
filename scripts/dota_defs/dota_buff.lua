@@ -355,9 +355,9 @@ buff_defs.buff_dota_corrosion={
 		-- 	target.components.dotaattributes:AddExtraArmor("buff", -TUNING.DOTA.ORB_OF_CORROSION.CORRUPTION.LESSERARMOR, "buff_dota_corrosion")
 		-- end
 		-- print("debug buff_dota_corrosion onextendedfn ")
-		local damage = TUNING.DOTA.ORB_OF_CORROSION.CORRUPTION.DAMAGE
-		inst.corrosiontask:Cancel()
-    	inst.corrosiontask = inst:DoPeriodicTask(TUNING.DOTA.ORB_OF_CORROSION.CORRUPTION.TICK, corrosiontick, nil, target, damage)
+		-- local damage = TUNING.DOTA.ORB_OF_CORROSION.CORRUPTION.DAMAGE
+		-- inst.corrosiontask:Cancel()
+    	-- inst.corrosiontask = inst:DoPeriodicTask(TUNING.DOTA.ORB_OF_CORROSION.CORRUPTION.TICK, corrosiontick, nil, target, damage)
 	end,
 	ondetachedfn=function(inst, target)
 		if target.components.dotaattributes ~= nil then
@@ -1722,5 +1722,35 @@ buff_defs.buff_dota_rune_wisdom={
 
 	end,
 }
+-------------------------------------------------血腥榴弹-------------------------------------------------
+local function grenadetick(inst, target, damage)
+	if target.components.health ~= nil
+		and not target.components.health:IsDead()
+		and not target:HasTag("playerghost") then
+		target.components.health:DoDelta(-damage, nil, "dotamagic")
+	else
+		inst.components.debuff:Stop()
+	end
+end
+	
+buff_defs.buff_dota_grenade={
+	name="buff_dota_grenade",
+	duration=TUNING.DOTA.BLOOD_GRENADE.GRENADE.DURATION,
+	onattachedfn=function(inst, target)
+		if target.components.locomotor ~= nil then
+			target.components.locomotor:SetExternalSpeedMultiplier(inst, "buff_dota_grenade", 1+TUNING.DOTA.BLOOD_GRENADE.GRENADE.SPEEDMULTI)
+		end
+		local damage = TUNING.DOTA.BLOOD_GRENADE.GRENADE.PERDAMAGE
+		inst.grenadetask = inst:DoPeriodicTask(TUNING.DOTA.BLOOD_GRENADE.GRENADE.TICK, grenadetick, nil, target, damage)
+	end,
+	ondetachedfn=function(inst, target)
+		if target.components.locomotor ~= nil then
+			target.components.locomotor:RemoveExternalSpeedMultiplier(inst, "buff_dota_grenade")
+		end
+		inst.grenadetask:Cancel()
+	end,
+}
+
+
 
 return buff_defs

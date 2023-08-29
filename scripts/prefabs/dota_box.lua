@@ -96,29 +96,6 @@ local function ondropped(inst)
         inst.components.container:Close()
     end
 end
-local function blinkdaggercheck(inst)
-	for i = 1, inst.components.container.numslots do
-		local item = inst.components.container.slots[i]
-		if item and (item.prefab == "dota_blink_dagger" 
-		 or item.prefab == "dota_swift_blink" 
-		 or item.prefab == "dota_arcane_blink" 
-		 or item.prefab == "dota_overwhelming_blink" )
-		 then
-			return true
-		end
-	end
-	return false
-	-- inst.components.container:FindItem(function(item) 
-		-- if item and (item.prefab == "dota_blink_dagger" 
-		 -- or item.prefab == "dota_swift_blink" 
-		 -- or item.prefab == "dota_arcane_blink" 
-		 -- or item.prefab == "dota_overwhelming_blink" )
-		 -- then
-			-- return true
-		-- end
-		-- return false
-		-- end)
-end
 -- 装备
 local function onequipfn(inst,owner)
 	inst.components.container:Open(owner)
@@ -165,6 +142,20 @@ local function onunequipfn(inst,owner)
 	end
 end
 
+local function blinkdaggercheck(inst)
+	for i = 1, inst.components.container.numslots do
+		local item = inst.components.container.slots[i]
+		if item and (item.prefab == "dota_blink_dagger" 
+		 or item.prefab == "dota_swift_blink" 
+		 or item.prefab == "dota_arcane_blink" 
+		 or item.prefab == "dota_overwhelming_blink" )
+		 then
+			return true
+		end
+	end
+	return false
+end
+
 local function fn()
     local inst = CreateEntity()
 
@@ -183,7 +174,11 @@ local function fn()
     inst.AnimState:PlayAnimation("idle")
     
     inst:AddTag("dota_box")
-    
+	inst:AddTag("nosteal")
+	inst:AddTag("stronggrip")
+	inst:AddTag("meteor_protection")
+	inst:AddTag("dota_equipment")
+
     MakeInventoryFloatable(inst,"med",0.1,0.65)
     
     inst.entity:SetPristine()
@@ -196,6 +191,8 @@ local function fn()
     inst:AddComponent("inventoryitem")
     inst.components.inventoryitem.imagename = "dota_box"
     inst.components.inventoryitem.atlasname = "images/dota_box.xml"
+	inst.components.inventoryitem.keepondeath = true
+	inst.components.inventoryitem.keepondrown = true
     inst.components.inventoryitem:SetOnDroppedFn(ondropped)
     
     inst:AddComponent("equippable")

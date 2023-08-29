@@ -227,7 +227,13 @@ local DOTATUNING = {
 		GRENADE = {
 			HEALTH = 75 * extrahealth_ratio,
 			CD = 10 * cd_ratio,
-			SPELLRANGE = 1400 * range_ratio,
+			RANGE = 300 * range_ratio,		-- 生效距离
+			SPELLRANGE = 900 * range_ratio,
+			DURATION = 5 * duration_ratio,
+			DAMAGE = 50 * extradamage_ratio,
+			PERDAMAGE = 15 * extradamage_ratio,
+			TICK = 1,
+			SPEEDMULTI = -0.15,
 		},
 	},
 ---------------------------------属性-----------------------------

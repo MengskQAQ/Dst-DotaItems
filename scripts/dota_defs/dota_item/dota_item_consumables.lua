@@ -194,6 +194,15 @@ dota_item_consumables.dota_blood_grenade = {
     maxsize = TUNING.DOTA.BLOOD_GRENADE.MAXSIZE,
 	healthcost = TUNING.DOTA.BLOOD_GRENADE.GRENADE.HEALTH,
     activatename = "DOTA_GRENADE",
+    aoetargeting = {
+        reticuleprefab = "reticuleaoe",
+        pingprefab = "reticuleaoeping",
+        -- targetfn = ReticuleTargetFn,
+        validcolour = { 1, .75, 0, 1 },
+        invalidcolour = { .5, 0, 0, 1 },
+        ease = true,
+        mouseenabled = true,
+    },
 }
 
 return {dota_item_consumables = dota_item_consumables}
