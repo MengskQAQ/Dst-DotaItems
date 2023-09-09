@@ -5,7 +5,7 @@ AddComponentPostInit("container", function(self)
 			return self:GetSpecificDotaSlotForItem(item)
 		end
 		if old_GetSpecificSlotForItem then
-			return oldGetSpecificSlotForItem(self,item)
+			return old_GetSpecificSlotForItem(self, item)
 		end
 	end
 	

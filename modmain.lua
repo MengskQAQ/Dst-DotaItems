@@ -66,6 +66,7 @@ modimport("scripts/dota_defs/dota_hook/dota_avatar")   -- bkb期间无硬直
 -- modimport("scripts/dota_defs/dota_hook/dota_widgets_craftingmenu")   -- 多配方(未测试，不启用)
 modimport("scripts/dota_defs/dota_hook/dota_widgets_manaui")   -- 魔法值ui
 modimport("scripts/dota_defs/dota_hook/dota_hud")   -- AOE旋转
+modimport("scripts/dota_defs/dota_hook/dota_pigking")   -- 科技树触发
 modimport("scripts/dota_defs/dota_hook/dota_edible")    -- 食物回复魔法
 modimport("scripts/dota_defs/dota_hook/dota_edible")    -- 食物回复魔法
 
