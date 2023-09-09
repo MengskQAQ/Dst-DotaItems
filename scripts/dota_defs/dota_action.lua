@@ -282,10 +282,18 @@ end
 
 local function AoeActionFailed(player, item)
 	ChangeActivate(item, player)
+	SendModRPCToClient(CLIENT_MOD_RPC["DOTARPC"]["AOEINACTIVATE"], player.userid)
 	-- if player.HUD ~= nil then
-	-- 	player.HUD:Dota_StartReticule()
+	-- 	player.HUD:Dota_EndReticule()
 	-- end
 	return true
+end
+
+local function AoeActionSucceed(player, item)
+	SendModRPCToClient(CLIENT_MOD_RPC["DOTARPC"]["AOEINACTIVATE"], player.userid)
+	-- if player.HUD ~= nil then
+	-- 	player.HUD:Dota_EndReticule()
+	-- end
 end
 
 -- local function StateActionFailed(player)
@@ -1656,6 +1664,7 @@ actions.chains = {
 			PlaySound(act.doer, "mengsk_dota2_sounds/items/rod_of_atos", nil, BASE_VOICE_VOLUME)
 			ItemManaDelta(act.doer, item, nil ,"dota_cripple")
 			ChangeActivate(item, act.doer)
+			AoeActionSucceed(act.doer, item)
 			-- TakeOverPlayerController(act.doer, false)
 			return true
 		end
@@ -2424,6 +2433,7 @@ actions.meteor = {
 			MeteorShower(act.doer, x, y, z)
 			ItemManaDelta(act.doer, item, nil ,"dota_meteor")
 			ChangeActivate(item, act.doer)
+			AoeActionSucceed(act.doer, item)
 			-- TakeOverPlayerController(act.doer, false)
 			return true
 		end
@@ -2578,6 +2588,7 @@ actions.weakness = {
 
 			ItemManaDelta(act.doer, item, nil ,"dota_weakness")
 			ChangeActivate(item, act.doer)
+			AoeActionSucceed(act.doer, item)
 			-- TakeOverPlayerController(act.doer, false)
 			return true
 		end

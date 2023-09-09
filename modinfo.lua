@@ -134,6 +134,7 @@ local numtable = {
 
 configuration_options = 
 {
+    -------------------------------------------------------------------------------------------------
     {
         name = "DotaItem",
         label = L and "General" or "通用选项",
