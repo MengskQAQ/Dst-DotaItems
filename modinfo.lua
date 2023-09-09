@@ -7,6 +7,9 @@ version = "1.0.0_alpha" -- 版本 大版本，小版本，优化/bug
 author = "Mengsk"   -- 作者
 forumthread = ""    -- klei官方论坛地址，为空则默认是工坊的地址
 
+-- The Githud url of this project : https://github.com/MengskQAQ/Dst-DotaItems
+-- 该项目的Github地址 ： https://github.com/MengskQAQ/Dst-DotaItems
+
 -- 描述
 description = L and
 [[

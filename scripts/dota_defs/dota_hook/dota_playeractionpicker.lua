@@ -1,4 +1,5 @@
 -- 获取装备栏位上的action
+-- 让客户端能够识别到放在装备box里的物品的右键动作
 -- 逆天，官方天天改代码，每次都要让人重新读一次
 
 -----------------------------------------------激活装备-------------------------------------------------
@@ -11,7 +12,6 @@ AddComponentPostInit("playeractionpicker", function(self)
 		if self.dota_disable_click then
 			return {}
 		end
-		
 		return old_GetLeftClickActions(self, position, target, ...)
 	end
 

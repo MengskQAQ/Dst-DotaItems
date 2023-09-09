@@ -1,4 +1,5 @@
 ------------------------------------------支配头盔 and (统御头盔 or 大支配)-------------------------------------------------
+-- 让被支配的生物不会掉驯化值
 
 AddComponentPostInit("domesticatable", function(self)
     self.dota_dominate = false
@@ -15,7 +16,7 @@ AddComponentPostInit("domesticatable", function(self)
 		end
     end
 
-    function self:SetDominateStatus(status)
+    function self:Dota_SetDominateStatus(status)
         if status ~= nil then self.dota_dominate = status 
         else self.dota_dominate = true end
     end

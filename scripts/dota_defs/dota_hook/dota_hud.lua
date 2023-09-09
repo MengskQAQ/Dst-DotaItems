@@ -1,3 +1,5 @@
+-- 因为 Hud 仅在客户端存在，在此处添加可以保证这些代码仅在客户端运行
+
 AddClassPostConstruct("screens/playerhud", function(self)
 
     function self:Dota_GetActivateReticuleInv()

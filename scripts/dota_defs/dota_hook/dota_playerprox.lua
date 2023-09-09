@@ -1,3 +1,6 @@
+-- 官方的光环效果在多个物品反复开关时会出现buff不符合预期的现象，我们需要修改一下组件
+-- 虽然不能完美解决，但起码消除了一部分不稳定的现象
+
 local exclude_tags = { "INLIMBO", "companion", "wall", "abigail", "shadowminion", "player"}	
 local function AllEntitiesExpectPlayers(inst, self)
     local x, y, z = inst.Transform:GetWorldPosition()

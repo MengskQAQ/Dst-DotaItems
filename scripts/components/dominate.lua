@@ -151,7 +151,7 @@ function Dominate:DoDominate(owner, target)
         target.components.domesticatable:DeltaObedience(0.01)   -- 增加饱食度，防止驯化度掉太快
         target.components.domesticatable:TryBecomeDomesticated()
         target.components.domesticatable:DeltaDomestication(0.99)   -- 增加驯化度
-        target.components.domesticatable:SetDominateStatus(true)
+        target.components.domesticatable:Dota_SetDominateStatus(true)
 
 		succeed = true
     end
@@ -178,7 +178,7 @@ end
 function Dominate:StopDominate()
     if self.target == nil then return false end
     if self.target.components.domesticatable ~= nil then
-        self.target.components.domesticatable:SetDominateStatus(false)
+        self.target.components.domesticatable:Dota_SetDominateStatus(false)
         KillTarget(self.target)
         return true
     end

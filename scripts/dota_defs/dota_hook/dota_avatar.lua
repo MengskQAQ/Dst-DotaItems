@@ -1,5 +1,5 @@
 -------------------------------------------------黑黄杖 or BKB-------------------------------------------------
-
+-- bkb开启时，赋予玩家抗受击能力，不受攻击与击倒带来的SG插队影响
 AddStategraphPostInit("wilson", function(sg)
     local old_attacked = sg.events["attacked"]
     sg.events["attacked"] = EventHandler("attacked", function(inst, data)

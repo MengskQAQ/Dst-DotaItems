@@ -1,10 +1,10 @@
 AddComponentPostInit("container", function(self)
-	local oldGetSpecificSlotForItem = self.GetSpecificSlotForItem
+	local old_GetSpecificSlotForItem = self.GetSpecificSlotForItem
 	function self:GetSpecificSlotForItem(item)
 		if self.inst and self.inst:HasTag("dota_box") and self.GetSpecificDotaSlotForItem then
 			return self:GetSpecificDotaSlotForItem(item)
 		end
-		if oldGetSpecificSlotForItem then
+		if old_GetSpecificSlotForItem then
 			return oldGetSpecificSlotForItem(self,item)
 		end
 	end

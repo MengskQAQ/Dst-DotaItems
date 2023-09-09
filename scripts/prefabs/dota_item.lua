@@ -3,6 +3,61 @@
 -- 来源 /scripts/functional_medal.lua
 -----------------------------------------------------------------------
 
+--[[
+该架构目前提供的物品格式为
+
+item = {
+	name = string, 物品名称ID (必须)
+    animname = string, 物品动画名 (必须)
+	animzip = string, 物品动画文件 (必须)
+	taglist = {}, 物品标签
+
+	manacost = int, 消耗的魔法值
+	healthcost = int, 消耗的生命值
+	maxsize = int, 最大堆叠数量
+
+	fuellevel = int, 燃料消耗组件
+	deletefn = function(inst) end, 燃料耗尽时执行函数
+	fueltype = FUELTYPE.YOURCHICES, 燃料填充种类
+
+	onequipfn = function(inst,owner) end, 装备时执行函数
+	onunequipfn = function(inst,owner) end, 卸下时执行函数
+
+	client_extrafn = function(inst) end, 主客机函数
+    extrafn = function(inst) end, 主机函数
+
+	activatename = string, 对应的激活动作
+	activatefn = function(inst, owner) end, 激活时执行函数
+	inactivatefn = function(inst, owner) end, 取消激活时执行函数
+	aoetargeting = {	激活时是否有范围显示
+		reticuleprefab = string,
+		pingprefab = string,
+		targetfn = function () end,
+		validcolour = { 1, .75, 0, 1 },
+		invalidcolour = { .5, 0, 0, 1 },
+		ease = bool,
+		mouseenabled = bool,
+		enabled = bool, 是否开启
+	}, 
+
+	fakeweapon = {	物品是否要内置虚拟武器
+		name = string, 虚拟武器名称
+		damage = int, 虚拟武器伤害
+		range = int, 虚拟武器范围
+		projectile = string, 虚拟武器投掷品
+		tag = string, 虚拟武器标签
+	}, 
+	playerprox = {	物品是否具有光环
+		range = int, 光环生效范围
+		onnearfn = function(inst, player) end, 进入光环执行函数
+		onfarfn = function(inst, player) end, 离开光环执行函数
+	}, 
+	notrechargerable = bool, 物品是否取消冷却组件
+	sharedcoolingtype = string, 共享冷却组类别
+}
+
+]]--
+
 local SHARINGCD = TUNING.DOTA.SHARINGCD	-- 是否启用共享冷却
 
 local function ReticuleTargetFn()
@@ -204,12 +259,12 @@ local function MakeCertificate(def)
 			inst.activatename =  string.upper( def.activatename )	-- 我们定义动作key值到客户端，便于客户端显示动作名称
 		end
 
-		if def.manacost then
-			inst:AddTag("dota_needmana")
+		if def.manacost then	-- 这部分用于客户端显示消耗的魔法值
+			inst:AddTag("dota_needmana")	
 			inst.manacost = def.manacost
 		end
 
-		if def.healthcost then
+		if def.healthcost then	-- 这部分用于客户端显示消耗的生命值
 			inst:AddTag("dota_needhealth")
 			inst.healthcost = def.healthcost
 		end
