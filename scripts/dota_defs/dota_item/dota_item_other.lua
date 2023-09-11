@@ -314,9 +314,9 @@ dota_item_other.dota_gem_of_true_sight = {    -- TODO:给宝石添加一个唯�
     name = "dota_gem_of_true_sight",
     animname = "dota_gem_of_true_sight",
 	animzip = "dota_other",
-	assets = {
-        Asset("MINIMAP_IMAGE", "dota_gem_of_true_sight"),
-    },
+	-- assets = {
+    --     Asset("MINIMAP_IMAGE", "dota_gem_of_true_sight"),
+    -- },
     prefabs ={
         "globalmapicon",
     },
@@ -330,10 +330,13 @@ dota_item_other.dota_gem_of_true_sight = {    -- TODO:给宝石添加一个唯�
         inst.AnimState:SetBloomEffectHandle("shaders/anim.ksh")
 
         inst.entity:AddMiniMapEntity()
-        inst.MiniMapEntity:SetIcon("dota_gem_of_true_sight.png")
+        inst.MiniMapEntity:SetIcon("purplemooneye.png")
+        -- inst.MiniMapEntity:SetIcon("dota_gem_of_true_sight.png")
         inst.MiniMapEntity:SetCanUseCache(false)
         inst.MiniMapEntity:SetDrawOverFogOfWar(true)
 
+        MakeInventoryPhysics(inst)
+    
         inst.entity:AddLight()
         inst.Light:SetFalloff(FALLOFF) -- 衰减
         inst.Light:SetIntensity(INTENSITY) -- 光强
