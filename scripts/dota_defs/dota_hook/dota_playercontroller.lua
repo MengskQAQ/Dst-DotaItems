@@ -78,6 +78,7 @@ AddComponentPostInit("playercontroller", function(self, inst)
 
 -- end
 
+    -- 在官方的设想里，右键是不能触发AOE的，因此我们需要在此处修改对我们武器的AOE的判定，使其能够右键执行
     local old_IsAOETargeting = self.IsAOETargeting
     function self:IsAOETargeting()
         return (self.dota_takeoveraoetargeting == false) and old_IsAOETargeting(self)
@@ -91,22 +92,25 @@ AddComponentPostInit("playercontroller", function(self, inst)
         return self.dota_takeoveraoetargeting
     end
 
-    -- 在官方的设想里，右键是不能触发AOE的，因此我们需要在此处修改对我们武器的AOE的判定，使其能够右键执行
     -- local old_OnRightClick = self.OnRightClick
     -- function self:OnRightClick(down)
-    --     -- 如果当前触发 aoetargrting 的是我们的 dota 系武器，那么接管 IsAOETargeting ,使得 OnRightClick 能执行 DoAction
-    --     -- if self:Dota_IsTakeOverAOETargeting() then
-    --     --     local item = self.inst.components.dotacharacter and self.inst.components.dotacharacter:GetActivateItem()
-    --     --     if item and item.components.aoetargrting then
-    --     --         self:Dota_TakeOverAOETargeting(true) -- 我们在此处接管 IsAOETargeting ，然后在 action 里面放弃接管
-    --     --     else
-    --     --         self:Dota_TakeOverAOETargeting(false)
-    --     --     end
-    --     -- end
-    --     old_OnRightClick(self, down)
-    --     -- if not self.ismastersim and self:Dota_IsTakeOverAOETargeting() and self.inst.replica.dotacharacter then
-    --     --     self.inst.replica.dotacharacter:StartAOETargetingUsing()
-    --     -- end
+        -- 如果当前触发 aoetargrting 的是我们的 dota 系武器，那么接管 IsAOETargeting ,使得 OnRightClick 能执行 DoAction
+        -- if self:Dota_IsTakeOverAOETargeting() then
+        --     local item = self.inst.components.dotacharacter and self.inst.components.dotacharacter:GetActivateItem()
+        --     if item and item.components.aoetargrting then
+        --         self:Dota_TakeOverAOETargeting(true) -- 我们在此处接管 IsAOETargeting ，然后在 action 里面放弃接管
+        --     else
+        --         self:Dota_TakeOverAOETargeting(false)
+        --     end
+        -- end
+        -- old_OnRightClick(self, down)
+        -- self:Dota_TakeOverAOETargeting(false)
+        -- if self:IsAOETargeting() then
+        --     self:CancelAOETargeting()
+        -- end
+        -- if not self.ismastersim and self:Dota_IsTakeOverAOETargeting() and self.inst.replica.dotacharacter then
+        --     self.inst.replica.dotacharacter:StartAOETargetingUsing()
+        -- end
     -- end
 
     --------------------------------回城卷轴 or 远行鞋I or 飞鞋 or 远行鞋II or 大飞鞋---------------------------------------

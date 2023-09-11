@@ -103,6 +103,8 @@ if actionqueuer_status then
     end
 end
 
+-----------------------------------------------激活装备-------------------------------------------------
+
 STRINGS.ACTIONS.ACTIVATEITEM = {
 	ACTIVATEITEM = STRINGS.DOTA.NEWACTION.ACTIVATEITEM,
 }
@@ -111,6 +113,16 @@ STRINGS.ACTIONS.ACTIVATEITEM = {
 for k, v in pairs(STRINGS.DOTA.NEWACTION) do
 	STRINGS.ACTIONS.ACTIVATEITEM[k] = v
 end
+
+local function AoeInActivate(val)
+	if TheNet:GetIsClient() then
+		if ThePlayer and ThePlayer.components.playercontroller then
+			ThePlayer.components.playercontroller:CancelAOETargeting()
+		end
+	end
+end
+
+AddClientModRPCHandler("DOTARPC", "AOEINACTIVATE", AoeInActivate)
 
 --------------------------------回城卷轴 or 远行鞋I or 飞鞋 or 远行鞋II or 大飞鞋---------------------------------------
 local function ActionCanMaphop(act)
@@ -179,6 +191,7 @@ local MapScreen = require "screens/mapscreen"
 local Text = require("widgets/text")
 
 local deco = MapScreen.ProcessRMBDecorations
+---@diagnostic disable-next-line: duplicate-set-field
 MapScreen.ProcessRMBDecorations = function (self,rmb, fresh)
     if rmb.action == GLOBAL.ACTIONS.DOTA_TPSCROLL_MAP then
         if fresh then
