@@ -2,7 +2,7 @@
 
 GLOBAL.setmetatable(env, { __index = function(t, k) return GLOBAL.rawget(GLOBAL, k) end })
 local require = GLOBAL.require
-require("debug_dota")
+-- require("debug_dota")
 
 -- 语言
 local language = GetModConfigData("language") or "AUTO"
@@ -19,7 +19,9 @@ modimport("init/init_assets")
 --tuning 各类预设数值
 modimport("init/init_tuning")
 
+-- 真视宝石
 AddMinimapAtlas("minimap/dota_gem_of_true_sight.xml")
+AddMinimapImage("dota_gem_of_true_sight")
 
 -- rpc注册
 AddReplicableComponent("dotacharacter")

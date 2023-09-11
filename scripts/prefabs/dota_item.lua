@@ -4,13 +4,16 @@
 -----------------------------------------------------------------------
 
 --[[
-该架构目前提供的物品格式为
+该架构目前提供的物品格式有
 
 item = {
 	name = string, 物品名称ID (必须)
     animname = string, 物品动画名 (必须)
 	animzip = string, 物品动画文件 (必须)
 	taglist = {}, 物品标签
+
+	assets = {}, 物品额外加载的资源
+	asset = {}, 启用此表时，仅加载此表的assets资源
 
 	manacost = int, 消耗的魔法值
 	healthcost = int, 消耗的生命值
@@ -32,7 +35,7 @@ item = {
 	aoetargeting = {	激活时是否有范围显示
 		reticuleprefab = string,
 		pingprefab = string,
-		targetfn = function () end,
+		targetfn = function() end,
 		validcolour = { 1, .75, 0, 1 },
 		invalidcolour = { .5, 0, 0, 1 },
 		ease = bool,
@@ -85,6 +88,9 @@ local function MakeCertificate(def)
 		for _,v in ipairs(def.assets) do
 			table.insert(assets, v)
 		end
+	end
+	if def.asset and #def.asset>0 then
+		assets = def.asset
 	end
 --	print("[debug]" .. def.name .. "  assert:" .. def.animzip.."/"..def.name..".xml")
 	--存储函数
