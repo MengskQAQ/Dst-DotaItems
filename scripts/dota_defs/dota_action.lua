@@ -2661,11 +2661,10 @@ actions.protect = {
 		 act.target:HasTag("player") and not act.target:HasTag("playerghost") then
 			local item = FindActivateItemByDoer(act.doer, "dota_pavise")
 			if item == nil then return ActionFailed(act.doer) end
+			if not act.target.components.dotaattributes then return ActionFailed(act.doer) end
 			if not IsManaEnough(act.doer, item) then return true end
 			if not RechargeCheck(item, TUNING.DOTA.PAVISE.PROTECT.CD, act.doer) then return true end
-			if act.target.components.dotaattributes ~= nil then
-				act.target.components.dotaattributes:CreateNormalShield("dota_shield_protectfx")
-			end
+			act.target.components.dotaattributes:CreateNormalShield("dota_shield_protectfx")
 			ChangeActivate(item, act.doer)
 			ItemManaDelta(act.doer, item, nil ,"dota_protect")
 			return true
@@ -3453,8 +3452,11 @@ local component_actions = {
 			{
 				action = "DOTA_GRENADE",
 				testfn = function(inst, doer, pos, actions, right, target)
-					return doer:HasTag("dota_grenade") and right 
-					 and not TheWorld.Map:IsGroundTargetBlocked(pos)
+					if doer:HasTag("dota_grenade") and doer.replica.dotacharacter then
+						local item = doer.replica.dotacharacter:GetActivateItem()
+						return StandardAOEtargetingTest(item, pos)
+					end
+					return false
 				end,
 			},
 
