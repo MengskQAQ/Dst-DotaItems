@@ -1,4 +1,4 @@
-STRINGS = GLOBAL.STRINGS
+-- STRINGS = GLOBAL.STRINGS
 if STRINGS.DOTA == nil then
 	STRINGS.DOTA = {}
 end
@@ -853,6 +853,7 @@ STRINGS.DOTA.NEWACTION = {
 --------------------------------------------------------------------------------------------------
 ---------------------------------------------台词-------------------------------------------------
 --------------------------------------------------------------------------------------------------
+if STRINGS.DOTA.SPEECH == nil then STRINGS.DOTA.SPEECH = {} end
 
 --通用台词
 STRINGS.DOTA.SPEECH = {
