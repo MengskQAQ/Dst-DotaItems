@@ -1,20 +1,20 @@
-STRINGS = GLOBAL.STRINGS
+-- STRINGS = GLOBAL.STRINGS
 if STRINGS.DOTA == nil then
 	STRINGS.DOTA = {}
 end
---鼠标悬停制作站图标时展现文字
+--what show when mouse on the repices
 STRINGS.UI.CRAFTING_FILTERS["DOTASHOP"] = "Dota2 Shop"
 -- STRINGS.UI.CRAFTING_STATION_FILTERS.DOTASHOP = "Dota2 Shop"
 
 --------------------------------------------------------------------------------------------------
-----------------------------------------------Item------------------------------------------------
+--------------------------------------------- Item -----------------------------------------------
 --------------------------------------------------------------------------------------------------
---装备栏
+--equipslots
 STRINGS.NAMES.DOTA_BOX = "EquipSlot" -- Item's name in game
 STRINGS.CHARACTERS.GENERIC.DESCRIBE.DOTA_BOX = "It can hold everything" -- description while check
 STRINGS.RECIPE_DESC.DOTA_BOX = "This is the beginning" -- description in recipe
 
--------------------------------------------Consumables------------------------------------------------
+------------------------------------------ Consumables -----------------------------------------------
 -- 回城卷轴
 STRINGS.NAMES.DOTA_TOWN_PORTAL_SCROLL = "Town Portal Scroll"
 STRINGS.CHARACTERS.GENERIC.DESCRIBE.DOTA_TOWN_PORTAL_SCROLL = "What a hero truly needs."
@@ -38,7 +38,7 @@ STRINGS.RECIPE_DESC.DOTA_SENTRY_WARD = "Sentry Ward"
 -- 诡计之雾
 STRINGS.NAMES.DOTA_SMOKE_OF_DECEIT = "Smoke Of Deceit"
 STRINGS.CHARACTERS.GENERIC.DESCRIBE.DOTA_SMOKE_OF_DECEIT = "The charlatan wizard Myrddin's only true contribution to the arcane arts."
-STRINGS.RECIPE_DESC.DOTA_SMOKE_OF_DECEIT = "开雾"
+STRINGS.RECIPE_DESC.DOTA_SMOKE_OF_DECEIT = "smoke"
 -- 阿哈利姆魔晶
 STRINGS.NAMES.DOTA_AGHANIMS_SHARD = "Aghanims Shard"
 STRINGS.CHARACTERS.GENERIC.DESCRIBE.DOTA_AGHANIMS_SHARD = "With origins known only to a single wizard, fragments of this impossible crystal are nearly as coveted as the renowned scepter itself."
@@ -71,7 +71,7 @@ STRINGS.RECIPE_DESC.DOTA_TOME_OF_KNOWLEDGE = "heal"
 STRINGS.NAMES.DOTA_BLOOD_GRENADE = "Blood Grenade"
 STRINGS.CHARACTERS.GENERIC.DESCRIBE.DOTA_BLOOD_GRENADE = "Blood Grenade"
 STRINGS.RECIPE_DESC.DOTA_BLOOD_GRENADE = "Grenade"
--------------------------------------------Attributes--------------------------------------------------
+------------------------------------------- Attributes --------------------------------------------------
 -- 法师长袍
 STRINGS.NAMES.DOTA_ROBE_OF_THE_MAGI = "Robe Of The Magi"
 STRINGS.CHARACTERS.GENERIC.DESCRIBE.DOTA_ROBE_OF_THE_MAGI = "This robe corrupts the soul of the user, but provides wisdom in return."
@@ -124,7 +124,7 @@ STRINGS.RECIPE_DESC.DOTA_MANTLE_OF_INTELLIGENCE = "Intelligence"
 STRINGS.NAMES.DOTA_DIADEM = "diadem"
 STRINGS.CHARACTERS.GENERIC.DESCRIBE.DOTA_DIADEM = "Null"
 STRINGS.RECIPE_DESC.DOTA_DIADEM = "Attributes"
--------------------------------------------Equipment--------------------------------------------------
+------------------------------------------- Equipment --------------------------------------------------
 --  标枪
 STRINGS.NAMES.DOTA_JAVELIN = "Javelin"
 STRINGS.CHARACTERS.GENERIC.DESCRIBE.DOTA_JAVELIN = "A rather typical spear that can sometimes pierce through an enemy's armor when used to attack."
@@ -185,7 +185,7 @@ STRINGS.RECIPE_DESC.DOTA_HELM_OF_IRON_WILL = "armor"
 STRINGS.NAMES.DOTA_QUELLING_BLADE = "Quelling Blade"
 STRINGS.CHARACTERS.GENERIC.DESCRIBE.DOTA_QUELLING_BLADE = "The axe of a fallen gnome, it allows you to effectively maneuver the forest."
 STRINGS.RECIPE_DESC.DOTA_QUELLING_BLADE = "chop tree"
--------------------------------------------Miscellaneous--------------------------------------------------
+------------------------------------------- Miscellaneous --------------------------------------------------
 -- 暗影护符
 STRINGS.NAMES.DOTA_SHADOW_AMULET = "Shadow Amulet"
 STRINGS.CHARACTERS.GENERIC.DESCRIBE.DOTA_SHADOW_AMULET = "A small talisman that clouds the senses of one's enemies when held perfectly still."
@@ -238,7 +238,7 @@ STRINGS.RECIPE_DESC.DOTA_GHOST_SCEPTER = "ethereal"
 STRINGS.NAMES.DOTA_GEM_OF_TRUE_SIGHT = "Gem Of True Sight"
 STRINGS.CHARACTERS.GENERIC.DESCRIBE.DOTA_GEM_OF_TRUE_SIGHT = "Not one thrall creature of the depths\nNor spirit bound in drowning's keep\nNor Maelrawn the Tentacular\nShall rest till seas, gem comes to sleep"
 STRINGS.RECIPE_DESC.DOTA_GEM_OF_TRUE_SIGHT = "In development"
--------------------------------------------Secret----------------------------------------------
+------------------------------------------- Secret ----------------------------------------------
 -- 板甲
 STRINGS.NAMES.DOTA_PLATEMAIL = "Platemail"
 STRINGS.CHARACTERS.GENERIC.DESCRIBE.DOTA_PLATEMAIL = "Thick metal plates that protect the entire upper body. Avoid dropping on feet."
@@ -299,7 +299,7 @@ STRINGS.RECIPE_DESC.DOTA_HYPERSTONE = "attack speed"
 STRINGS.NAMES.DOTA_CORNUCOPIA = "Cornucopia"
 STRINGS.CHARACTERS.GENERIC.DESCRIBE.DOTA_CORNUCOPIA = "Null"
 STRINGS.RECIPE_DESC.DOTA_CORNUCOPIA = "regen"
--------------------------------------------Accessories--------------------------------------------------
+------------------------------------------- Accessories --------------------------------------------------
 -- 动力鞋 or 假腿
 STRINGS.NAMES.DOTA_POWER_TREADS = "Power Treads"
 STRINGS.CHARACTERS.GENERIC.DESCRIBE.DOTA_POWER_TREADS = "A pair of tough-skinned boots that change to meet the demands of the wearer."
@@ -372,7 +372,7 @@ STRINGS.RECIPE_DESC.DOTA_WRAITH_BAND = "Agility"
 STRINGS.NAMES.DOTA_HELM_OF_THE_DOMINATOR = "Helm Of The Dominator"
 STRINGS.CHARACTERS.GENERIC.DESCRIBE.DOTA_HELM_OF_THE_DOMINATOR = "The powerful headpiece of a dead necromancer."
 STRINGS.RECIPE_DESC.DOTA_HELM_OF_THE_DOMINATOR = "Dominate"
--------------------------------------------Support--------------------------------------------------
+------------------------------------------- Support --------------------------------------------------
 -- 奥术鞋 or 秘法鞋
 STRINGS.NAMES.DOTA_ARCANE_BOOTS = "Arcane Boots"
 STRINGS.CHARACTERS.GENERIC.DESCRIBE.DOTA_ARCANE_BOOTS = "Magi equipped with these boots are valued in battle."
@@ -441,7 +441,7 @@ STRINGS.RECIPE_DESC.DOTA_WRAITH_PACT = "call pig guardian"
 STRINGS.NAMES.DOTA_PAVISE = "pavise"
 STRINGS.CHARACTERS.GENERIC.DESCRIBE.DOTA_PAVISE = "Null"
 STRINGS.RECIPE_DESC.DOTA_PAVISE = "protect"
--------------------------------------------Magical--------------------------------------------------
+------------------------------------------- Magical --------------------------------------------------
 -- 吹风 OR EUL的神圣法杖
 STRINGS.NAMES.DOTA_EULS_SCEPTER_OF_DIVINITY = "Eul's Scepter Of Divinity"
 STRINGS.CHARACTERS.GENERIC.DESCRIBE.DOTA_EULS_SCEPTER_OF_DIVINITY = "A mysterious scepter passed down through the ages, its disruptive winds can be used for good or evil."
@@ -522,7 +522,7 @@ STRINGS.RECIPE_DESC.DOTA_FORCE_STAFF = "force"
 STRINGS.NAMES.DOTA_ORCHID_MALEVOLENCE = "Orchid Malevolence"
 STRINGS.CHARACTERS.GENERIC.DESCRIBE.DOTA_ORCHID_MALEVOLENCE = "A garnet rod constructed from the essence of a fire demon."
 STRINGS.RECIPE_DESC.DOTA_ORCHID_MALEVOLENCE = "damage"
--------------------------------------------Armor--------------------------------------------------
+------------------------------------------- Armor --------------------------------------------------
 -- 赤红甲
 STRINGS.NAMES.DOTA_CRIMSON_GUARD = "Crimson Guard"
 STRINGS.CHARACTERS.GENERIC.DESCRIBE.DOTA_CRIMSON_GUARD = "A cuirass originally built to protect against the dreaded Year Beast."
@@ -587,7 +587,7 @@ STRINGS.RECIPE_DESC.DOTA_ETERNAL_SHROUD = "defence magic"
 STRINGS.NAMES.DOTA_SOUL_BOOSTER = "Soul Booster"
 STRINGS.CHARACTERS.GENERIC.DESCRIBE.DOTA_SOUL_BOOSTER = "Regain lost courage."
 STRINGS.RECIPE_DESC.DOTA_SOUL_BOOSTER = "Attributes"
--------------------------------------------Weapons--------------------------------------------------
+------------------------------------------- Weapons --------------------------------------------------
 -- 黯灭
 STRINGS.NAMES.DOTA_DESOLATOR = "Desolator"
 STRINGS.CHARACTERS.GENERIC.DESCRIBE.DOTA_DESOLATOR = "A wicked weapon, used in torturing political criminals."
@@ -664,7 +664,7 @@ STRINGS.RECIPE_DESC.DOTA_METEOR_HAMMER = "meteor shower"
 STRINGS.NAMES.DOTA_DISPERSER = "Disperser"
 STRINGS.CHARACTERS.GENERIC.DESCRIBE.DOTA_DISPERSER = "Null"
 STRINGS.RECIPE_DESC.DOTA_DISPERSER = "In development"
--------------------------------------------Artifacts--------------------------------------------------
+------------------------------------------- Artifacts --------------------------------------------------
 -- 法师克星
 STRINGS.NAMES.DOTA_MAGE_SLAYER = "Mage Slayer"
 STRINGS.CHARACTERS.GENERIC.DESCRIBE.DOTA_MAGE_SLAYER = "Forged by a secret order in The Third Age of Praxa'cia to fell the False King."
@@ -745,7 +745,7 @@ STRINGS.RECIPE_DESC.DOTA_HARPOON = "In development"
 STRINGS.NAMES.DOTA_PHYLACTERY = "Phylactery"
 STRINGS.CHARACTERS.GENERIC.DESCRIBE.DOTA_PHYLACTERY = "Null"
 STRINGS.RECIPE_DESC.DOTA_PHYLACTERY = "In development"
--------------------------------------------肉山--------------------------------------------------
+------------------------------------------- Roshan --------------------------------------------------
 -- 不朽之守护
 STRINGS.NAMES.DOTA_AEGIS_OF_THE_IMMORTAL = "Aegis Of The Immortal"
 STRINGS.CHARACTERS.GENERIC.DESCRIBE.DOTA_AEGIS_OF_THE_IMMORTAL = "The Immortal was said to own a shield that protected him from death itself."
@@ -760,9 +760,9 @@ STRINGS.CHARACTERS.GENERIC.DESCRIBE.DOTA_REFRESHER_SHARD = "Across an epoch of e
 STRINGS.RECIPE_DESC.DOTA_REFRESHER_SHARD = "reflash cooldown"
 
 --------------------------------------------------------------------------------------------------
---------------------------------------------Action------------------------------------------------
+------------------------------------------- Action -----------------------------------------------
 --------------------------------------------------------------------------------------------------
---动作名称
+-- name of actions
 STRINGS.DOTA.NEWACTION = {
 	ACTIVATEITEM = "Activate",
 	WEARDOTAEQUIP = "Wear",
@@ -855,7 +855,7 @@ STRINGS.DOTA.NEWACTION = {
 --------------------------------------------------------------------------------------------------
 if STRINGS.DOTA.SPEECH == nil then STRINGS.DOTA.SPEECH = {} end
 
---通用台词
+-- common speech
 STRINGS.DOTA.SPEECH = {
 	COOLDOWN = {
 		"It's not ready",
@@ -888,69 +888,69 @@ STRINGS.DOTA.LACKMANA = "Lacks Mana"
 ------------------------------------------Buff Name-----------------------------------------------
 --------------------------------------------------------------------------------------------------
 -- For Functional Medal
-STRINGS.NAMES.BUFF_DOTA_CLARITY = "净化"
-STRINGS.NAMES.BUFF_DOTA_SMOKE = "潜行"
-STRINGS.NAMES.BUFF_DOTA_DUST = "显形"
-STRINGS.NAMES.BUFF_DOTA_DEVOU = "回复"
-STRINGS.NAMES.BUFF_DOTA_SALVE = "治疗"
-STRINGS.NAMES.BUFF_DOTA_VENOM = "中毒"
-STRINGS.NAMES.BUFF_DOTA_BLIGHT = "减甲"
-STRINGS.NAMES.BUFF_DOTA_FADING = "渐隐"
-STRINGS.NAMES.BUFF_DOTA_BERSERK = "狂热"
-STRINGS.NAMES.BUFF_DOTA_CORROSION = "腐蚀"
-STRINGS.NAMES.BUFF_DOTA_SACRIFICE = "献身"
-STRINGS.NAMES.BUFF_DOTA_PHASE = "相位移动"
-STRINGS.NAMES.BUFF_DOTA_RELEASE_POSITIVE = "灵魂释放"
-STRINGS.NAMES.BUFF_DOTA_RELEASE_NEGTIVE = "灵魂缠绕"
-STRINGS.NAMES.BUFF_DOTA_RELEASEPLUS_POSITIVE = "灵魂释放"
-STRINGS.NAMES.BUFF_DOTA_RELEASEPLUS_NEGTIVE = '灵魂缠绕'
-STRINGS.NAMES.BUFF_DOTA_ENDURANCE = "坚韧"
-STRINGS.NAMES.BUFF_DOTA_ENDURANCEDRUM = "坚韧"
-STRINGS.NAMES.BUFF_DOTA_VALOR_POSITIVE = '无畏'
-STRINGS.NAMES.BUFF_DOTA_VALOR_NEGTIVE = "畏惧"
-STRINGS.NAMES.BUFF_DOTA_GLIMMER = "微光"
-STRINGS.NAMES.BUFF_DOTA_BLADE = "巫师之刃"
-STRINGS.NAMES.BUFF_DOTA_VALOR_SELF = "日落"
-STRINGS.NAMES.BUFF_DOTA_SHINE_NEGTIVE = "日落"
-STRINGS.NAMES.BUFF_DOTA_SHINE_POSITIVE = "日耀"
-STRINGS.NAMES.BUFF_DOTA_GUARD = "坚盾"
-STRINGS.NAMES.BUFF_DOTA_SHELL = "回音护盾"
-STRINGS.NAMES.BUFF_DOTA_RETURN = "伤害反弹"
-STRINGS.NAMES.BUFF_DOTA_BREAKER = "强断连招"
-STRINGS.NAMES.BUFF_DOTA_CORRUPTION = "毁蚀"
-STRINGS.NAMES.BUFF_DOTA_WALKPLUS = "暗影步"
-STRINGS.NAMES.BUFF_DOTA_WALK = "暗影步"
-STRINGS.NAMES.BUFF_DOTA_FLUTTER = "振翅"
-STRINGS.NAMES.BUFF_DOTA_SWIFT = "迅疾"
-STRINGS.NAMES.BUFF_DOTA_ARCANE = "秘奥"
-STRINGS.NAMES.BUFF_DOTA_OVERWHELMING = '盛势'
-STRINGS.NAMES.BUFF_DOTA_DISARM = "缴械"
-STRINGS.NAMES.BUFF_DOTA_RAGE = "狂热"
-STRINGS.NAMES.BUFF_DOTA_INHIBIT = "阻止"
-STRINGS.NAMES.BUFF_DOTA_LIGHTING = "静电冲击"
-STRINGS.NAMES.BUFF_DOTA_GHOSTFORM = "幽灵形态"
-STRINGS.NAMES.BUFF_DOTA_CRIPPLE = "致残"
-STRINGS.NAMES.BUFF_DOTA_SKADI = "霜冻"
-STRINGS.NAMES.BUFF_DOTA_AVATAR = "天神下凡"
-STRINGS.NAMES.BUFF_DOTA_REGENERATE = "恢复"
-STRINGS.NAMES.BUFF_DOTA_ETHEREAL = "虚化冲击"
-STRINGS.NAMES.BUFF_DOTA_BURN = "灼烧"
-STRINGS.NAMES.BUFF_DOTA_CYCLONE = "龙卷风"
-STRINGS.NAMES.BUFF_DOTA_CYCLONEPLUS = "龙卷风"
-STRINGS.NAMES.BUFF_DOTA_BURNX = "灵魂燃烧"
-STRINGS.NAMES.BUFF_DOTA_REND = "灵魂撕裂"
-STRINGS.NAMES.BUFF_DOTA_ECHO = "回音一击"
-STRINGS.NAMES.BUFF_DOTA_BLOODPACT = '血之契约'
-STRINGS.NAMES.BUFF_DOTA_BLOODPACTCD = "血之疲惫"
-STRINGS.NAMES.BUFF_DOTA_PROVINCE = "幻影之域"
-STRINGS.NAMES.BUFF_DOTA_NULLIFIER = "否决"
-STRINGS.NAMES.BUFF_DOTA_RUNE_ARCANE = "奥术"
-STRINGS.NAMES.BUFF_DOTA_RUNE_BOUNTY = "赏金"
-STRINGS.NAMES.BUFF_DOTA_RUNE_DOUBLE = "双倍伤害"
-STRINGS.NAMES.BUFF_DOTA_RUNE_HASTE = "急速"
-STRINGS.NAMES.BUFF_DOTA_RUNE_ILLUSION = "幻象"
-STRINGS.NAMES.BUFF_DOTA_RUNE_INVISBILITY = "隐身"
-STRINGS.NAMES.BUFF_DOTA_RUNE_REGENERATION = "恢复"
-STRINGS.NAMES.BUFF_DOTA_RUNE_SHIELD = "护盾"
-STRINGS.NAMES.BUFF_DOTA_RUNE_WATER = "圣水"
-STRINGS.NAMES.BUFF_DOTA_RUNE_WISDOM = "智慧"
+STRINGS.NAMES.BUFF_DOTA_CLARITY = "Replenish"
+STRINGS.NAMES.BUFF_DOTA_SMOKE = "Invisibility"
+STRINGS.NAMES.BUFF_DOTA_DUST = "Appeared"
+STRINGS.NAMES.BUFF_DOTA_DEVOU = "Healing"
+STRINGS.NAMES.BUFF_DOTA_SALVE = "Healing"
+STRINGS.NAMES.BUFF_DOTA_VENOM = "Poisoned"
+STRINGS.NAMES.BUFF_DOTA_BLIGHT = "Corruption"
+STRINGS.NAMES.BUFF_DOTA_FADING = "Fading"
+STRINGS.NAMES.BUFF_DOTA_BERSERK = "Berserk"
+STRINGS.NAMES.BUFF_DOTA_CORROSION = "Corruption"
+STRINGS.NAMES.BUFF_DOTA_SACRIFICE = "Sacrifice"
+STRINGS.NAMES.BUFF_DOTA_PHASE = "Phase"
+STRINGS.NAMES.BUFF_DOTA_RELEASE_POSITIVE = "SoulRelease"
+STRINGS.NAMES.BUFF_DOTA_RELEASE_NEGTIVE = "SoulTwine"
+STRINGS.NAMES.BUFF_DOTA_RELEASEPLUS_POSITIVE = "Soulrelease"
+STRINGS.NAMES.BUFF_DOTA_RELEASEPLUS_NEGTIVE = "Soultwine"
+STRINGS.NAMES.BUFF_DOTA_ENDURANCE = "Endurance"
+STRINGS.NAMES.BUFF_DOTA_ENDURANCEDRUM = "Endurance"
+STRINGS.NAMES.BUFF_DOTA_VALOR_POSITIVE = "Fearless"
+STRINGS.NAMES.BUFF_DOTA_VALOR_NEGTIVE = "Fear"
+STRINGS.NAMES.BUFF_DOTA_GLIMMER = "Glimmer"
+STRINGS.NAMES.BUFF_DOTA_BLADE = "WitchBlade"
+STRINGS.NAMES.BUFF_DOTA_VALOR_SELF = "SunSet"
+STRINGS.NAMES.BUFF_DOTA_SHINE_NEGTIVE = "SunSet"
+STRINGS.NAMES.BUFF_DOTA_SHINE_POSITIVE = "SunUp"
+STRINGS.NAMES.BUFF_DOTA_GUARD = "Guard"
+STRINGS.NAMES.BUFF_DOTA_SHELL = "EchoShell"
+STRINGS.NAMES.BUFF_DOTA_RETURN = "DamageReturn"
+STRINGS.NAMES.BUFF_DOTA_BREAKER = "ComboBreaker"
+STRINGS.NAMES.BUFF_DOTA_CORRUPTION = "Corruption"
+STRINGS.NAMES.BUFF_DOTA_WALKPLUS = "Shadowwalk"
+STRINGS.NAMES.BUFF_DOTA_WALK = "Shadowwalk"
+STRINGS.NAMES.BUFF_DOTA_FLUTTER = "Flutter"
+STRINGS.NAMES.BUFF_DOTA_SWIFT = "Swift"
+STRINGS.NAMES.BUFF_DOTA_ARCANE = "Arcane"
+STRINGS.NAMES.BUFF_DOTA_OVERWHELMING = "Overwhelming"
+STRINGS.NAMES.BUFF_DOTA_DISARM = "Disarm"
+STRINGS.NAMES.BUFF_DOTA_RAGE = "Rage"
+STRINGS.NAMES.BUFF_DOTA_INHIBIT = "Inhibit"
+STRINGS.NAMES.BUFF_DOTA_LIGHTING = "Lighting"
+STRINGS.NAMES.BUFF_DOTA_GHOSTFORM = "Ghostform"
+STRINGS.NAMES.BUFF_DOTA_CRIPPLE = "Cripple"
+STRINGS.NAMES.BUFF_DOTA_SKADI = "Skadi"
+STRINGS.NAMES.BUFF_DOTA_AVATAR = "Avatar"
+STRINGS.NAMES.BUFF_DOTA_REGENERATE = "Regenerate"
+STRINGS.NAMES.BUFF_DOTA_ETHEREAL = "Ethereal"
+STRINGS.NAMES.BUFF_DOTA_BURN = "Burn"
+STRINGS.NAMES.BUFF_DOTA_CYCLONE = "Cyclone"
+STRINGS.NAMES.BUFF_DOTA_CYCLONEPLUS = "Cyclone"
+STRINGS.NAMES.BUFF_DOTA_BURNX = "SoulBurnx"
+STRINGS.NAMES.BUFF_DOTA_REND = "SoulRend"
+STRINGS.NAMES.BUFF_DOTA_ECHO = "Echo"
+STRINGS.NAMES.BUFF_DOTA_BLOODPACT = 'BloodPact'
+STRINGS.NAMES.BUFF_DOTA_BLOODPACTCD = "BloodPactcd"
+STRINGS.NAMES.BUFF_DOTA_PROVINCE = "Province"
+STRINGS.NAMES.BUFF_DOTA_NULLIFIER = "Nullifier"
+STRINGS.NAMES.BUFF_DOTA_RUNE_ARCANE = "Arcane"
+STRINGS.NAMES.BUFF_DOTA_RUNE_BOUNTY = "Bounty"
+STRINGS.NAMES.BUFF_DOTA_RUNE_DOUBLE = "Doubledamage"
+STRINGS.NAMES.BUFF_DOTA_RUNE_HASTE = "Haste"
+STRINGS.NAMES.BUFF_DOTA_RUNE_ILLUSION = "Illusion"
+STRINGS.NAMES.BUFF_DOTA_RUNE_INVISBILITY = "Invisbility"
+STRINGS.NAMES.BUFF_DOTA_RUNE_REGENERATION = "Regeneration"
+STRINGS.NAMES.BUFF_DOTA_RUNE_SHIELD = "Shield"
+STRINGS.NAMES.BUFF_DOTA_RUNE_WATER = "Water"
+STRINGS.NAMES.BUFF_DOTA_RUNE_WISDOM = "Wisdom"

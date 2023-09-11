@@ -1349,6 +1349,9 @@ buff_defs.buff_dota_echoattack={
 		if inst._onhitother == nil then
 			inst._onhitother = function(owner, data)
 				inst.components.debuff:Stop()
+				if data and data.target and data.target.components.debuffable then
+					data.target.components.debuffable:AddDebuff("buff_dota_echo", "buff_dota_echo")
+				end
 			end
 		end
 		inst:ListenForEvent("onhitother", inst._onhitother, target)

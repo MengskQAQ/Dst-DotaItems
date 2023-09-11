@@ -74,6 +74,7 @@ ability_defs.ability_dota_blade={
 	end,
 }
 -------------------------------------------------回音战刃 or 连击刀-------------------------------------------------
+local ECHO_CD = TUNING.DOTA.ECHO_SABRE.ECHO.CD
 local function OnResetEcho(inst)
     inst.noechotask = nil
 end
@@ -84,7 +85,8 @@ ability_defs.ability_dota_echo={
 		if inst._onhitother == nil then
 			inst._onhitother = function(owner, data)
 				if inst.noechotask == nil and data and data.target then
-					inst.noechotask = inst:DoTaskInTime(TUNING.DOTA.ECHO_SABRE.ECHO.CD, OnResetEcho)
+					local cdreduction = owner.components.dotaattributes.cdreduction:Get()
+					inst.noechotask = inst:DoTaskInTime(ECHO_CD * cdreduction, OnResetEcho)
 					AddDebuff(data.target, "buff_dota_echo")
 					if owner and owner.components.combat then
 						owner.components.combat:ResetCooldown()
