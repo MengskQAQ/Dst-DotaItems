@@ -21,6 +21,7 @@ Assets = {
     Asset("IMAGE", "images/dota_ui/dotaequip_slot.tex"),
 
     --真视宝石
-    Asset("ATLAS", "minimap/dota_gem_of_true_sight.xml"),
-    Asset("IMAGE", "minimap/dota_gem_of_true_sight.tex"),
+    Asset("ATLAS", "minimap/dota_gem_of_true_sight_icon.xml"),
+    Asset("IMAGE", "minimap/dota_gem_of_true_sight_icon.tex"),
+    -- Asset("MINIMAP_IMAGE", "dota_gem_of_true_sight"),
 }

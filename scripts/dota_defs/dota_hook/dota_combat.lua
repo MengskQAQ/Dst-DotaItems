@@ -461,11 +461,11 @@ AddComponentPostInit("combat", function(self)
 	-- 我们改一下命中的判定范围，考虑装备带来的攻击距离变化
 	local old_GetHitRange = self.GetHitRange
 	function self:GetHitRange()
-		return old_GetHitRange(self) + self.dota_damagerange + 10
+		return old_GetHitRange(self) + self.dota_damagerange
 	end
 	local old_GetAttackRange = self.GetAttackRange
 	function self:GetAttackRange()
-		return old_GetAttackRange(self) + self.dota_damagerange + 10
+		return old_GetAttackRange(self) + self.dota_damagerange
 	end
 
 	-- 用于更新attackrange

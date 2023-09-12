@@ -86,7 +86,7 @@ ability_defs.ability_dota_echo={
 			inst._onhitother = function(owner, data)
 				if inst.noechotask == nil and data and data.target then
 					local cdreduction = owner.components.dotaattributes.cdreduction:Get()
-					inst.noechotask = inst:DoTaskInTime(ECHO_CD * cdreduction, OnResetEcho)
+					inst.noechotask = inst:DoTaskInTime(ECHO_CD * (1 - cdreduction), OnResetEcho)
 					AddDebuff(data.target, "buff_dota_echo")
 					if owner and owner.components.combat then
 						owner.components.combat:ResetCooldown()

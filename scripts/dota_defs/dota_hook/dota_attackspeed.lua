@@ -75,18 +75,19 @@ local function ClientResetAttackPerior(state)
     if not state.timeline then 
         return 
     end
-    local old_onenter = state.old_onenter
+    local old_onenter = state.onenter
     state.onenter = function(inst, ...)
         if old_onenter then
             old_onenter(inst, ...)
         end
 
         if inst:HasTag("dotaattributes") then
-            local attackspeed = inst.replica.dotaattributes.attackspeed
+            local attackspeed = inst.replica.dotaattributes:GetAttackSpeed()
 			-- if attackspeed ~= 1 then
             if inst:HasTag("dota_echo") then
                 attackspeed = math.max(ATTACKSPEED, attackspeed)
             end
+            print("debug ".. attackspeed)
             inst.AnimState:SetDeltaTimeMultiplier(attackspeed)
             for _, v in pairs(state.timeline) do
                 v.dota_astime = v.dota_astime or v.time
