@@ -294,7 +294,7 @@ dota_item_other.dota_gem_of_true_sight = {    -- TODO:给宝石添加一个唯�
         "donotautopick",
     },
 	-- assets = {
-    --     Asset("MINIMAP_IMAGE", "dota_gem_of_true_sight"),
+    --     Asset("MINIMAP_IMAGE", "dota_gem_of_true_sight_icon"),
     -- },
     prefabs ={
         "globalmapicon",
@@ -309,8 +309,8 @@ dota_item_other.dota_gem_of_true_sight = {    -- TODO:给宝石添加一个唯�
         inst.AnimState:SetBloomEffectHandle("shaders/anim.ksh")
 
         inst.entity:AddMiniMapEntity()
-        inst.MiniMapEntity:SetIcon("purplemooneye.png")
-        -- inst.MiniMapEntity:SetIcon("dota_gem_of_true_sight_icon.png")
+        -- inst.MiniMapEntity:SetIcon("purplemooneye.png")
+        inst.MiniMapEntity:SetIcon("dota_gem_of_true_sight_icon.tex")
         inst.MiniMapEntity:SetPriority(11)
         inst.MiniMapEntity:SetCanUseCache(false)
         inst.MiniMapEntity:SetDrawOverFogOfWar(true)
