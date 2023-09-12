@@ -10,8 +10,6 @@ dota_item_protect.dota_crimson_guard = {
     name = "dota_crimson_guard",
     animname = "dota_crimson_guard",
 	animzip = "dota_protect", 
-	taglist = {
-    },
     sharedcoolingtype = "crimson",
 	onequipfn = function(inst,owner)
         owner.components.dotacharacter:AddExtraHealth(TUNING.DOTA.CRIMSON_GUARD.EXTRAHEALTH)
@@ -31,8 +29,6 @@ dota_item_protect.dota_black_king_bar = {
     name = "dota_black_king_bar",
     animname = "dota_black_king_bar",
 	animzip = "dota_protect", 
-	taglist = {
-    },
     sharedcoolingtype = "bkb",
     manacost = TUNING.DOTA.BLACK_KING_BAR.AVATAR.MANA,
 	onequipfn = function(inst,owner)
@@ -49,8 +45,6 @@ dota_item_protect.dota_manta_style = {
     name = "dota_manta_style",
     animname = "dota_manta_style",
 	animzip = "dota_protect", 
-	taglist = {
-    },
     sharedcoolingtype = "manta",
     manacost = TUNING.DOTA.MANTA_STYLE.MIRROR.MANA,
 	onequipfn = function(inst,owner)
@@ -77,8 +71,6 @@ dota_item_protect.dota_hurricane_pike = {
     name = "dota_hurricane_pike",
     animname = "dota_hurricane_pike",
 	animzip = "dota_protect", 
-	taglist = {
-    },
     activatename = "DOTA_THRUST",
     sharedcoolingtype = "force",
     manacost = TUNING.DOTA.HURRICANE_PIKE.THRUST.MANA,
@@ -100,8 +92,6 @@ dota_item_protect.dota_heart_of_tarrasque = {
     name = "dota_heart_of_tarrasque",
     animname = "dota_heart_of_tarrasque",
 	animzip = "dota_protect", 
-	taglist = {
-    },
 	onequipfn = function(inst,owner)
         owner.components.dotacharacter:AddStrength(TUNING.DOTA.HEART_OF_TARRASQUE.STRENGTH)
         owner.components.dotacharacter:AddHealthRegen(TUNING.DOTA.HEART_OF_TARRASQUE.HEALTHREGEN)
@@ -118,8 +108,6 @@ dota_item_protect.dota_linkens_sphere = {
     name = "dota_linkens_sphere",
     animname = "dota_linkens_sphere",
 	animzip = "dota_protect", 
-	taglist = {
-    },
     onequipfn = function(inst,owner)
         owner.components.dotacharacter:AddAttributes(TUNING.DOTA.LINKENS_SPHERE.ATTRIBUTES)
         owner.components.dotacharacter:AddHealthRegen(TUNING.DOTA.LINKENS_SPHERE.HEALTHREGEN)
@@ -137,8 +125,6 @@ dota_item_protect.dota_assault_cuirass = {
     name = "dota_assault_cuirass",
     animname = "dota_assault_cuirass",
 	animzip = "dota_protect", 
-	taglist = {
-    },
 	onequipfn = function(inst,owner)
         owner.components.dotacharacter:AddExtraArmor(TUNING.DOTA.ASSAULT_CUIRASS.EXTRAARMOR)
         owner.components.dotacharacter:AddAttackSpeed(TUNING.DOTA.ASSAULT_CUIRASS.ATTACKSPEED)
@@ -168,8 +154,6 @@ dota_item_protect.dota_lotus_orb = {
     name = "dota_lotus_orb",
     animname = "dota_lotus_orb",
 	animzip = "dota_protect", 
-	taglist = {
-    },
     activatename = "DOTA_SHELL",
     sharedcoolingtype = "lotus",
     manacost = TUNING.DOTA.LOTUS_ORB.SHELL.MANA,
@@ -191,8 +175,6 @@ dota_item_protect.dota_blade_mail = {
     name = "dota_blade_mail",
     animname = "dota_blade_mail",
 	animzip = "dota_protect", 
-	taglist = {
-    },
     sharedcoolingtype = "dr",
     manacost = TUNING.DOTA.BLADE_MAIL.RETURN.MANA,
 	onequipfn = function(inst,owner)
@@ -209,8 +191,6 @@ dota_item_protect.dota_hood_of_defiance = {
     name = "dota_hood_of_defiance",
     animname = "dota_hood_of_defiance",
 	animzip = "dota_protect", 
-	taglist = {
-    },
     sharedcoolingtype = "hood",
     manacost = TUNING.DOTA.HOOD_OF_DEFIANCE.INSULATION.MANA,
 	onequipfn = function(inst,owner)
@@ -227,8 +207,6 @@ dota_item_protect.dota_shivas_guard = {
     name = "dota_shivas_guard",
     animname = "dota_shivas_guard",
 	animzip = "dota_protect", 
-	taglist = {
-    },
     sharedcoolingtype = "shivas",
     manacost = TUNING.DOTA.MASK_OF_MADNESS.BERSERK.MANA,
 	onequipfn = function(inst,owner)
@@ -262,8 +240,6 @@ dota_item_protect.dota_vanguard = {
     name = "dota_vanguard",
     animname = "dota_vanguard",
 	animzip = "dota_protect", 
-	taglist = {
-    },
 	onequipfn = function(inst,owner)
         owner.components.dotacharacter:AddExtraHealth(TUNING.DOTA.VANGUARD.EXTRAHEALTH)
         owner.components.dotacharacter:AddHealthRegen(TUNING.DOTA.VANGUARD.HEALTHREGEN)
@@ -280,8 +256,6 @@ dota_item_protect.dota_bloodstone = {
     name = "dota_bloodstone",
     animname = "dota_bloodstone",
 	animzip = "dota_protect", 
-	taglist = {
-    },
 	onequipfn = function(inst,owner)
         owner.components.dotacharacter:AddMaxMana(TUNING.DOTA.BLOODSTONE.MAXMANA)
         owner.components.dotacharacter:AddExtraHealth(TUNING.DOTA.BLOODSTONE.EXTRAHEALTH)
@@ -312,8 +286,6 @@ dota_item_protect.dota_aeon_disk = {
     name = "dota_aeon_disk",
     animname = "dota_aeon_disk",
 	animzip = "dota_protect", 
-	taglist = {
-    },
 	onequipfn = function(inst,owner)
         owner.components.dotacharacter:AddMaxMana(TUNING.DOTA.AEON_DISK.MAXMANA)
         owner.components.dotacharacter:AddExtraHealth(TUNING.DOTA.AEON_DISK.EXTRAHEALTH)
@@ -345,8 +317,6 @@ dota_item_protect.dota_eternal_shroud = {
     name = "dota_eternal_shroud",
     animname = "dota_eternal_shroud",
 	animzip = "dota_protect", 
-	taglist = {
-    },
     sharedcoolingtype = "hood",
     manacost = TUNING.DOTA.SHROUD.SHROUD.MANA,
 	onequipfn = function(inst,owner)
@@ -365,8 +335,6 @@ dota_item_protect.dota_soul_booster = {
     name = "dota_soul_booster",
     animname = "dota_soul_booster",
 	animzip = "dota_protect", 
-	taglist = {
-    },
 	onequipfn = function(inst,owner)
         owner.components.dotacharacter:AddMaxMana(TUNING.DOTA.SOUL_BOOSTER.MAXMANA)
         owner.components.dotacharacter:AddExtraHealth(TUNING.DOTA.SOUL_BOOSTER.EXTRAHEALTH)

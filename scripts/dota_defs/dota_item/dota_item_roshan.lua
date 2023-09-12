@@ -9,8 +9,6 @@ dota_item_roshan.dota_aegis_of_the_immortal = {
     name = "dota_aegis",
     animname = "dota_aegis",
 	animzip = "dota_roshan", 
-	taglist = {
-    },
     -- mengsk_dota2_sounds/items/aegis_expire -- 时间到
     -- mengsk_dota2_sounds/items/aegis_timer -- 复活时
 }
@@ -31,7 +29,5 @@ dota_item_roshan.dota_refresher_shard = {
     name = "dota_refresher_shard",
     animname = "dota_refresher_shard",
 	animzip = "dota_roshan", 
-	taglist = {
-    },
 }
 return {dota_item_roshan = dota_item_roshan}

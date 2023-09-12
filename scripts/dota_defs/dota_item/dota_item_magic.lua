@@ -10,8 +10,6 @@ dota_item_magic.dota_euls_scepter_of_divinity = {
     name = "dota_euls_scepter_of_divinity",
     animname = "dota_euls_scepter_of_divinity",
 	animzip = "dota_magic", 
-	taglist = {
-    },
     activatename = "DOTA_CYCLONE",
     sharedcoolingtype = "cyclone",
     manacost = TUNING.DOTA.EULS.CYCLONE.MANA,
@@ -31,8 +29,6 @@ dota_item_magic.dota_aghanims_scepter = {
     name = "dota_aghanims_scepter",
     animname = "dota_aghanims_scepter",
 	animzip = "dota_magic", 
-	taglist = {
-    },
 	onequipfn = function(inst,owner)
         owner.components.dotacharacter:AddAttributes(TUNING.DOTA.AGHANIMS_SCEPTER.ATTRIBUTES)
         owner.components.dotacharacter:AddExtraHealth(TUNING.DOTA.AGHANIMS_SCEPTER.EXTRAHEALTH)
@@ -49,8 +45,6 @@ dota_item_magic.dota_rod_of_atos = {
     name = "dota_rod_of_atos",
     animname = "dota_rod_of_atos",
 	animzip = "dota_magic", 
-	taglist = {
-    },
     activatename = "DOTA_CRIPPLE",
     sharedcoolingtype = "rod",
     manacost = TUNING.DOTA.ROD_OF_ATOS.CRIPPLE.MANA,
@@ -77,8 +71,6 @@ dota_item_magic.dota_dagon_level1 = {
     name = "dota_dagon_level1",
     animname = "dota_dagon_level1",
 	animzip = "dota_magic", 
-	taglist = {
-    },
     activatename = "DOTA_BURST1",
     sharedcoolingtype = "dagon",
     manacost = TUNING.DOTA.DAGON_ENERGY.BURST.MANA.LEVEL1,
@@ -98,8 +90,6 @@ dota_item_magic.dota_dagon_level2 = {
     name = "dota_dagon_level2",
     animname = "dota_dagon_level2",
 	animzip = "dota_magic", 
-	taglist = {
-    },
     activatename = "DOTA_BURST2",
     sharedcoolingtype = "dagon",
     manacost = TUNING.DOTA.DAGON_ENERGY.BURST.MANA.LEVEL2,
@@ -119,8 +109,6 @@ dota_item_magic.dota_dagon_level3 = {
     name = "dota_dagon_level3",
     animname = "dota_dagon_level3",
 	animzip = "dota_magic", 
-	taglist = {
-    },
     activatename = "DOTA_BURST3",
     sharedcoolingtype = "dagon",
     manacost = TUNING.DOTA.DAGON_ENERGY.BURST.MANA.LEVEL3,
@@ -140,8 +128,6 @@ dota_item_magic.dota_dagon_level4 = {
     name = "dota_dagon_level4",
     animname = "dota_dagon_level4",
 	animzip = "dota_magic", 
-	taglist = {
-    },
     activatename = "DOTA_BURST4",
     sharedcoolingtype = "dagon",
     manacost = TUNING.DOTA.DAGON_ENERGY.BURST.MANA.LEVEL4,
@@ -161,8 +147,6 @@ dota_item_magic.dota_dagon_level5 = {
     name = "dota_dagon_level5",
     animname = "dota_dagon_level5",
 	animzip = "dota_magic", 
-	taglist = {
-    },
     activatename = "DOTA_BURST5",
     sharedcoolingtype = "dagon",
     manacost = TUNING.DOTA.DAGON_ENERGY.BURST.MANA.LEVEL5,
@@ -182,8 +166,6 @@ dota_item_magic.dota_veil_of_discord = {  -- TODO: 待制作(这个怎么做呢)
     name = "dota_veil_of_discord",
     animname = "dota_veil_of_discord",
 	animzip = "dota_magic", 
-	taglist = {
-    },
     activatename = "DOTA_WEAKNESS",
     sharedcoolingtype = "veil",
     manacost = TUNING.DOTA.VEIL_OF_DISCORD.WEAKNESS.MANA,
@@ -222,8 +204,6 @@ dota_item_magic.dota_wind_waker = {
     name = "dota_wind_waker",
     animname = "dota_wind_waker",
 	animzip = "dota_magic", 
-	taglist = {
-    },
     manacost = TUNING.DOTA.EULS.CYCLONE.MANA,
     activatename = "DOTA_CYCLONEPLUS",
     sharedcoolingtype = "cyclone",
@@ -258,8 +238,6 @@ dota_item_magic.dota_gleipnir = {
     name = "dota_gleipnir",
     animname = "dota_gleipnir",
 	animzip = "dota_magic", 
-	taglist = {
-    },
     sharedcoolingtype = "rod",
     activatename = "DOTA_CHAINS",
     manacost = TUNING.DOTA.GLEIPNIR.ETERNAL.MANA,
@@ -297,8 +275,6 @@ dota_item_magic.dota_octarine_core = {
     name = "dota_octarine_core",
     animname = "dota_octarine_core",
 	animzip = "dota_magic", 
-	taglist = {
-    },
 	onequipfn = function(inst,owner)
         owner.components.dotacharacter:AddExtraHealth(TUNING.DOTA.OCTARINE_CORE.EXTRAHEALTH)
         owner.components.dotacharacter:AddMaxMana(TUNING.DOTA.OCTARINE_CORE.MAXMANA)
@@ -319,8 +295,6 @@ dota_item_magic.dota_refresher_orb = {
     name = "dota_refresher_orb",
     animname = "dota_refresher_orb",
 	animzip = "dota_magic", 
-	taglist = {
-    },
     sharedcoolingtype = "orb",
     manacost = TUNING.DOTA.REFRESHER_ORB.RESETCOOLDOWNS.MANA,
 	onequipfn = function(inst,owner)
@@ -337,8 +311,6 @@ dota_item_magic.dota_glimmer_cape = {
     name = "dota_glimmer_cape",
     animname = "dota_glimmer_cape",
 	animzip = "dota_magic", 
-	taglist = {
-    },
     manacost = TUNING.DOTA.GLIMMER_CAPE.GLIMMER.MANA,
     activatename = "DOTA_GLIMMER",
     sharedcoolingtype = "cape",
@@ -354,8 +326,6 @@ dota_item_magic.dota_witch_blade = {
     name = "dota_witch_blade",
     animname = "dota_witch_blade",
 	animzip = "dota_magic", 
-	taglist = {
-    },
 	onequipfn = function(inst,owner)
         owner.components.dotacharacter:AddIntelligence(TUNING.DOTA.WITCH_BLADE.INTELLIGENCE)
         owner.components.dotacharacter:AddExtraArmor(TUNING.DOTA.WITCH_BLADE.EXTRAARMOR)
@@ -384,8 +354,6 @@ dota_item_magic.dota_scythe_of_vyse = {
     name = "dota_scythe_of_vyse",
     animname = "dota_scythe_of_vyse",
 	animzip = "dota_magic", 
-	taglist = {
-    },
     manacost = TUNING.DOTA.SCYTHE_OF_VYSE.HEX.MANA,
     activatename = "DOTA_HEX",
     sharedcoolingtype = "hex",
@@ -407,8 +375,6 @@ dota_item_magic.dota_solar_crest = {
     name = "dota_solar_crest",
     animname = "dota_solar_crest",
 	animzip = "dota_magic", 
-	taglist = {
-    },
     activatename = "DOTA_SHINE",
     sharedcoolingtype = "crest",
 	onequipfn = function(inst,owner)
@@ -429,8 +395,6 @@ dota_item_magic.dota_aether_lens = {
     name = "dota_aether_lens",
     animname = "dota_aether_lens",
 	animzip = "dota_magic", 
-	taglist = {
-    },
 	onequipfn = function(inst,owner)
         owner.components.dotacharacter:AddMaxMana(TUNING.DOTA.AETHER_LENS.MAXMANA)
         owner.components.dotacharacter:AddManaRegen(TUNING.DOTA.AETHER_LENS.MANAREGEN)
@@ -447,8 +411,6 @@ dota_item_magic.dota_force_staff = {
     name = "dota_force_staff",
     animname = "dota_force_staff",
 	animzip = "dota_magic", 
-	taglist = {
-    },
     manacost = TUNING.DOTA.FORCE_STAFF.FORCE.MANA,
     activatename = "DOTA_FORCE",
     sharedcoolingtype = "force",
@@ -466,8 +428,6 @@ dota_item_magic.dota_orchid_malevolence = {
     name = "dota_orchid_malevolence",
     animname = "dota_orchid_malevolence",
 	animzip = "dota_magic", 
-	taglist = {
-    },
     activatename = "DOTA_BURNX",
     sharedcoolingtype = "burnx",
     manacost = TUNING.DOTA.ORCHID_MALEVOLENCE.BURNX.MANA,

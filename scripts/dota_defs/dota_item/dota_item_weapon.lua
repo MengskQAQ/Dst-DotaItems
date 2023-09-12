@@ -68,8 +68,6 @@ dota_item_weapon.dota_daedalus = {
     name = "dota_daedalus",
     animname = "dota_daedalus",
 	animzip = "dota_weapon",
-	taglist = {
-    },
 	onequipfn = function(inst,owner)
         owner.components.dotacharacter:AddExtraDamage(TUNING.DOTA.DAEDALUS.EXTRADAMAGE)
         owner.components.dotacharacter:AddCritical(TUNING.DOTA.DAEDALUS.CRITICAL.CHANCE,TUNING.DOTA.DAEDALUS.CRITICAL.DAMAGE, "daedalus")
@@ -87,8 +85,6 @@ dota_item_weapon.dota_nullifier = {
     name = "dota_nullifier",
     animname = "dota_nullifier",
     animzip = "dota_weapon",
-    taglist = {
-    },
     activatename = "DOTA_NULLIFY",
     sharedcoolingtype = "nullify",
     manacost = TUNING.DOTA.NULLIFIER.NULLIFY.MANA,
@@ -115,8 +111,6 @@ dota_item_weapon.dota_butterfly = {
     name = "dota_butterfly",
     animname = "dota_butterfly",
 	animzip = "dota_weapon",
-	taglist = {
-    },
     sharedcoolingtype = "butter",
 	onequipfn = function(inst,owner)
         owner.components.dotacharacter:AddAgility(TUNING.DOTA.BUTTERFLY.AGILITY)
@@ -213,8 +207,6 @@ dota_item_weapon.dota_monkey_king_bar = {
     name = "dota_monkey_king_bar",
     animname = "dota_monkey_king_bar",
 	animzip = "dota_weapon",
-	taglist = {
-    },
 	onequipfn = function(inst,owner)
         owner.components.dotacharacter:AddExtraDamage(TUNING.DOTA.MONKEY_KING_BAR.EXTRADAMAGE)
         owner.components.dotacharacter:AddAttackSpeed(TUNING.DOTA.MONKEY_KING_BAR.ATTACKSPEED)
@@ -283,8 +275,6 @@ dota_item_weapon.dota_armlet_of_mordiggian = {
     name = "dota_armlet_of_mordiggian",
     animname = "dota_armlet_of_mordiggian",
 	animzip = "dota_weapon",
-	taglist = {
-    },
 	onequipfn = function(inst,owner)
         owner.components.dotacharacter:AddExtraDamage(TUNING.DOTA.ARMLET.EXTRADAMAGE)
         owner.components.dotacharacter:AddHealthRegen(TUNING.DOTA.ARMLET.HEALTHREGEN)
@@ -303,8 +293,6 @@ dota_item_weapon.dota_abyssal_blade = {
     name = "dota_abyssal_blade",
     animname = "dota_abyssal_blade",
 	animzip = "dota_weapon",
-	taglist = {
-    },
     activatename = "DOTA_OVERWHELM",
     sharedcoolingtype = "overwhelm",
     manacost = TUNING.DOTA.ABYSSAL_BLADE.OVERWHELM.MANA,
@@ -326,8 +314,6 @@ dota_item_weapon.dota_divine_rapier = {
     name = "dota_divine_rapier",
     animname = "dota_divine_rapier",
 	animzip = "dota_weapon",
-	taglist = {
-    },
 	onequipfn = function(inst,owner)
         owner.components.dotacharacter:AddExtraDamage(TUNING.DOTA.DIVINE_RAPIER.EXTRADAMAGE)
 	end,
@@ -340,8 +326,6 @@ dota_item_weapon.dota_crystalys = {
     name = "dota_crystalys",
     animname = "dota_crystalys",
 	animzip = "dota_weapon",
-	taglist = {
-    },
 	onequipfn = function(inst,owner)
         owner.components.dotacharacter:AddExtraDamage(TUNING.DOTA.CRYSTALYS.EXTRADAMAGE)
         owner.components.dotacharacter:AddCritical(TUNING.DOTA.CRYSTALYS.CRITICAL.CHANCE,TUNING.DOTA.CRYSTALYS.CRITICAL.DAMAGE)
@@ -362,8 +346,6 @@ dota_item_weapon.dota_skull_basher = {
     name = "dota_skull_basher",
     animname = "dota_skull_basher",
 	animzip = "dota_weapon",
-	taglist = {
-    },
 	onequipfn = function(inst,owner)
         owner.components.dotacharacter:AddStrength(TUNING.DOTA.SKULL_BASHER.STRENGTH)
         owner.components.dotacharacter:AddExtraDamage(TUNING.DOTA.SKULL_BASHER.EXTRADAMAGE)
@@ -383,8 +365,6 @@ dota_item_weapon.dota_ethereal_blade = {
     name = "dota_ethereal_blade",
     animname = "dota_ethereal_blade",
 	animzip = "dota_weapon",
-	taglist = {
-    },
     activatename = "DOTA_ETHEREAL",
     sharedcoolingtype = "ethereal",
     manacost = TUNING.DOTA.ETHEREAL_BLADE.ETHEREAL.MANA,
@@ -417,8 +397,6 @@ dota_item_weapon.dota_bloodthorn = {
     name = "dota_bloodthorn",
     animname = "dota_bloodthorn",
 	animzip = "dota_weapon",
-	taglist = {
-    },
 	activatename = "DOTA_REND",
     sharedcoolingtype = "DOTA_REND",
     manacost = TUNING.DOTA.BLOODTHORN.REND.MANA,
@@ -442,8 +420,6 @@ dota_item_weapon.dota_revenants_brooch = {
     name = "dota_revenants_brooch",
     animname = "dota_revenants_brooch",
 	animzip = "dota_weapon",
-	taglist = {
-    },
     sharedcoolingtype = "brooth",
     manacost = TUNING.DOTA.REVENANTS_BROOCH.PROVINCE.MANA,
 	onequipfn = function(inst,owner)
@@ -466,8 +442,6 @@ dota_item_weapon.dota_invis_sword = {
     name = "dota_invis_sword",
     animname = "dota_invis_sword",
 	animzip = "dota_weapon",
-	taglist = {
-    },
     sharedcoolingtype = "invis",
     manacost = TUNING.DOTA.INVIS_SWORD.WALK.MANA,
 	onequipfn = function(inst,owner)
@@ -484,8 +458,6 @@ dota_item_weapon.dota_meteor_hammer = {
     name = "dota_meteor_hammer",
     animname = "dota_meteor_hammer",
 	animzip = "dota_weapon",
-	taglist = {
-    },
     activatename = "DOTA_METEOR",
     sharedcoolingtype = "mrteor",
     manacost = TUNING.DOTA.METEOR_HAMMER.METEOR.MANA,
@@ -514,8 +486,6 @@ dota_item_weapon.dota_disperser = {
     name = "dota_disperser",
     animname = "dota_disperser",
 	animzip = "dota_weapon", 
-	taglist = {
-    },
 	onequipfn = function(inst,owner)
         owner.components.dotacharacter:AddAgility(TUNING.DOTA.DISPERSER.AGILITY)
         owner.components.dotacharacter:AddIntelligence(TUNING.DOTA.DISPERSER.INTELLIGENCE)

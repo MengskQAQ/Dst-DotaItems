@@ -9,8 +9,6 @@ dota_item_accessories.dota_power_treads = {
     name = "dota_power_treads",
     animname = "dota_power_treads",
 	animzip = "dota_accessories", 
-	taglist = {
-    },
 	onequipfn = function(inst,owner)
         if inst.primary == 1 then owner.components.dotacharacter:AddStrength(TUNING.DOTA.POWER_TREADS.ATTRIBUTES)
         elseif inst.primary == 2 then owner.components.dotacharacter:AddAgility(TUNING.DOTA.POWER_TREADS.ATTRIBUTES)
@@ -57,8 +55,6 @@ dota_item_accessories.dota_mask_of_madness = {
     name = "dota_mask_of_madness",
     animname = "dota_mask_of_madness",
 	animzip = "dota_accessories", 
-	taglist = {
-    },
     manacost = TUNING.DOTA.MASK_OF_MADNESS.BERSERK.MANA,
     sharedcoolingtype = "mask",
 	onequipfn = function(inst,owner)
@@ -77,8 +73,6 @@ dota_item_accessories.dota_orb_of_corrosion = {
     name = "dota_orb_of_corrosion",
     animname = "dota_orb_of_corrosion",
 	animzip = "dota_accessories", 
-	taglist = {
-    },
 	onequipfn = function(inst,owner)
         owner:ListenForEvent("onattackother", inst.CorrosionAttack)
         owner.components.dotacharacter:AddExtraHealth(TUNING.DOTA.ORB_OF_CORROSION.EXTRAHEALTH)
@@ -102,8 +96,6 @@ dota_item_accessories.dota_bracer = {
     name = "dota_bracer",
     animname = "dota_bracer",
 	animzip = "dota_accessories", 
-	taglist = {
-    },
 	onequipfn = function(inst,owner)
         owner.components.dotacharacter:AddStrength(TUNING.DOTA.BRACER.STRENGTH)
         owner.components.dotacharacter:AddAgility(TUNING.DOTA.BRACER.AGILITY)
@@ -124,8 +116,6 @@ dota_item_accessories.dota_perseverance = {
     name = "dota_perseverance",
     animname = "dota_perseverance",
 	animzip = "dota_accessories", 
-	taglist = {
-    },
 	onequipfn = function(inst,owner)
         owner.components.dotacharacter:AddHealthRegen(TUNING.DOTA.PERSEVERANCE.HEALTHREGEN)
         owner.components.dotacharacter:AddManaRegen(TUNING.DOTA.PERSEVERANCE.MANAREGEN)
@@ -140,8 +130,6 @@ dota_item_accessories.dota_null_talisman = {
     name = "dota_null_talisman",
     animname = "dota_null_talisman",
 	animzip = "dota_accessories", 
-	taglist = {
-    },
 	onequipfn = function(inst,owner)
         owner.components.dotacharacter:AddStrength(TUNING.DOTA.NULL_TALISMAN.STRENGTH)
         owner.components.dotacharacter:AddAgility(TUNING.DOTA.NULL_TALISMAN.AGILITY)
@@ -162,8 +150,6 @@ dota_item_accessories.dota_oblivion_staff = {
     name = "dota_oblivion_staff",
     animname = "dota_oblivion_staff",
 	animzip = "dota_accessories", 
-	taglist = {
-    },
 	onequipfn = function(inst,owner)
         owner.components.dotacharacter:AddIntelligence(TUNING.DOTA.OBLIVION_STAFF.INTELLIGENCE)
         owner.components.dotacharacter:AddExtraDamage(TUNING.DOTA.OBLIVION_STAFF.EXTRADAMAGE)
@@ -182,8 +168,6 @@ dota_item_accessories.dota_falcon_blade = {
     name = "dota_falcon_blade",
     animname = "dota_falcon_blade",
 	animzip = "dota_accessories", 
-	taglist = {
-    },
 	onequipfn = function(inst,owner)
         owner.components.dotacharacter:AddExtraHealth(TUNING.DOTA.FALCON_BLADE.EXTRAHEALTH)
         owner.components.dotacharacter:AddManaRegen(TUNING.DOTA.FALCON_BLADE.MANAREGEN)
@@ -200,8 +184,6 @@ dota_item_accessories.dota_soul_ring = {
     name = "dota_soul_ring",
     animname = "dota_soul_ring",
 	animzip = "dota_accessories", 
-	taglist = {
-    },
     healthcost = TUNING.DOTA.SOUL_RING.SACRIFICE.HEALTH,
     sharedcoolingtype = "ring",
 	onequipfn = function(inst,owner)
@@ -219,7 +201,6 @@ dota_item_accessories.dota_hand_of_midas = {
     animname = "dota_hand_of_midas",
 	animzip = "dota_accessories",
     prefabs = {"goldnugget",},  -- 话说是不是这里加好像影响不到action
-	taglist = {},
     activatename = "DOTA_TRANSMUTE",
     sharedcoolingtype = "midas",
 	onequipfn = function(inst,owner)
@@ -232,8 +213,7 @@ dota_item_accessories.dota_hand_of_midas = {
 -------------------------------------------------魔杖-------------------------------------------------
 local GETPOINT = TUNING.DOTA.MAGIC_WAND.GETPOINT or 1
 local MAGIC_WAND_RANGE = TUNING.DOTA.MAGIC_WAND.RANGE
-local function EmptyFunction(inst)
-end
+local function EmptyFunction(inst) end
 local function OnMagicUse(inst, owner, data)
     local victim = data and data.inst
     if (victim ~= nil and owner:IsNear(victim, MAGIC_WAND_RANGE))
@@ -248,8 +228,6 @@ dota_item_accessories.dota_magic_wand = {
     name = "dota_magic_wand",
     animname = "dota_magic_wand",
 	animzip = "dota_accessories", 
-	taglist = {
-    },
     maxuses = TUNING.DOTA.MAGIC_WAND.MAXPOINTS, --次数耐久
     notstartfull = true,
     onfinishedfn = EmptyFunction,--耐久用完执行的函数
@@ -345,8 +323,6 @@ dota_item_accessories.dota_phase_boots = {
     name = "dota_phase_boots",
     animname = "dota_phase_boots",
 	animzip = "dota_accessories", 
-	taglist = {
-    },
     sharedcoolingtype = "phase",
 	onequipfn = function(inst,owner)
         owner.components.dotacharacter:AddExtraDamage(TUNING.DOTA.PHASE_BOOTS.EXTRADAMAGE)
@@ -364,8 +340,6 @@ dota_item_accessories.dota_moon_shard = {
     name = "dota_moon_shard",
     animname = "dota_moon_shard",
 	animzip = "dota_accessories", 
-	taglist = {
-    },
 	onequipfn = function(inst,owner)
         owner.components.dotacharacter:AddAttackSpeed(TUNING.DOTA.MOON_SHARD.ATTACKSPEED)
 	end,
@@ -426,8 +400,6 @@ dota_item_accessories.dota_wraith_band = {
     name = "dota_wraith_band",
     animname = "dota_wraith_band",
 	animzip = "dota_accessories", 
-	taglist = {
-    },
 	onequipfn = function(inst,owner)
         owner.components.dotacharacter:AddStrength(TUNING.DOTA.WRAITH_BAND.STRENGTH)
         owner.components.dotacharacter:AddAgility(TUNING.DOTA.WRAITH_BAND.AGILITY)

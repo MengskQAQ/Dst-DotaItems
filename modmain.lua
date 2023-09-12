@@ -21,8 +21,7 @@ modimport("init/init_tuning")
 
 -- 真视宝石
 AddMinimapAtlas("minimap/dota_gem_of_true_sight_icon.xml")
-
--- env.AddMiniMapImage("minimap/dota_gem_of_true_sight.tex")
+-- AddMinimapImage("dota_gem_of_true_sight")
 
 -- rpc注册
 AddReplicableComponent("dotacharacter")

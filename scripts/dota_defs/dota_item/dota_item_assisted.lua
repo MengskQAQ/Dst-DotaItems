@@ -9,8 +9,6 @@ dota_item_assisted.dota_arcane_boots = {
     name = "dota_arcane_boots",
     animname = "dota_arcane_boots",
 	animzip = "dota_assisted", 
-	taglist = {
-    },
     sharedcoolingtype = "arcene",
 	onequipfn = function(inst,owner)
         owner.components.dotacharacter:AddExtraSpeed("boot", TUNING.DOTA.ARCANE_BOOTS.EXTRASPEED, "arcane")
@@ -26,8 +24,6 @@ dota_item_assisted.dota_pipe_of_insight = {
     name = "dota_pipe_of_insight",
     animname = "dota_pipe_of_insight",
 	animzip = "dota_assisted", 
-	taglist = {
-    },
     sharedcoolingtype = "pipe",
     manacost = TUNING.DOTA.PIPE_OF_INSIGHT.BARRIER.MANA,
 	onequipfn = function(inst,owner)
@@ -90,8 +86,6 @@ dota_item_assisted.dota_headdress = {
     name = "dota_headdress",
     animname = "dota_headdress",
 	animzip = "dota_assisted",
-	taglist = {
-    },
 	onequipfn = function(inst,owner)
         owner.components.dotacharacter:AddHealthRegen(TUNING.DOTA.HEADDRESS.HEALTHREGEN)
 	end,
@@ -114,8 +108,7 @@ dota_item_assisted.dota_headdress = {
 }
 -------------------------------------------------魂之灵瓮 or 大骨灰-------------------------------------------------
 local SPIRIT_VESSEL_RANGE = TUNING.DOTA.SPIRIT_VESSEL.RELEASE.RANGE
-local function EmptyFunction(inst)
-end
+local function EmptyFunction(inst) end
 
 -- local function OnResetRelease(victim)
     -- victim.dota_noreleasetask = nil
@@ -146,8 +139,6 @@ dota_item_assisted.dota_spirit_vessel = {
     name = "dota_spirit_vessel",
     animname = "dota_spirit_vessel",
 	animzip = "dota_assisted", 
-	taglist = {
-    },
     maxuses = TUNING.DOTA.SPIRIT_VESSEL.RELEASE.MAXUSES, --次数耐久
     notstartfull = true,
     onfinishedfn = EmptyFunction,--耐久用完执行的函数
@@ -180,8 +171,6 @@ dota_item_assisted.dota_urn_of_shadows = {
     name = "dota_urn_of_shadows",
     animname = "dota_urn_of_shadows",
 	animzip = "dota_assisted", 
-	taglist = {
-    },
 	maxuses = TUNING.DOTA.URN_OF_SHADOWS.RELEASE.MAXUSES, --次数耐久
     notstartfull = true,
     onfinishedfn = EmptyFunction,--耐久用完执行的函数
@@ -216,8 +205,6 @@ dota_item_assisted.dota_tranquil_boots = {
     name = "dota_tranquil_boots",
     animname = "dota_tranquil_boots",
 	animzip = "dota_assisted", 
-	taglist = {
-    },
 	onequipfn = function(inst,owner)
         if inst.components.rechargeable:IsCharged() then
             owner.components.dotacharacter:AddExtraSpeed("boot", TUNING.DOTA.TRANQUIL_BOOTS.EXTRASPEED, "tranquil")
@@ -255,8 +242,6 @@ dota_item_assisted.dota_boots_of_bearing = {
     name = "dota_boots_of_bearing",
     animname = "dota_boots_of_bearing",
 	animzip = "dota_assisted", 
-	taglist = {
-    },
     maxuses = TUNING.DOTA.BOOTS_OF_BEARING.ENDURANCE.MAXPOINTS, --次数耐久
     onfinishedfn=function(inst)--耐久用完执行的函数
 	end,
@@ -309,8 +294,6 @@ dota_item_assisted.dota_mekansm = {
     name = "dota_mekansm",
     animname = "dota_mekansm",
 	animzip = "dota_assisted", 
-	taglist = {
-    },
     sharedcoolingtype = "mekansm",
 	onequipfn = function(inst,owner)
         owner.components.dotacharacter:AddExtraArmor(TUNING.DOTA.MEKANSM.EXTRAARMOR)
@@ -337,8 +320,6 @@ dota_item_assisted.dota_drum_of_endurance = {
     name = "dota_drum_of_endurance",
     animname = "dota_drum_of_endurance",
 	animzip = "dota_assisted", 
-	taglist = {
-    },
     sharedcoolingtype = "drum",
     maxuses = TUNING.DOTA.DRUM_OF_ENDURANCE.ENDURANCE.MAXPOINTS, --次数耐久
     onfinishedfn=function(inst)--耐久用完执行的函数
@@ -370,8 +351,6 @@ dota_item_assisted.dota_holy_locket = {
     name = "dota_holy_locket",
     animname = "dota_holy_locket",
 	animzip = "dota_assisted", 
-	taglist = {
-    },
     activatename = "DOTA_CHARGE",
     sharedcoolingtype = "wand",
     maxuses = TUNING.DOTA.HOLY_LOCKET.CHARGE.MAXPOINTS, --次数耐久
@@ -409,8 +388,6 @@ dota_item_assisted.dota_ring_of_basilius = {
     name = "dota_ring_of_basilius",
     animname = "dota_ring_of_basilius",
 	animzip = "dota_assisted", 
-	taglist = {
-    },
     playerprox = {
         range = TUNING.DOTA.RING_OF_BASILIUS.AURA.RANGE,
         onnearfn = function(inst, player)
@@ -430,8 +407,6 @@ dota_item_assisted.dota_guardian_greaves = {
     name = "dota_guardian_greaves",
     animname = "dota_guardian_greaves",
 	animzip = "dota_assisted", 
-	taglist = {
-    },
     sharedcoolingtype = "greaves",
 	onequipfn = function(inst,owner)
         owner.components.dotacharacter:AddMaxMana(TUNING.DOTA.GUARDIAN_GREAVES.MAXMANA)
@@ -464,8 +439,6 @@ dota_item_assisted.dota_buckler = {
     name = "dota_buckler",
     animname = "dota_buckler",
 	animzip = "dota_assisted", 
-	taglist = {
-    },
 	onequipfn = function(inst,owner)
         owner.components.dotacharacter:AddExtraArmor(TUNING.DOTA.BUCKLER.EXTRAARMOR)
 	end,
@@ -491,8 +464,6 @@ dota_item_assisted.dota_medallion_of_courage = {
     name = "dota_medallion_of_courage",
     animname = "dota_medallion_of_courage",
 	animzip = "dota_assisted", 
-	taglist = {
-    },
     activatename = "DOTA_VALOR",
     sharedcoolingtype = "crest",
 	onequipfn = function(inst,owner)
@@ -509,8 +480,6 @@ dota_item_assisted.dota_wraith_pact = {
     name = "dota_wraith_pact",
     animname = "dota_wraith_pact",
 	animzip = "dota_assisted", 
-	taglist = {
-    },
     sharedcoolingtype = "wraith",
     manacost = TUNING.DOTA.WRAITH_PACT.REPRISAL.MANA,
 	onequipfn = function(inst,owner)
@@ -552,8 +521,6 @@ dota_item_assisted.dota_pavise = {
     name = "dota_pavise",
     animname = "dota_pavise",
 	animzip = "dota_assisted", 
-	taglist = {
-    },
     manacost = TUNING.DOTA.PAVISE.PROTECT.MANA,
     activatename = "DOTA_PROTECT",
     sharedcoolingtype = "protect",
