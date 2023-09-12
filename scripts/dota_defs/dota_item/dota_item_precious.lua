@@ -674,7 +674,7 @@ dota_item_precious.dota_phylactery = {
 	end,
 }
 -------------------------------------------------鱼叉-------------------------------------------------
-dota_item_precious.dota_harpoon = {
+dota_item_precious.dota_harpoon = { -- 鱼叉的主动技能还没做好，先加个被动的冷却特效
     name = "dota_harpoon",
     animname = "dota_harpoon",
 	animzip = "dota_precious", 
@@ -684,6 +684,7 @@ dota_item_precious.dota_harpoon = {
         owner.components.dotacharacter:AddMaxMana(TUNING.DOTA.PHYLACTERY.MAXMANA)
         owner.components.dotacharacter:AddExtraHealth(TUNING.DOTA.PHYLACTERY.EXTRAHEALTH)
         owner.components.dotacharacter:AddAbility(inst, "ability_dota_echo", "ability_dota_echo")
+        owner:ListenForEvent("dotaevent_echo", inst._onrecharger)
 	end,
 	onunequipfn = function(inst,owner)
         owner.components.dotacharacter:RemoveAttributes(TUNING.DOTA.PHYLACTERY.ATTRIBUTES)
@@ -691,6 +692,14 @@ dota_item_precious.dota_harpoon = {
         owner.components.dotacharacter:RemoveMaxMana(TUNING.DOTA.PHYLACTERY.MAXMANA)
         owner.components.dotacharacter:RemoveExtraHealth(TUNING.DOTA.PHYLACTERY.EXTRAHEALTH)
         owner.components.dotacharacter:RemoveAbility(inst, "ability_dota_echo")
+        owner:RemoveEventCallback("dotaevent_echo", inst._onrecharger)
 	end,
+    extrafn=function(inst)
+        inst._onrecharger = function(owner)
+            if inst and inst.components.rechargeable ~= nil then
+                inst.components.rechargeable:Discharge(TUNING.DOTA.ECHO_SABRE.ECHO.CD)
+			end
+        end
+    end,
 }
 return {dota_item_precious = dota_item_precious}

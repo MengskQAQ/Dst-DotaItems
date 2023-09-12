@@ -1035,7 +1035,7 @@ function DotaCharacter:AddAbility(equip, name, ability, data)
         return ent
     else
         self.abilities[name].inst.components.debuff:Extend(self.followsymbol, self.followoffset, data)
-        return self.debuffs[name].inst
+        return self.abilities[name].inst
     end
 end
 
