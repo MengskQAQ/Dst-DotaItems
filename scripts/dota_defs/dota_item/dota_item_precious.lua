@@ -10,8 +10,7 @@ dota_item_precious.dota_mage_slayer = {
     name = "dota_mage_slayer",
     animname = "dota_mage_slayer",
 	animzip = "dota_precious", 
-	taglist = {
-    },
+
 	onequipfn = function(inst,owner)
         owner.components.dotacharacter:AddIntelligence(TUNING.DOTA.MAGE_SLAYER.INTELLIGENCE)
         owner.components.dotacharacter:AddManaRegen(TUNING.DOTA.MAGE_SLAYER.MANAREGEN)
@@ -32,8 +31,7 @@ dota_item_precious.dota_echo_sabre = {
     name = "dota_echo_sabre",
     animname = "dota_echo_sabre",
 	animzip = "dota_precious", 
-	taglist = {
-    },
+
 	onequipfn = function(inst,owner)
         owner.components.dotacharacter:AddStrength(TUNING.DOTA.ECHO_SABRE.STRENGTH)
         owner.components.dotacharacter:AddIntelligence(TUNING.DOTA.ECHO_SABRE.INTELLIGENCE)
@@ -65,8 +63,7 @@ dota_item_precious.dota_eye_of_skadi = {
     name = "dota_eye_of_skadi",
     animname = "dota_eye_of_skadi",
 	animzip = "dota_precious", 
-	taglist = {
-    },
+
 	onequipfn = function(inst,owner)
         owner.components.dotacharacter:AddAttributes(TUNING.DOTA.EYE_OF_SKADI.ATTRIBUTES)
         owner.components.dotacharacter:AddExtraHealth(TUNING.DOTA.EYE_OF_SKADI.EXTRAHEALTH)
@@ -95,8 +92,7 @@ dota_item_precious.dota_heavens_halberd = {
     name = "dota_heavens_halberd",
     animname = "dota_heavens_halberd",
 	animzip = "dota_precious", 
-	taglist = {
-    },
+
     activatename = "DOTA_DISARM",
     sharedcoolingtype = "disarm",
     manacost = TUNING.DOTA.HEAVENS_HALBERD.DISARM.MANA,
@@ -120,8 +116,6 @@ dota_item_precious.dota_dragon_lance = {
     name = "dota_dragon_lance",
     animname = "dota_dragon_lance",
 	animzip = "dota_precious", 
-	taglist = {
-    },
 	onequipfn = function(inst,owner)
         owner.components.dotacharacter:AddStrength(TUNING.DOTA.DRAGON_LANCE.STRENGTH)
         owner.components.dotacharacter:AddAgility(TUNING.DOTA.DRAGON_LANCE.AGILITY)
@@ -138,8 +132,6 @@ dota_item_precious.dota_satanic = {
     name = "dota_satanic",
     animname = "dota_satanic",
 	animzip = "dota_precious", 
-	taglist = {
-    },
     sharedcoolingtype = "satanic",
 	onequipfn = function(inst,owner)
         owner.components.dotacharacter:AddStrength(TUNING.DOTA.SATANIC.STRENGTH)
@@ -157,8 +149,6 @@ dota_item_precious.dota_diffusal_blade = {
     name = "dota_diffusal_blade",
     animname = "dota_diffusal_blade",
 	animzip = "dota_precious", 
-	taglist = {
-    },
     activatename = "DOTA_INHIBIT",
     sharedcoolingtype = "inhibit",
 	onequipfn = function(inst,owner)
@@ -245,8 +235,6 @@ dota_item_precious.dota_maelstrom = {
     name = "dota_maelstrom",
     animname = "dota_maelstrom",
 	animzip = "dota_precious", 
-	taglist = {
-    },
 	onequipfn = function(inst,owner)
         owner.components.dotacharacter:AddExtraDamage(TUNING.DOTA.MAELSTORM.EXTRADAMAGE)
         owner:ListenForEvent("onhitother", inst.onhitotherfn)
@@ -308,8 +296,6 @@ dota_item_precious.dota_mjollnir = {
     name = "dota_mjollnir",
     animname = "dota_mjollnir",
 	animzip = "dota_precious", 
-	taglist = {
-    },
     activatename = "DOTA_LIGHTING",
     sharedcoolingtype = "mjollnir",
     manacost = TUNING.DOTA.MJOLLNIR.STATIC.MANA,
@@ -369,8 +355,6 @@ dota_item_precious.dota_kaya = {
     name = "dota_kaya",
     animname = "dota_kaya",
 	animzip = "dota_precious", 
-	taglist = {
-    },
 	onequipfn = function(inst,owner)
         owner.components.dotacharacter:AddIntelligence(TUNING.DOTA.KAYA.INTELLIGENCE)
         owner.components.dotacharacter:AddSpellDamageAMP(TUNING.DOTA.KAYA.SPELLDAMAGEAMP)
@@ -389,8 +373,6 @@ dota_item_precious.dota_sange = {
     name = "dota_sange",
     animname = "dota_sange",
 	animzip = "dota_precious", 
-	taglist = {
-    },
 	onequipfn = function(inst,owner)
         owner.components.dotacharacter:AddStrength(TUNING.DOTA.SANGE.STRENGTH)
         owner.components.dotacharacter:AddStatusResistance(TUNING.DOTA.SANGE.STATUSRESIS)
@@ -409,8 +391,6 @@ dota_item_precious.dota_yasha = {
     name = "dota_yasha",
     animname = "dota_yasha",
 	animzip = "dota_precious", 
-	taglist = {
-    },
 	onequipfn = function(inst,owner)
         owner.components.dotacharacter:AddAgility(TUNING.DOTA.YASHA.AGILITY)
         owner.components.dotacharacter:AddAttackSpeed(TUNING.DOTA.YASHA.ATTACKSPEED)
@@ -431,8 +411,6 @@ dota_item_precious.dota_yasha_and_kaya = {
     name = "dota_yasha_and_kaya",
     animname = "dota_yasha_and_kaya",
 	animzip = "dota_precious", 
-	taglist = {
-    },
 	onequipfn = function(inst,owner)
         owner.components.dotacharacter:AddIntelligence(TUNING.DOTA.YASHA_AND_KAYA.INTELLIGENCE)
         owner.components.dotacharacter:AddAgility(TUNING.DOTA.YASHA_AND_KAYA.AGILITY)
@@ -461,8 +439,6 @@ dota_item_precious.dota_kaya_and_sange = {
     name = "dota_kaya_and_sange",
     animname = "dota_kaya_and_sange",
 	animzip = "dota_precious", 
-	taglist = {
-    },
 	onequipfn = function(inst,owner)
         owner.components.dotacharacter:AddIntelligence(TUNING.DOTA.KAYA_AND_SANGE.INTELLIGENCE)
         owner.components.dotacharacter:AddSpellDamageAMP(TUNING.DOTA.KAYA_AND_SANGE.SPELLDAMAGEAMP)
@@ -489,8 +465,6 @@ dota_item_precious.dota_sange_and_yasha = {
     name = "dota_sange_and_yasha",
     animname = "dota_sange_and_yasha",
 	animzip = "dota_precious", 
-	taglist = {
-    },
 	onequipfn = function(inst,owner)
         owner.components.dotacharacter:AddStrength(TUNING.DOTA.SANGE_AND_YASHA.STRENGTH)
         owner.components.dotacharacter:AddStatusResistance(TUNING.DOTA.SANGE_AND_YASHA.STATUSRESIS)
@@ -686,8 +660,6 @@ dota_item_precious.dota_phylactery = {
     name = "dota_phylactery",
     animname = "dota_phylactery",
 	animzip = "dota_precious", 
-	taglist = {
-    },
 	onequipfn = function(inst,owner)
         owner.components.dotacharacter:AddAttributes(TUNING.DOTA.PHYLACTERY.ATTRIBUTES)
         owner.components.dotacharacter:AddManaRegen(TUNING.DOTA.PHYLACTERY.MANAREGEN)
@@ -706,8 +678,6 @@ dota_item_precious.dota_harpoon = {
     name = "dota_harpoon",
     animname = "dota_harpoon",
 	animzip = "dota_precious", 
-	taglist = {
-    },
 	onequipfn = function(inst,owner)
         owner.components.dotacharacter:AddAttributes(TUNING.DOTA.PHYLACTERY.ATTRIBUTES)
         owner.components.dotacharacter:AddManaRegen(TUNING.DOTA.PHYLACTERY.MANAREGEN)

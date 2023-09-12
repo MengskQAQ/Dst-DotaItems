@@ -9,8 +9,6 @@ dota_item_attribute.dota_robe_of_the_magi = {
     name = "dota_robe_of_the_magi",
     animname = "dota_robe_of_the_magi",
 	animzip = "dota_attribute", 
-	taglist = {
-    },
 	onequipfn = function(inst,owner)
         owner.components.dotacharacter:AddIntelligence(TUNING.DOTA.ROBE_OF_THE_MAGI.INTELLIGENCE)
 	end,
@@ -23,8 +21,6 @@ dota_item_attribute.dota_blade_of_alacrity = {
     name = "dota_blade_of_alacrity",
     animname = "dota_blade_of_alacrity",
 	animzip = "dota_attribute", 
-	taglist = {
-    },
 	onequipfn = function(inst,owner)
         owner.components.dotacharacter:AddAgility(TUNING.DOTA.BLADE_OF_ALACRITY.AGILITY)
 	end,
@@ -37,8 +33,6 @@ dota_item_attribute.dota_band_of_elvenskin = {
     name = "dota_band_of_elvenskin",
     animname = "dota_band_of_elvenskin",
 	animzip = "dota_attribute", 
-	taglist = {
-    },
 	onequipfn = function(inst,owner)
         owner.components.dotacharacter:AddAgility(TUNING.DOTA.BAND_OF_ELVENSKIN.AGILITY)
 	end,
@@ -51,8 +45,6 @@ dota_item_attribute.dota_gauntlets_of_strength = {
     name = "dota_gauntlets_of_strength",
     animname = "dota_gauntlets_of_strength",
 	animzip = "dota_attribute", 
-	taglist = {
-    },
 	onequipfn = function(inst,owner)
         owner.components.dotacharacter:AddStrength(TUNING.DOTA.GAUNTLETS_OF_STRENGTH.STRENGTH)
 	end,
@@ -65,8 +57,6 @@ dota_item_attribute.dota_belt_of_strength = {
     name = "dota_belt_of_strength",
     animname = "dota_belt_of_strength",
 	animzip = "dota_attribute", 
-	taglist = {
-    },
 	onequipfn = function(inst,owner)
         owner.components.dotacharacter:AddStrength(TUNING.DOTA.GAUNTLETS_OF_STRENGTH.STRENGTH)
 	end,
@@ -79,8 +69,6 @@ dota_item_attribute.dota_slippers_of_agility = {
     name = "dota_slippers_of_agility",
     animname = "dota_slippers_of_agility",
 	animzip = "dota_attribute", 
-	taglist = {
-    },
 	onequipfn = function(inst,owner)
         owner.components.dotacharacter:AddAgility(TUNING.DOTA.SLIPPERS_OF.AGILITY.AGILITY)
 	end,
@@ -93,8 +81,6 @@ dota_item_attribute.dota_staff_of_wizardry = {
     name = "dota_staff_of_wizardry",
     animname = "dota_staff_of_wizardry",
 	animzip = "dota_attribute", 
-	taglist = {
-    },
 	onequipfn = function(inst,owner)
         owner.components.dotacharacter:AddIntelligence(TUNING.DOTA.STAFF_OF_WIZARDRY.INTELLIGENCE)
 	end,
@@ -107,8 +93,6 @@ dota_item_attribute.dota_ogre_axe = {
     name = "dota_ogre_axe",
     animname = "dota_ogre_axe",
 	animzip = "dota_attribute", 
-	taglist = {
-    },
 	onequipfn = function(inst,owner)
         owner.components.dotacharacter:AddStrength(TUNING.DOTA.OGRE_AXE.STRENGTH)
 	end,
@@ -194,8 +178,6 @@ dota_item_attribute.dota_crown = {
     name = "dota_crown",
     animname = "dota_crown",
 	animzip = "dota_attribute", 
-	taglist = {
-    },
 	onequipfn = function(inst,owner)
         owner.components.dotacharacter:AddAttributes(TUNING.DOTA.CROWN.ATTRIBUTES)
 	end,
@@ -208,8 +190,6 @@ dota_item_attribute.dota_circlet = {
     name = "dota_circlet",
     animname = "dota_circlet",
 	animzip = "dota_attribute", 
-	taglist = {
-    },
 	onequipfn = function(inst,owner)
         owner.components.dotacharacter:AddAttributes(TUNING.DOTA.CIRCLET.ATTRIBUTES)
 	end,
@@ -222,8 +202,6 @@ dota_item_attribute.dota_mantle_of_intelligence = {
     name = "dota_mantle_of_intelligence",
     animname = "dota_mantle_of_intelligence",
 	animzip = "dota_attribute", 
-	taglist = {
-    },
 	onequipfn = function(inst,owner)
         owner.components.dotacharacter:AddIntelligence(TUNING.DOTA.MANTLE_OF.INTELLIGENCE.INTELLIGENCE)
 	end,
@@ -236,8 +214,6 @@ dota_item_attribute.dota_diadem = {
     name = "dota_diadem",
     animname = "dota_diadem",
 	animzip = "dota_attribute", 
-	taglist = {
-    },
 	onequipfn = function(inst,owner)
         owner.components.dotacharacter:AddAttributes(TUNING.DOTA.DIADEM.ATTRIBUTES)
 	end,

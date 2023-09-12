@@ -9,16 +9,12 @@ dota_item_other.dota_shadow_amulet = {
     name = "dota_shadow_amulet",
     animname = "dota_shadow_amulet",
 	animzip = "dota_other",
-	taglist = {
-    },
 }
 -------------------------------------------------风灵之纹-------------------------------------------------
 dota_item_other.dota_wind_lace = {
     name = "dota_wind_lace",
     animname = "dota_wind_lace",
 	animzip = "dota_other",
-	taglist = {
-    },
 	onequipfn = function(inst,owner)
         owner.components.dotacharacter:AddExtraSpeed("windlace", TUNING.DOTA.WIND_LACE.EXTRASPEED, "unique")
 	end,
@@ -31,8 +27,6 @@ dota_item_other.dota_ring_of_regen = {
     name = "dota_ring_of_regen",
     animname = "dota_ring_of_regen",
 	animzip = "dota_other",
-	taglist = {
-    },
 	onequipfn = function(inst,owner)
         owner.components.dotacharacter:AddHealthRegen(TUNING.DOTA.RING_OF_REGEN.HEALTHREGEN)
 	end,
@@ -45,8 +39,6 @@ dota_item_other.dota_cloak = {
     name = "dota_cloak",
     animname = "dota_cloak",
 	animzip = "dota_other",
-	taglist = {
-    },
 	onequipfn = function(inst,owner)
         owner.components.dotacharacter:AddSpellResistance(TUNING.DOTA.CLOAK.SPELLRESIS)
 	end,
@@ -59,8 +51,6 @@ dota_item_other.dota_fluffy_hat = {
     name = "dota_fluffy_hat",
     animname = "dota_fluffy_hat",
 	animzip = "dota_other",
-	taglist = {
-    },
 	onequipfn = function(inst,owner)
         owner.components.dotacharacter:AddExtraHealth(TUNING.DOTA.FLUFFY_HAT.EXTRAHEALTH)
 	end,
@@ -89,8 +79,6 @@ dota_item_other.dota_magic_stick = {
     name = "dota_magic_stick",
     animname = "dota_magic_stick",
 	animzip = "dota_other",
-	taglist = {
-    },
     maxuses = TUNING.DOTA.MAGIC_STICK.MAXPOINTS, --次数耐久
     notstartfull = true,
     onfinishedfn = EmptyFunction,--耐久用完执行的函数
@@ -162,8 +150,6 @@ dota_item_other.dota_blink_dagger = {
     animname = "dota_blink_dagger",
 	animzip = "dota_other",
     activatename = "DOTA_BLINK",
-	taglist = {
-    },
     sharedcoolingtype = "blink",
     onequipfn = function(inst,owner)
 		owner:ListenForEvent("healthdelta", inst.CanBlink)  -- TODO:attacked这个事件如何？
@@ -210,8 +196,6 @@ dota_item_other.dota_boots_of_speed = {
     name = "dota_boots_of_speed",
     animname = "dota_boots_of_speed",
 	animzip = "dota_other",
-	taglist = {
-    },
 	onequipfn = function(inst,owner)
         owner.components.dotacharacter:AddExtraSpeed("boot", TUNING.DOTA.BOOTS_OF_SPEED.EXTRASPEED, "boot")
 	end,
@@ -224,8 +208,6 @@ dota_item_other.dota_voodoo_mask = {
     name = "dota_voodoo_mask",
     animname = "dota_voodoo_mask",
 	animzip = "dota_other",
-	taglist = {
-    },
 	onequipfn = function(inst,owner)
         owner.components.dotacharacter:AddSpellLifesteal(TUNING.DOTA.VOODOO_MASK.LIFESTEAL)
 	end,
@@ -238,8 +220,6 @@ dota_item_other.dota_morbid_mask = {
     name = "dota_morbid_mask",
     animname = "dota_morbid_mask",
 	animzip = "dota_other",
-	taglist = {
-    },
 	onequipfn = function(inst,owner)
         owner.components.dotacharacter:AddLifesteal(TUNING.DOTA.MORBID_MASK.LIFESTEAL)
 	end,
@@ -252,8 +232,6 @@ dota_item_other.dota_sages_mask = {
     name = "dota_sages_mask",
     animname = "dota_sages_mask",
 	animzip = "dota_other",
-	taglist = {
-    },
 	onequipfn = function(inst,owner)
         owner.components.dotacharacter:AddManaRegen(TUNING.DOTA.SAGES_MASK.MANAREGEN)
 	end,
@@ -266,8 +244,6 @@ dota_item_other.dota_ghost_scepter = {
     name = "dota_ghost_scepter",
     animname = "dota_ghost_scepter",
 	animzip = "dota_other",
-	taglist = {
-    },
     sharedcoolingtype = "ethereal",
 	onequipfn = function(inst,owner)
         owner.components.dotacharacter:AddAttributes(TUNING.DOTA.GHOST_SCEPTER.ATTRIBUTES)
@@ -314,6 +290,9 @@ dota_item_other.dota_gem_of_true_sight = {    -- TODO:给宝石添加一个唯�
     name = "dota_gem_of_true_sight",
     animname = "dota_gem_of_true_sight",
 	animzip = "dota_other",
+    taglist = {
+        "donotautopick",
+    },
 	-- assets = {
     --     Asset("MINIMAP_IMAGE", "dota_gem_of_true_sight"),
     -- },
@@ -331,7 +310,8 @@ dota_item_other.dota_gem_of_true_sight = {    -- TODO:给宝石添加一个唯�
 
         inst.entity:AddMiniMapEntity()
         inst.MiniMapEntity:SetIcon("purplemooneye.png")
-        -- inst.MiniMapEntity:SetIcon("dota_gem_of_true_sight.png")
+        -- inst.MiniMapEntity:SetIcon("dota_gem_of_true_sight_icon.png")
+        inst.MiniMapEntity:SetPriority(11)
         inst.MiniMapEntity:SetCanUseCache(false)
         inst.MiniMapEntity:SetDrawOverFogOfWar(true)
 

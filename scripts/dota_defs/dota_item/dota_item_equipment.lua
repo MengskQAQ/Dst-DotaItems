@@ -9,8 +9,6 @@ dota_item_equipment.dota_javelin = {
     name = "dota_javelin",
     animname = "dota_javelin",
 	animzip = "dota_equipment", 
-	taglist = {
-    },
 	onequipfn = function(inst,owner)
         owner.components.dotacharacter:AddTrueStrike(TUNING.DOTA.JAVELIN.PIERCE.PROBABILITY, TUNING.DOTA.JAVELIN.PIERCE.DAMAGE, "javelin")
 	end,
@@ -23,8 +21,6 @@ dota_item_equipment.dota_orb_of_venom = {
     name = "dota_orb_of_venom",
     animname = "dota_orb_of_venom",
 	animzip = "dota_equipment", 
-	taglist = {
-    },
 	onequipfn = function(inst,owner)
         owner:ListenForEvent("onattackother", inst.PoisonAttack)
 	end,
@@ -44,8 +40,6 @@ dota_item_equipment.dota_claymore = {
     name = "dota_claymore",
     animname = "dota_claymore",
 	animzip = "dota_equipment", 
-	taglist = {
-    },
 	onequipfn = function(inst,owner)
         owner.components.dotacharacter:AddExtraDamage(TUNING.DOTA.CLAYMORE.EXTRADAMAGE)
 	end,
@@ -58,8 +52,6 @@ dota_item_equipment.dota_quarterstaff = {
     name = "dota_quarterstaff",
     animname = "dota_quarterstaff",
 	animzip = "dota_equipment", 
-	taglist = {
-    },
 	onequipfn = function(inst,owner)
         owner.components.dotacharacter:AddExtraDamage(TUNING.DOTA.QUARTERSTAFF.EXTRADAMAGE)
         owner.components.dotacharacter:AddDamageRange(TUNING.DOTA.QUARTERSTAFF.DAMAGERANGE)
@@ -74,8 +66,6 @@ dota_item_equipment.dota_blades_of_attack = {
     name = "dota_blades_of_attack",
     animname = "dota_blades_of_attack",
 	animzip = "dota_equipment", 
-	taglist = {
-    },
 	onequipfn = function(inst,owner)
         owner.components.dotacharacter:AddExtraDamage(TUNING.DOTA.BLADES_OF_ATTACK.EXTRADAMAGE)
 	end,
@@ -88,8 +78,6 @@ dota_item_equipment.dota_gloves_of_haste = {
     name = "dota_gloves_of_haste",
     animname = "dota_gloves_of_haste",
 	animzip = "dota_equipment", 
-	taglist = {
-    },
 	onequipfn = function(inst,owner)
         owner.components.dotacharacter:AddAttackSpeed(TUNING.DOTA.GLOVES_OF_HASTE.ATTACKSPEED)
 	end,
@@ -102,8 +90,6 @@ dota_item_equipment.dota_blight_stone = {
     name = "dota_blight_stone",
     animname = "dota_blight_stone",
 	animzip = "dota_equipment", 
-	taglist = {
-    },
 	onequipfn = function(inst,owner)
         owner:ListenForEvent("onattackother", inst.BlightAttack)
 	end,
@@ -123,8 +109,6 @@ dota_item_equipment.dota_broadsword = {
     name = "dota_broadsword",
     animname = "dota_broadsword",
 	animzip = "dota_equipment", 
-	taglist = {
-    },
 	onequipfn = function(inst,owner)
         owner.components.dotacharacter:AddExtraDamage(TUNING.DOTA.BROADSWORD.EXTRADAMAGE)
 	end,
@@ -137,8 +121,6 @@ dota_item_equipment.dota_mithril_hammer = {
     name = "dota_mithril_hammer",
     animname = "dota_mithril_hammer",
 	animzip = "dota_equipment", 
-	taglist = {
-    },
 	onequipfn = function(inst,owner)
         owner.components.dotacharacter:AddExtraDamage(TUNING.DOTA.MITHRIL_HAMMER.EXTRADAMAGE)
 	end,
@@ -151,8 +133,6 @@ dota_item_equipment.dota_infused_raindrop = {
     name = "dota_infused_raindrop",
     animname = "dota_infused_raindrop",
 	animzip = "dota_equipment", 
-	taglist = {
-    },
     maxuses = TUNING.DOTA.INFUSED_RAINDROP.MAXUSE,
     onfinishedfn = function(inst)
         -- TODO:执行remove前需要将装备卸下吗？
@@ -182,8 +162,6 @@ dota_item_equipment.dota_blitz_knuckles = {
     name = "dota_blitz_knuckles",
     animname = "dota_blitz_knuckles",
 	animzip = "dota_equipment", 
-	taglist = {
-    },
 	onequipfn = function(inst,owner)
         owner.components.dotacharacter:AddAttackSpeed(TUNING.DOTA.BLITZ_KNUCKLES.ATTACKSPEED)
 	end,
@@ -196,8 +174,6 @@ dota_item_equipment.dota_ring_of_protection = {
     name = "dota_ring_of_protection",
     animname = "dota_ring_of_protection",
 	animzip = "dota_equipment", 
-	taglist = {
-    },
 	onequipfn = function(inst,owner)
         owner.components.dotacharacter:AddExtraArmor(TUNING.DOTA.RING_OF_PROTECTION.EXTRAARMOR)
 	end,
@@ -210,8 +186,6 @@ dota_item_equipment.dota_chainmail = {
     name = "dota_chainmail",
     animname = "dota_chainmail",
 	animzip = "dota_equipment", 
-	taglist = {
-    },
 	onequipfn = function(inst,owner)
         owner.components.dotacharacter:AddExtraArmor(TUNING.DOTA.CHAINMAIL.EXTRAARMOR)
 	end,
@@ -223,9 +197,7 @@ dota_item_equipment.dota_chainmail = {
 dota_item_equipment.dota_helm_of_iron_will = {
     name = "dota_helm_of_iron_will",
     animname = "dota_helm_of_iron_will",
-	animzip = "dota_equipment", 
-	taglist = {
-    },        
+	animzip = "dota_equipment",      
 	onequipfn = function(inst,owner)
         owner.components.dotacharacter:AddExtraArmor(TUNING.DOTA.HELM_OF_IRON_WILL.EXTRAARMOR)
         owner.components.dotacharacter:AddHealthRegen(TUNING.DOTA.HELM_OF_IRON_WILL.HEALTHREGEN)
@@ -242,8 +214,6 @@ dota_item_equipment.dota_quelling_blade = {
     animname = "dota_quelling_blade",
 	animzip = "dota_equipment", 
     activatename = "DOTA_CHOP",
-	taglist = {
-    },
     sharedcoolingtype = "chop",
 	onequipfn = function(inst,owner)
         owner.components.dotacharacter:AddExtraDamage(TUNING.DOTA.QUELLING_BLADE.EXTRADAMAGE)
