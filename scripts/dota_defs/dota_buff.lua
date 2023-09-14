@@ -11,6 +11,9 @@ end
 local function RemoveTag(inst, tag)
 	if inst:HasTag(tag) then inst:RemoveTag(tag) end
 end
+local function PushEvent_MagicSingalTarget(inst, target, magic)
+	TheWorld:PushEvent("dotaevent_magicsingal", { inst = inst, target = target, magic = magic })
+end
 -- name--buff名
 -- duration--buff持续时间
 -- prefabs--prefabs列表
@@ -1238,6 +1241,7 @@ buff_defs.buff_dota_cyclone={
 		end
 		if not target:HasTag("player") and target.components.combat ~= nil then
 			target.components.combat:GetAttacked(inst.attacker or inst, TUNING.DOTA.EULS.CYCLONE.DAMAGE, inst, "dotamagic")
+			PushEvent_MagicSingalTarget(inst.attacker or inst, target, "dota_cyclone")
 		end
 	end,
 }
@@ -1257,6 +1261,7 @@ buff_defs.buff_dota_cycloneplus={
 		end
 		if not target:HasTag("player") and target.components.combat ~= nil then
 			target.components.combat:GetAttacked(inst.attacker or inst, TUNING.DOTA.EULS.CYCLONE.DAMAGE, inst, "dotamagic")
+			PushEvent_MagicSingalTarget(inst.attacker or inst, target, "dota_cycloneplus")
 		end
 	end,
 }
@@ -1753,7 +1758,20 @@ buff_defs.buff_dota_grenade={
 		inst.grenadetask:Cancel()
 	end,
 }
-
-
+-------------------------------------------------灵匣-------------------------------------------------
+buff_defs.buff_dota_empowerspell={
+	name="buff_dota_empowerspell",
+	duration=TUNING.DOTA.PHYLACTERY.EMPOWERSPELL.DURATION,
+	onattachedfn=function(inst, target, followsymbol, followoffset, data)
+		if target.components.locomotor ~= nil then
+			target.components.locomotor:SetExternalSpeedMultiplier(inst, "buff_dota_empowerspell", (1+TUNING.DOTA.PHYLACTERY.EMPOWERSPELL.SPEEDMULTI))
+		end
+	end,
+	ondetachedfn=function(inst, target)
+		if target.components.locomotor ~= nil then
+			target.components.locomotor:RemoveExternalSpeedMultiplier(inst, "buff_dota_empowerspell")
+		end
+	end,
+}
 
 return buff_defs

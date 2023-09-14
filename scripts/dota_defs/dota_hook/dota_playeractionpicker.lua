@@ -25,9 +25,10 @@ AddComponentPostInit("playeractionpicker", function(self)
 			return {}
 		end
 
+		-- Todo:修复AOE右键时被其他动作覆盖的bug
 		local actions = old_GetRightClickActions(self, position, target, ...)	-- 这是原函数的返回值
 		local equipitem = self.inst.replica.inventory:GetEquippedItem(EQUIPSLOTS.DOTASLOT) -- or EQUIPSLOTS.HANDS)
-		if (actions == nil or #actions <= 0) and equipitem ~= nil and equipitem:IsValid() then
+		if (actions == nil or #actions <= 0 or (#actions == 1 and actions[1].action == ACTIONS.LOOKAT) ) and equipitem ~= nil and equipitem:IsValid() then
 			local alwayspassable, allowwater--, deployradius
 			local aoetargeting = equipitem.components.aoetargeting
 			if aoetargeting ~= nil and aoetargeting:IsEnabled() then

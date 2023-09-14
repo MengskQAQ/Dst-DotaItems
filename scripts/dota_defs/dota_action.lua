@@ -110,15 +110,19 @@ local function IsManaEnough_Double(player, item)
 		and player.replica.dotaattributes and player.replica.dotaattributes:GetMana_Double() >= item.manacost
 end
 
-local function PushMagicUseEvent(inst, magic)
-	TheWorld:PushEvent("dota_magicuse", { inst = inst, pos = inst:GetPosition(), magic = magic })
+local function PushEvent_MagicUse(inst, magic)
+	TheWorld:PushEvent("dotaevent_magicuse", { inst = inst, pos = inst:GetPosition(), magic = magic })
+end
+
+local function PushEvent_MagicSingalTarget(inst, target, magic)
+	TheWorld:PushEvent("dotaevent_magicsingal", { inst = inst, target = target, magic = magic })
 end
 
 local function ItemManaDelta(player, item, overtime, cause)
 	if item and item.manacost and player and player.components.dotaattributes then
 		player.components.dotaattributes:Mana_DoDelta(-item.manacost, overtime, cause)
 	end
-	PushMagicUseEvent(player, string.upper(cause))
+	PushEvent_MagicUse(player, string.upper(cause))
 end
 
 -- 如果属性系统关闭了, 就不再计算魔法值
@@ -479,7 +483,7 @@ local function TPSCROLL(act, item, type, hud)
 	if act.doer.components.dotaattributes then
 		act.doer.components.dotaattributes:Mana_DoDelta(-tpscroll_mana, nil, "dota_tpscroll")
 	end
-	PushMagicUseEvent(act.doer, "DOTA_TPSCROLL")
+	PushEvent_MagicUse(act.doer, "DOTA_TPSCROLL")
 	return true
 end
 
@@ -1040,7 +1044,7 @@ actions.transmute = {
 
 			PlaySound(act.doer, "mengsk_dota2_sounds/items/item_handofmidas", nil, BASE_VOICE_VOLUME)
 			ChangeActivate(item, act.doer)
-			PushMagicUseEvent(act.doer, "DOTA_TRANSMUTE")
+			PushEvent_MagicUse(act.doer, "DOTA_TRANSMUTE")
 			return true
 		end
 		return ActionFailed(act.doer)
@@ -1173,6 +1177,7 @@ actions.release = {
 				AddDebuff(act.target, "buff_dota_releaseplus_positive")
 			else
 				AddDebuff(act.target, "buff_dota_releaseplus_negtive")
+				PushEvent_MagicSingalTarget(act.doer, act.target, "DOTA_RELEASE")
 			end
 			PlaySound(act.doer, "mengsk_dota2_sounds/items/spirit_vessel_cast", nil, BASE_VOICE_VOLUME)
 			ChangeActivate(item, act.doer)
@@ -1199,6 +1204,7 @@ actions.releaseplus = {
 				AddDebuff(act.target, "buff_dota_release_positive")
 			else
 				AddDebuff(act.target, "buff_dota_release_negtive")
+				PushEvent_MagicSingalTarget(act.doer, act.target, "DOTA_RELEASEPLUS")
 			end
 			ChangeActivate(item, act.doer)
 			return true
@@ -1492,6 +1498,7 @@ local function DoLishtingStrike(inst, attacker, damage, weapon)
 		SpawnPrefab("dota_fx_lightning").Transform:SetPosition(inst.Transform:GetWorldPosition())	-- TODO：将官方的闪电替换成大根特效
 		PlaySound(attacker, "mengsk_dota2_sounds/items/dagon", nil, BASE_VOICE_VOLUME)
 		inst.components.combat:GetAttacked(attacker, damage, weapon, "dotamagic")
+		PushEvent_MagicSingalTarget(attacker, inst, "DOTA_RELEASEPLUS")
     end
 	-- if inst.components.burnable ~= nil then	-- 点燃
 	-- 	inst.components.burnable:Ignite()
@@ -1753,6 +1760,7 @@ actions.hex = {
 			if not IsManaEnough(act.doer, item) then return true end
 			if not RechargeCheck(item, TUNING.DOTA.SCYTHE_OF_VYSE.HEX.CD, act.doer) then return true end
 			AddDebuff(act.target, "buff_dota_hex")
+			PushEvent_MagicSingalTarget(act.doer, act.target, "dota_hex")
 			ItemManaDelta(act.doer, item, nil ,"dota_hex")
 			ChangeActivate(item, act.doer)
 			return true
@@ -1890,6 +1898,7 @@ actions.burnx = {
 			if not IsManaEnough(act.doer, item) then return true end
 			if not RechargeCheck(item, TUNING.DOTA.ORCHID_MALEVOLENCE.BURNX.CD, act.doer) then return true end
 			AddDebuff(act.target, "buff_dota_burnx", {attacker = act.doer})
+			PushEvent_MagicSingalTarget(act.doer, act.target, "dota_burnx")
 			ItemManaDelta(act.doer, item, nil ,"dota_burnx")
 			ChangeActivate(item, act.doer)
 			return true
@@ -2325,6 +2334,7 @@ actions.rend = {
 		   if not IsManaEnough(act.doer, item) then return true end
 		   if not RechargeCheck(item, TUNING.DOTA.BLOODTHORN.REND.CD, act.doer) then return true end
 		   AddDebuff(act.target, "buff_dota_rend", {attacker = act.doer})
+		   PushEvent_MagicSingalTarget(act.doer, act.target, "dota_rend")
 		   ItemManaDelta(act.doer, item, nil ,"dota_rend")
 		   ChangeActivate(item, act.doer)
 		   return true
@@ -2468,6 +2478,7 @@ actions.disarm = {
 			if act.target.components.combat ~= nil then
 				act.target.components.combat:BlankOutAttacks(TUNING.DOTA.HEAVENS_HALBERD.DISARM.DURATION)
 			end
+			PushEvent_MagicSingalTarget(act.doer, act.target, "dota_disarm")
 			ChangeActivate(item, act.doer)
 			PlaySound(act.doer, "mengsk_dota2_sounds/items/heavens_halberd", nil, BASE_VOICE_VOLUME)
 			ItemManaDelta(act.doer, item, nil ,"dota_disarm")
@@ -2576,7 +2587,7 @@ actions.weakness = {
 	fn = function(act)	-- TODO: 待制作
 		if act.doer ~= nil and act.doer:HasTag("player") and act.doer:HasTag("dota_weakness") then
 			local item = FindActivateItemByDoer(act.doer, "dota_veil_of_discord")
-			if item == nil then return ActionFailed(act.doer) end
+			if item == nil then return AoeActionFailed(act.doer, item) end
 			if not IsManaEnough(act.doer, item) then return AoeActionFailed(act.doer, item) end
 			if not RechargeCheck(item, TUNING.DOTA.VEIL_OF_DISCORD.WEAKNESS.CD, act.doer) then return AoeActionFailed(act.doer, item) end
 
@@ -2619,8 +2630,8 @@ end
 actions.grenade = {
 	id = "DOTA_GRENADE",
 	str = STRINGS.DOTA.NEWACTION.DOTA_GRENADE,
-	fn = function(act)	-- TODO: 待制作
-		if StandardTargetAndActivateActioniTest(act, "dota_grenade") then
+	fn = function(act)
+		if act.doer ~= nil and act.doer:HasTag("player") and act.doer:HasTag("dota_grenade") then
 			local item = FindActivateItemByDoer(act.doer, "dota_blood_grenade") 
 			if item == nil then return AoeActionFailed(act.doer, item) end
 			if not RechargeCheck(item, TUNING.DOTA.BLOOD_GRENADE.GRENADE.CD, act.doer) then return AoeActionFailed(act.doer, item) end
@@ -2640,7 +2651,7 @@ actions.grenade = {
 				projectile.components.complexprojectile:SetOnHit(Grenade_OnHit)
 			end
 			
-			act.doer.components.health:DoDelta(-grenade_health, nil, "dota_grenade")
+			act.doer.components.health:DoDelta(-grenade_health, nil, STRINGS.NAMES.DOTA_BLOOD_GRENADE)
 			return true
 		end
 		return ActionFailed(act.doer)

@@ -87,12 +87,12 @@ dota_item_other.dota_magic_stick = {
     onequipfn = function(inst,owner)
         if inst._onmagicusefn == nil then
             inst._onmagicusefn = function(src, data) OnMagicUse(inst, owner, data) end
-            inst:ListenForEvent("dota_magicuse", inst._onmagicusefn, TheWorld)
+            inst:ListenForEvent("dotaevent_magicuse", inst._onmagicusefn, TheWorld)
         end
 	end,
 	onunequipfn = function(inst,owner)
         if inst._onmagicusefn ~= nil then
-            inst:RemoveEventCallback("dota_magicuse", inst._onmagicusefn, TheWorld)
+            inst:RemoveEventCallback("dotaevent_magicuse", inst._onmagicusefn, TheWorld)
             inst._onmagicusefn = nil
         end
 	end,

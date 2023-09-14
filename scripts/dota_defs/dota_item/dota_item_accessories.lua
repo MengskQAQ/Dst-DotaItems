@@ -237,14 +237,14 @@ dota_item_accessories.dota_magic_wand = {
         owner.components.dotacharacter:AddAttributes(TUNING.DOTA.MAGIC_WAND.ATTRIBUTES)
         if inst._onmagicusefn == nil then
             inst._onmagicusefn = function(src, data) OnMagicUse(inst, owner, data) end
-            inst:ListenForEvent("dota_magicuse", inst._onmagicusefn, TheWorld)
+            inst:ListenForEvent("dotaevent_magicuse", inst._onmagicusefn, TheWorld)
         end
 	end,
 	onunequipfn = function(inst,owner)
         owner.components.dotacharacter:RemoveAttributes(TUNING.DOTA.MAGIC_WAND.ATTRIBUTES)
         if inst._onmagicusefn == nil then
             inst._onmagicusefn = function(src, data) OnMagicUse(inst, owner, data) end
-            inst:ListenForEvent("dota_magicuse", inst._onmagicusefn, TheWorld)
+            inst:ListenForEvent("dotaevent_magicuse", inst._onmagicusefn, TheWorld)
         end
 	end,
 }

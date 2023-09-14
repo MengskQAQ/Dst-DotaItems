@@ -112,8 +112,39 @@ ability_defs.ability_dota_echo={
 		end
 	end,
 }
-
-
+-------------------------------------------------灵匣-------------------------------------------------
+local EMPOWERSPELL_CD = TUNING.DOTA.PHYLACTERY.EMPOWERSPELL.CD
+local EMPOWERSPELL_DAMAGE = TUNING.DOTA.PHYLACTERY.EMPOWERSPELL.DAMAGE
+local function OnResetEmpowerSpell(inst)
+    inst.nospelltask = nil
+end
+ability_defs.ability_dota_empowerspell={
+	name="ability_dota_empowerspell",
+	onattachedfn=function(inst, target)
+		if inst._magicsingal == nil then
+			inst._magicsingal = function(owner, data)
+				if inst.nospelltask == nil and owner and data and data.target and data.target.components.combat then
+					local cdreduction = owner.components.dotaattributes.cdreduction:Get()
+					inst.nospelltask = inst:DoTaskInTime(EMPOWERSPELL_CD * (1 - cdreduction), OnResetEmpowerSpell)
+					data.target.components.combat:GetAttacked(owner, EMPOWERSPELL_DAMAGE, nil, "dotamagic")
+					AddDebuff(data.target, "buff_dota_empowerspell")
+					owner:PushEvent("dotaevent_empowerspell")
+                end
+			end
+		end
+		inst:ListenForEvent("dotaevent_magicsingal", inst._magicsingal, target)
+	end,
+	ondetachedfn=function(inst, target)
+		if inst.nospelltask ~= nil then
+			inst.nospelltask:Cancel()
+			inst.nospelltask = nil
+		end
+		if inst._magicsingal ~= nil then
+			inst:RemoveEventCallback("dotaevent_magicsingal", inst._magicsingal, target)
+			inst._magicsingal = nil
+		end
+	end,
+}
 
 
 

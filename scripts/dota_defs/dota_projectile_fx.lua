@@ -6,6 +6,9 @@ local function PlaySound(inst, sound, ...)
 		-- SoundEmitter:PlaySound(emitter, event, name, volume, ...)
 	end
 end
+local function PushEvent_MagicSingalTarget(inst, target, magic)
+	TheWorld:PushEvent("dotaevent_magicsingal", { inst = inst, target = target, magic = magic })
+end
 -------------------------------------------------阿托斯之棍-------------------------------------------------
 dota_projectile.cripple = {
     name = "dota_projectile_cripple",
@@ -23,6 +26,10 @@ dota_projectile.cripple = {
 
     projectile = true,
     speed = 50,
+    onthrownfn = function(inst, owner, target, attacker)
+        inst.owner = owner
+		inst.attacker = attacker
+    end,
     onhitfn = function(inst, weapon, target)
         if not target:IsValid() then return end
 
@@ -35,6 +42,8 @@ dota_projectile.cripple = {
         if target.components.debuffable ~= nil then
             target.components.debuffable:AddDebuff("buff_dota_cripple", "buff_dota_cripple")
         end
+
+        PushEvent_MagicSingalTarget(inst.attacker, target, "dota_cripple")
 
         inst:Remove()
     end,
@@ -74,6 +83,7 @@ dota_projectile.eternal = {
 
         if target and target.components.combat ~= nil and attacker and attacker.components.combat and attacker:IsValid() then
             target.components.combat:GetAttacked(attacker, ETERNAL_DAMAGE, nil, "dotamagic")
+            PushEvent_MagicSingalTarget(attacker, target, "dota_eternal")
         end
 
         if target.components.debuffable ~= nil then
@@ -421,6 +431,7 @@ dota_projectile.ethereal = {
         local ETHEREAL_DAMEGE = TUNING.DOTA.ETHEREAL_BLADE.ETHEREAL.DAMAGE + PRIMARY * TUNING.DOTA.ETHEREAL_BLADE.ETHEREAL.PRIMARYMULTI
         if not target:HasTag("player") and target.components.combat ~= nil then
             target.components.combat:GetAttacked(attacker, ETHEREAL_DAMEGE, nil, "dotamagic")
+            PushEvent_MagicSingalTarget(attacker, target, "dota_ethereal")
             PlaySound(target, "mengsk_dota2_sounds/items/item_ghost_etherealblade", nil, BASE_VOICE_VOLUME)
         elseif target:HasTag("player") then
             PlaySound(target, "mengsk_dota2_sounds/items/ethereal_blade_cast", nil, BASE_VOICE_VOLUME)
@@ -463,6 +474,8 @@ dota_projectile.nullifier = {
             target.components.debuffable:AddDebuff("buff_dota_nullifier", "buff_dota_nullifier")
         end
         
+        PushEvent_MagicSingalTarget(inst.attacker, target, "dota_ethereal")
+
         inst:Remove()
     end,
     onmissfn = function(inst, attacker, target)

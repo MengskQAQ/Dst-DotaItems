@@ -665,13 +665,24 @@ dota_item_precious.dota_phylactery = {
         owner.components.dotacharacter:AddManaRegen(TUNING.DOTA.PHYLACTERY.MANAREGEN)
         owner.components.dotacharacter:AddMaxMana(TUNING.DOTA.PHYLACTERY.MAXMANA)
         owner.components.dotacharacter:AddExtraHealth(TUNING.DOTA.PHYLACTERY.EXTRAHEALTH)
+        owner.components.dotacharacter:AddAbility(inst, "ability_dota_empowerspell", "ability_dota_empowerspell")
+        owner:ListenForEvent("dotaevent_empowerspell", inst._onrecharger)
 	end,
 	onunequipfn = function(inst,owner)
         owner.components.dotacharacter:RemoveAttributes(TUNING.DOTA.PHYLACTERY.ATTRIBUTES)
         owner.components.dotacharacter:RemoveManaRegen(TUNING.DOTA.PHYLACTERY.MANAREGEN)
         owner.components.dotacharacter:RemoveMaxMana(TUNING.DOTA.PHYLACTERY.MAXMANA)
         owner.components.dotacharacter:RemoveExtraHealth(TUNING.DOTA.PHYLACTERY.EXTRAHEALTH)
+        owner.components.dotacharacter:RemoveAbility(inst, "ability_dota_empowerspell")
+        owner:RemoveEventCallback("dotaevent_empowerspell", inst._onrecharger)
 	end,
+    extrafn=function(inst)
+        inst._onrecharger = function(owner)
+            if inst and inst.components.rechargeable ~= nil then
+                inst.components.rechargeable:Discharge(TUNING.DOTA.PHYLACTERY.EMPOWERSPELL.CD)
+			end
+        end
+    end,
 }
 -------------------------------------------------鱼叉-------------------------------------------------
 dota_item_precious.dota_harpoon = { -- 鱼叉的主动技能还没做好，先加个被动的冷却特效
