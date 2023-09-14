@@ -35,9 +35,10 @@ AddComponentPostInit("pinnable", function(self)
     local old_RemainingRatio = self.RemainingRatio
     function self:RemainingRatio()
         if self.inst.components.dotaattributes ~= nil then
+            local statusresistance = self.inst.components.dotaattributes.statusresistance:Get()
+            if statusresistance == 1 then return 0 end  -- 因为公司中存在除法，所以对于01的处理要格外注意
             local remainratio = old_RemainingRatio(self) -- 原函数返回值
             local ab = GetTime() - self.last_stuck_time + self.attacks_since_pinned * TUNING.PINNABLE_ATTACK_WEAR_OFF
-            local statusresistance = self.inst.components.dotaattributes.statusresistance:Get()
             return remainratio - ab * statusresistance/self.wearofftime * (1 - statusresistance)    -- 根据上面的推导写返回值
         end
         if old_RemainingRatio then
@@ -167,13 +168,19 @@ end)
 local function KnockbackReset(state, timeout)
     local old_onenter = state.onenter
     state.onenter = function(inst, ...)
+
+        if inst:HasTag("dota_avatar") then
+            return
+        end
+
         if old_onenter then
             old_onenter(inst, ...)
         end
 
         if inst:HasTag("dotaattributes") then
             local statusresistance = inst.components.dotaattributes.statusresistance:Get() or 0
-            inst.AnimState:SetDeltaTimeMultiplier(1/(1-statusresistance))
+            local multiplier = statusresistance ~= 1 and ( 1/(1-statusresistance) ) or 1000
+            inst.AnimState:SetDeltaTimeMultiplier(multiplier)
             -- if state.timeline then   --没什么必要改这个，只有一个timeline里涉及了一个声音的播放
                 -- for _, v in pairs(state.timeline) do
                     -- v.time = v.time * (1 - statusresistance)
