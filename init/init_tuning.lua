@@ -37,6 +37,7 @@ local range_ratio = GetModConfigData("range_ratio") or 0.01
 local cd_ratio = GetModConfigData("cd_ratio") or 1
 local extraspeed_ratio = GetModConfigData("extraspeed_ratio") or 0.01
 local attackspeed_ratio = GetModConfigData("attackspeed_ratio") or 0.005
+local lifesteal_ratio = GetModConfigData("lifesteal_ratio") or 0.1
 
 local handofmidas_cdplus = GetModConfigData("hand_of_midas_cdplus") or 1
 local blinkdagger_cdplus = GetModConfigData("blink_dagger_cdplus") or 1
@@ -308,7 +309,7 @@ local DOTATUNING = {
 		GOLD  = 1100 * gold_ratio,
 		PIERCE = {
 			PROBABILITY = 0.3,	-- 穿刺触发概率
-			DAMAGE = 70,			-- 穿刺触发伤害
+			DAMAGE = 70 * extradamage_ratio,			-- 穿刺触发伤害
 		},
 	},
 --淬毒之珠
@@ -360,8 +361,8 @@ local DOTATUNING = {
 	INFUSED_RAINDROP = {
 		GOLD  = 225 * gold_ratio,
 		MAXUSE = 6,
-		MINDAMAGE = 75,
-		DAMAGEBLOCK = 120,
+		MINDAMAGE = 75 * extradamage_ratio,
+		DAMAGEBLOCK = 120 * extradamage_ratio,
 		MANAREGEN = 0.6,
 		CD = 6 * cd_ratio,
 	},
@@ -453,12 +454,12 @@ local DOTATUNING = {
 --巫毒面具
 	VOODOO_MASK = {
 		GOLD  = 700 * gold_ratio,
-		LIFESTEAL = 0.1,
+		SPELLLIFESTEAL = 0.1 * lifesteal_ratio,
 	},
 --吸血面具
 	MORBID_MASK = {
 		GOLD  = 900 * gold_ratio,
-		LIFESTEAL = 0.18,
+		LIFESTEAL = 0.18 * lifesteal_ratio,
 	},
 --贤者面罩
 	SAGES_MASK = {
@@ -581,7 +582,7 @@ local DOTATUNING = {
 		GOLD  = 0 * gold_ratio,
 		EXTRADAMAGE = 10 * extradamage_ratio,
 		ATTACKSPEED = 10 * attackspeed_ratio,
-		LIFESTEAL = 0.24,
+		LIFESTEAL = 0.24 * lifesteal_ratio,
 		BERSERK = {
 			ATTACKSPEED = 110 * attackspeed_ratio,
 			LESSERARMOR = 8,
@@ -684,7 +685,7 @@ local DOTATUNING = {
 		HEALTHREGEN = 7 * healthregen_ratio,
 		EXTRAARMOR = 7,
 		AURA = {
-			LIFESTEAL = 0.2,
+			LIFESTEAL = 0.2 * lifesteal_ratio,
 			RANGE = 1200 * range_ratio,
 			EXTRAARMOR = 3,
 			DAMAGEMULTI = 0.18,
@@ -729,7 +730,7 @@ local DOTATUNING = {
 	BOOTS_OF_TRAVEL_LEVEL2 = {
 		GOLD  = 2000 * gold_ratio,		-- 卷轴
 		EXTRASPEED = 110 * extraspeed_ratio,
-		CD = 80 * cd_ratio * tpscroll_cdplus,
+		CD = 80 * cd_ratio * tpscroll_cdplus * 0.8, -- 稍微增强大飞
 	},
 --怨灵系带
 	WRAITH_BAND = {
@@ -793,7 +794,7 @@ local DOTATUNING = {
 		GOLD  = 250 * gold_ratio, -- 卷轴
 		AURA = {
 			RANGE = 1200 * range_ratio,
-			LIFESTEAL = 0.2,
+			LIFESTEAL = 0.2 * lifesteal_ratio,
 			DAMAGEMULTI = 0.18,
 			MANAREGEN = 1.75,
 			EXTRAARMOR = 3,
@@ -981,7 +982,7 @@ local DOTATUNING = {
 		EXTRAHEALTH = 250 * extrahealth_ratio,
 		MAXMANA = 250,
 		AURA = {
-			LIFESTEAL = 0.1,
+			LIFESTEAL = 0.1 * lifesteal_ratio,
 			RANGE = 1200 * range_ratio,
 			EXTRAARMOR = 3,
 			DAMAGEMULTI = 0.18,
@@ -1055,11 +1056,11 @@ local DOTATUNING = {
 		INTELLIGENCE = 14,
 		BURST = {
 			DAMAGE = {
-				LEVEL1 = 400,		--一级能量冲击伤害
-				LEVEL2 = 500,
-				LEVEL3 = 600,
-				LEVEL4 = 700,
-				LEVEL5 = 800,
+				LEVEL1 = 400 * extradamage_ratio,		--一级能量冲击伤害
+				LEVEL2 = 500 * extradamage_ratio,
+				LEVEL3 = 600 * extradamage_ratio,
+				LEVEL4 = 700 * extradamage_ratio,
+				LEVEL5 = 800 * extradamage_ratio,
 			},
 			MANA = {
 				LEVEL1 = 120,			--一级能量冲击消耗魔法值
@@ -1398,10 +1399,10 @@ local DOTATUNING = {
 		GOLD = 700 * gold_ratio,
 		MAXMANA = 550,
 		EXTRAHEALTH = 550 * extrahealth_ratio,
-		SPELLLIFESTEAL = 0.3,
+		SPELLLIFESTEAL = 0.3 * lifesteal_ratio,
 		BLOODPACT = {
 			CD = 30 * cd_ratio,	
-			SPELLLIFESTEAL = 0.3 * 2.5,
+			SPELLLIFESTEAL = 0.3 * 2.5 * lifesteal_ratio,
 			DURATION = 6 * duration_ratio,
 		},
 	},
@@ -1422,7 +1423,7 @@ local DOTATUNING = {
 		GOLD = 1100 * gold_ratio,
 		SPELLRESIS = 0.25,
 		HEALTHREGEN = 8.5 * healthregen_ratio,
-		SPELLLIFESTEAL = 0.2,
+		SPELLLIFESTEAL = 0.2 * lifesteal_ratio,
 		SHROUD = {
 			DAMAGE = 400,
 			DURATION = 12 * duration_ratio,
@@ -1518,7 +1519,7 @@ local DOTATUNING = {
 		ATTACKSPEED = 45 * attackspeed_ratio,
 		PIERCE = {
 			CHANCE = 0.8,
-			DAMAGE = 70,
+			DAMAGE = 70 * extradamage_ratio,
 		},
 	},
 --狂战斧
@@ -1764,10 +1765,10 @@ local DOTATUNING = {
 		GOLD = 0 * gold_ratio,
 		STRENGTH = 25,
 		EXTRADAMAGE = 38 * extradamage_ratio,
-		LIFESTEAL = 0.3,
+		LIFESTEAL = 0.3 * lifesteal_ratio,
 		RAGE = {
 			CD = 30 * cd_ratio,
-			LIFESTEAL = 1.45,
+			LIFESTEAL = 1.45 * lifesteal_ratio,
 			DURATION = 6 * duration_ratio,
 		},
 	},

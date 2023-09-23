@@ -3,7 +3,7 @@
 local L = locale ~= nil and locale ~= "zh" and locale ~= "zhr" and locale ~= "zht" -- true 英文  false 中文
 
 name = L and "Dst Dota2 Items" or "Dota2 装备" -- 名称
-version = "1.0.0_alpha" -- 版本 大版本，小版本，优化/bug
+version = "1.0.1" -- 版本 大版本，小版本，优化/bug
 author = "Mengsk"   -- 作者
 forumthread = ""    -- klei官方论坛地址，为空则默认是工坊的地址
 
@@ -97,6 +97,9 @@ local smallratio = {
     {description = "0.15", data = 0.15},
     {description = "0.20", data = 0.20},
     {description = "0.30", data = 0.30},
+    {description = "0.40", data = 0.40},
+    {description = "0.50", data = 0.50},
+    {description = "1.00", data = 1.00},
 }
 
 local tinyratio = {
@@ -306,6 +309,13 @@ configuration_options =
         hover = L and "The AttackSpeed of items, compared to Dota." or "与Dota内攻速加成相比",
         options = tinyratio,
         default = 0.005,
+    },
+    {
+        name = "lifesteal_ratio",
+        label = L and "LifeSteal Ratio" or "吸血系数",
+        hover = L and "The LifeSteal of items, compared to Dota." or "与Dota内吸血效果相比",
+        options = smallratio,
+        default = 0.1,
     },
     -------------------------------------------------------------------------------------------------
     {

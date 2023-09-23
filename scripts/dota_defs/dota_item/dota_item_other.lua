@@ -209,10 +209,10 @@ dota_item_other.dota_voodoo_mask = {
     animname = "dota_voodoo_mask",
 	animzip = "dota_other",
 	onequipfn = function(inst,owner)
-        owner.components.dotacharacter:AddSpellLifesteal(TUNING.DOTA.VOODOO_MASK.LIFESTEAL)
+        owner.components.dotacharacter:AddSpellLifesteal(TUNING.DOTA.VOODOO_MASK.SPELLLIFESTEAL)
 	end,
 	onunequipfn = function(inst,owner)
-        owner.components.dotacharacter:RemoveSpellLifesteal(TUNING.DOTA.VOODOO_MASK.LIFESTEAL)
+        owner.components.dotacharacter:RemoveSpellLifesteal(TUNING.DOTA.VOODOO_MASK.SPELLLIFESTEAL)
 	end,
 }
 -------------------------------------------------吸血面具-------------------------------------------------

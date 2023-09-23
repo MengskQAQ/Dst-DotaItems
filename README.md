@@ -99,6 +99,7 @@ You can report issue if you find any bugs.
 18. 使用笛子时，可能出现的游戏崩溃bug
 19. 分解配方失效bug
 20. 装备box时，睡眠时box的ui未能正确消失
+21. 强袭的减甲光环
 
 # LICENSE / 许可证
 
