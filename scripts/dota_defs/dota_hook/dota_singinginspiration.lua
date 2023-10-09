@@ -3,7 +3,7 @@ AddComponentPostInit("singinginspiration", function(self)
 	local old_OnHitOther = self.OnHitOther
 	function self:OnHitOther(data)
         if old_OnHitOther then
-			old_OnHitOther(data)
+			old_OnHitOther(self, data)
 		end
         if self.inst.components.dotaattributes ~= nil then
             local delta = (self.inst.components.dotaattributes.extradamage:Get() * TUNING.INSPIRATION_GAIN_RATE) * (1 - self:GetPercent())
