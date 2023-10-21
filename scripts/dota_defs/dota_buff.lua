@@ -1485,8 +1485,8 @@ buff_defs.buff_dota_nullifier_speed={
 	end,
 }
 -------------------------------------------------邪恶镰刀 or 羊刀-------------------------------------------------
-buff_defs.dota_hex={
-	name="dota_hex",
+buff_defs.buff_dota_hex={
+	name="buff_dota_hex",
 	duration=TUNING.DOTA.SCYTHE_OF_VYSE.HEX.DURATION,
 	onattachedfn=function(inst, target)
 		PlaySound(target, "mengsk_dota2_sounds/plus/scythe_of_vyse", nil, BASE_VOICE_VOLUME)
