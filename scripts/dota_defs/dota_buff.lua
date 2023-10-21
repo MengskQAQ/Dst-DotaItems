@@ -416,6 +416,7 @@ buff_defs.buff_dota_phase={
 	duration=TUNING.DOTA.PHASE_BOOTS.PHASE.DURATION,
 	onattachedfn=function(inst, target)
 		RemovePhysicsColliders(target)
+		target.Physics:CollidesWith(COLLISION.LAND_OCEAN_LIMITS)
 		if target.components.locomotor ~= nil then
 			target.components.locomotor:SetExternalSpeedMultiplier(inst, "buff_dota_phase", 1+TUNING.DOTA.PHASE_BOOTS.PHASE.SPEEDMULTI)
 		end
