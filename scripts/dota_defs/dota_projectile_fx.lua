@@ -6,6 +6,11 @@ local function PlaySound(inst, sound, ...)
 		-- SoundEmitter:PlaySound(emitter, event, name, volume, ...)
 	end
 end
+local function AddDebuff(inst, debuffname, ...)
+	if inst.components.debuffable ~= nil then
+		inst.components.debuffable:AddDebuff(debuffname, debuffname, ...)
+	end
+end
 local function PushEvent_MagicSingalTarget(inst, target, magic)
 	TheWorld:PushEvent("dotaevent_magicsingal", { inst = inst, target = target, magic = magic })
 end
@@ -23,7 +28,7 @@ dota_projectile.cripple = {
     extrafn = function(inst)
         inst.AnimState:SetBloomEffectHandle("shaders/anim.ksh")
     end,
-
+    nophysics = true,
     projectile = true,
     speed = 50,
     onthrownfn = function(inst, owner, target, attacker)
@@ -66,7 +71,7 @@ dota_projectile.eternal = {
     extrafn = function(inst)
         inst.AnimState:SetBloomEffectHandle("shaders/anim.ksh")
     end,
-
+    nophysics = true,
     projectile = true,
     speed = 50,
     onthrownfn = function(inst, owner, target, attacker)
@@ -199,7 +204,7 @@ dota_projectile.chain = {
         inst.AnimState:SetSymbolBloom("glow")
         inst.AnimState:SetLightOverride(.5)
     end,
-
+    nophysics = true,
     projectile = true,
     speed = CHAIN_SPEED,
     -- range = 25,
@@ -272,7 +277,7 @@ dota_projectile.maelstorm = {
         inst.AnimState:SetSymbolBloom("glow")
         inst.AnimState:SetLightOverride(.5)
     end,
-
+    nophysics = true,
     projectile = true,
     speed = MAELSTORM_SPEED,
     -- range = 25,
@@ -339,7 +344,7 @@ dota_projectile.static = {
         inst.AnimState:SetSymbolBloom("glow")
         inst.AnimState:SetLightOverride(.5)
     end,
-
+    nophysics = true,
     projectile = true,
     speed = MAELSTORM_SPEED,
     -- range = 25,
@@ -394,7 +399,7 @@ dota_projectile.ethereal = {
         inst.AnimState:SetSymbolBloom("glow")
         inst.AnimState:SetLightOverride(.5)
     end,
-
+    nophysics = true,
     projectile = true,
     speed = 15,
     onthrownfn = function(inst, owner, target, attacker)
@@ -451,6 +456,7 @@ dota_projectile.nullifier = {
     build = "boomerang",
     anim = "spin_loop",
 
+    nophysics = true,
     projectile = true,
     speed = 10,
     onthrownfn = function(inst, owner, target, attacker)
@@ -482,7 +488,60 @@ dota_projectile.nullifier = {
         inst:Remove()
     end,
 }
+-------------------------------------------------血腥榴弹-------------------------------------------------
+local GRENADE_RANGE = TUNING.DOTA.BLOOD_GRENADE.GRENADE.RANGE
+local GRENADE_DAMAGE = TUNING.DOTA.BLOOD_GRENADE.GRENADE.DAMAGE
 
+dota_projectile.grenade = {
+    name = "dota_projectile_grenade",
+    animzip = "bomb_lunarplant",
+    assetplus = { Asset("ANIM", "anim/sleepcloud.zip"), },
+    prefabs = {
+        "bomb_lunarplant_explode_fx",
+        "reticule",
+        "reticuleaoe",
+        "reticuleaoeping",
+    },
+    bank = "bomb_lunarplant",
+    build = "bomb_lunarplant",
+    anim = "idle",
 
+    nophysics = false,
+    complexprojectile = true,
+    speed = 15,
+    gravity = -35,
+    launchoffset = Vector3(.25, 1, 0),
+    onthrownfn = function(inst, attacker)
+        inst.persists = false
+    
+        inst.AnimState:SetBloomEffectHandle("shaders/anim.ksh")
+        inst.AnimState:PlayAnimation("spin_loop", true)
+        inst.AnimState:SetLightOverride(1)
+    
+        inst.SoundEmitter:PlaySound("rifts/lunarthrall_bomb/throw", "toss")
+    
+        inst.Physics:SetMass(1)
+        inst.Physics:SetFriction(0)
+        inst.Physics:SetDamping(0)
+        inst.Physics:SetCollisionGroup(COLLISION.CHARACTERS)
+        inst.Physics:ClearCollisionMask()
+        inst.Physics:CollidesWith(COLLISION.GROUND)
+        inst.Physics:CollidesWith(COLLISION.OBSTACLES)
+        inst.Physics:CollidesWith(COLLISION.ITEMS)
+        inst.Physics:SetCapsule(.2, .2)
+    end,
+    onhitfn = function(inst, attacker, target)
+        local x, y, z = inst.Transform:GetWorldPosition()
+        local ents = TheSim:FindEntities(x, y, z, GRENADE_RANGE, "_combat", { "INLIMBO", "notarget", "noattack", "flight", "invisible", "player"})
+        for _, ent in ipairs(ents) do
+            if ent.components.combat ~= nil then
+                inst.components.combat:GetAttacked(attacker, GRENADE_DAMAGE, nil, "dotamagic")
+            end
+            AddDebuff(ent, "buff_dota_grenade")
+        end
+        SpawnPrefab("bomb_lunarplant_explode_fx").Transform:SetPosition(x, y, z)
+        inst:Remove()
+    end,
+}
 
 return dota_projectile

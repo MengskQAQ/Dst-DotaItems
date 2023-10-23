@@ -95,6 +95,12 @@ AddRecipe2(
     }, { "WEAPONS", "DOTASHOP" }
 )
 
+-- 调试模式
+local debug_optional = GetModConfigData("debug_optional") or false
+if debug_optional then
+    modimport("scripts/dota_debug")
+end
+
 -- 添加加载界面台词
 
 if AddLoadingTip == nil then

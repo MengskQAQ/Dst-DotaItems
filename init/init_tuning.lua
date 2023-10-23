@@ -40,9 +40,12 @@ local attackspeed_ratio = GetModConfigData("attackspeed_ratio") or 0.005
 local lifesteal_ratio = GetModConfigData("lifesteal_ratio") or 0.1
 
 local handofmidas_cdplus = GetModConfigData("hand_of_midas_cdplus") or 1
+local handofmidas_limit = GetModConfigData("hand_of_midas_limit") or 110
 local blinkdagger_cdplus = GetModConfigData("blink_dagger_cdplus") or 1
 local tpscroll_cdplus = GetModConfigData("tpscroll_cdplus") or 1
 local bananalimit = GetModConfigData("bottle_bananalimit") or 1
+
+local debug_optional = GetModConfigData("debug_optional") or false
 
 local DOTATUNING = {
 --首选项
@@ -52,6 +55,7 @@ local DOTATUNING = {
 	BASE_VOICE_VOLUME = BASE_VOICE_VOLUME,
 	UI_DRAG = UI_DRAG,
 	SHARINGCD = RECHARGEMOD,
+	ISDEBUG = debug_optional,
 --人物属性系统
 	HEALTH_SYSTEM = HEALTH_SYSTEM,
 	ATTRIBUTES_SYSTEM = ATTRIBUTES_SYSTEM,
@@ -664,7 +668,7 @@ local DOTATUNING = {
 			EXPMULTI = 2.1,	-- 经验倍率
 			CD = 90 * cd_ratio * handofmidas_cdplus,
 			SPELLRANGE = 600 * spellrange_ratio,
-			HEALTHLIMIT = 110,	-- 非小动物时，点金血量上限要求
+			HEALTHLIMIT = handofmidas_limit,	-- 非小动物时，点金血量上限要求
 		},
 	},
 --魔杖

@@ -1,9 +1,15 @@
 local function MakeFx(def)
-    local assets =
+    local assets = 
     {
         Asset("ANIM", "anim/"..def.animzip..".zip"),
     }
-    
+
+    if def.assetplus and #def.assetplus>0 then
+		for _,v in ipairs(def.assetplus) do
+			table.insert(assets, v)
+		end
+	end
+
 	local prefabs = {}
 	if def.prefabs and #def.prefabs>0 then
 		for _,v in ipairs(def.prefabs) do
@@ -22,7 +28,9 @@ local function MakeFx(def)
         inst.entity:AddNetwork()
     
         MakeInventoryPhysics(inst)
-        RemovePhysicsColliders(inst)
+        if def.nophysics then
+            RemovePhysicsColliders(inst)          
+        end
     
         inst:AddTag("FX")
 	    inst:AddTag("NOCLICK")
@@ -62,6 +70,17 @@ local function MakeFx(def)
             inst.components.projectile:SetLaunchOffset(inst.launchoffset)
         end
 
+        if def.complexprojectile then
+            inst:AddComponent("complexprojectile")
+            inst.components.complexprojectile:SetHorizontalSpeed(def.speed or 4)
+            inst.components.complexprojectile:SetGravity(def.gravity or -9.81)
+            inst.components.complexprojectile:SetLaunchOffset(def.launchoffset)
+            inst.components.complexprojectile:SetTargetOffset(def.targetoffset)
+            inst.components.complexprojectile:SetOnLaunch(def.onlaunchfn)
+            inst.components.complexprojectile:SetOnHit(def.onhitfn)
+            inst.components.complexprojectile:SetOnUpdate(def.onupdatefn)
+        end
+        
         return inst
     end
 

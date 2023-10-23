@@ -3,7 +3,7 @@
 local L = locale ~= nil and locale ~= "zh" and locale ~= "zhr" and locale ~= "zht" -- true 英文  false 中文
 
 name = L and "Dst Dota2 Items Test" or "Dota2 装备  测试版" -- 名称
-version = "1.0.3" -- 版本 大版本，小版本，优化/bug
+version = "1.0.4" -- 版本 大版本，小版本，优化/bug
 author = "Mengsk"   -- 作者
 forumthread = ""    -- klei官方论坛地址，为空则默认是工坊的地址
 
@@ -333,6 +333,19 @@ configuration_options =
         default = 3,
     },
     {
+        name = "hand_of_midas_limit",
+        label = L and "Hand Of Midas Health limit of transmute" or "点金手炼化要求",
+        hover = L and "the maxhealth limit you can transmute" or "点金手炼化生物的最高血量限制",
+        options = {
+            {description = "110", data = 110},
+            {description = "200", data = 200},
+            {description = "300", data = 300},
+            {description = "400", data = 400},
+            {description = "500", data = 500},
+        },
+        default = 200,
+    },
+    {
         name = "blink_dagger_cdplus",
         label = L and "Blink Dagger CD plus" or "跳刀额外CD",
         hover = L and "Blink dagger's extra cd ratio." or "跳刀额外冷却时间系数",
@@ -352,5 +365,23 @@ configuration_options =
         hover = L and "How many bananas need to fill bottle" or "需要多少香蕉才允许猴王装满瓶子",
         options = numtable,
         default = 1,
+    },
+    -------------------------------------------------------------------------------------------------
+    {
+        name = "DotaItem",
+        label = L and "Misc" or "杂项",
+        hover = L and "" or "",
+        options = {{description = "", data = 0}},
+        default = 0
+    },
+    {
+        name = "debug_optional",
+        label = L and "Debug" or "调试模式",
+        hover = L and "Please don't turn on it" or "请勿开启调试",
+        options = {
+            {description = L and "ON" or "开启", data = true},
+            {description = L and "OFF" or "关闭", data = false},
+        },
+        default = false
     },
 }

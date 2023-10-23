@@ -2637,7 +2637,7 @@ actions.grenade = {
 			if not RechargeCheck(item, TUNING.DOTA.BLOOD_GRENADE.GRENADE.CD, act.doer) then return AoeActionFailed(act.doer, item) end
 			UseOne(item)
 
-			local bomb = SpawnPrefab("bomb_lunarplant")
+			local bomb = SpawnPrefab("dota_projectile_grenade")
 			local projectile = act.doer.components.inventory:DropItem(bomb, false)	-- 此处用了 SetPosition ,并检测了 bomb
 			if projectile and projectile.components.complexprojectile then
 				local pos = nil
@@ -2648,10 +2648,10 @@ actions.grenade = {
 					pos = act:GetActionPoint()
 				end
 				projectile.components.complexprojectile:Launch(pos, act.doer)
-				projectile.components.complexprojectile:SetOnHit(Grenade_OnHit)
+				-- projectile.components.complexprojectile:SetOnHit(Grenade_OnHit)
 			end
 			
-			act.doer.components.health:DoDelta(-grenade_health, nil, STRINGS.NAMES.DOTA_BLOOD_GRENADE)
+			act.doer.components.health:DoDelta(-grenade_health, nil, "dota_grenade")	-- 可致死
 			return true
 		end
 		return ActionFailed(act.doer)
