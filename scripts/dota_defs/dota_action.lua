@@ -425,7 +425,8 @@ actions.takeoffdotaequip = {
 	fn = function(act)
 		local equipped = act.doer.components.inventory:GetEquippedItem(EQUIPSLOTS.DOTASLOT or EQUIPSLOTS.NECK or EQUIPSLOTS.BODY) -- 获取玩家装备栏的物品
 		-- 物品不存在、装备栏没物品、装备栏的物品没容器组件则返回false
-		if act.invobject == nil or equipped == nil or equipped.components.container == nil or not equipped:HasTag("dota_box") then
+		if act.invobject == nil or act.invobject:HasTag("dota_box")
+			or equipped == nil or equipped.components.container == nil or not equipped:HasTag("dota_box") then
 			return false
 		end
 		
@@ -2765,6 +2766,7 @@ local component_actions = {
 				action = "TAKEOFFDOTAEQUIP",
 				testfn = function(inst, doer, actions, right)
 					if not inst:HasTag("dota_equipment") then return false end	-- dota系物品
+					-- if inst:HasTag("dota_box") then return false end
 					-- local iscd = inst._isequipedcd and inst._isequipedcd:value()
 					-- if iscd then return false end -- 处于操作冷却
 					local equipped = (inst ~= nil and doer.replica.inventory ~= nil) and doer.replica.inventory:GetEquippedItem(EQUIPSLOTS.DOTASLOT or EQUIPSLOTS.NECK or EQUIPSLOTS.BODY) or nil

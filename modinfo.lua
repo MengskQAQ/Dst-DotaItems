@@ -3,7 +3,7 @@
 local L = locale ~= nil and locale ~= "zh" and locale ~= "zhr" and locale ~= "zht" -- true 英文  false 中文
 
 name = L and "Dst Dota2 Items Test" or "Dota2 装备  测试版" -- 名称
-version = "1.0.5" -- 版本 大版本，小版本，优化/bug
+version = "1.0.6" -- 版本 大版本，小版本，优化/bug
 author = "Mengsk"   -- 作者
 forumthread = ""    -- klei官方论坛地址，为空则默认是工坊的地址
 

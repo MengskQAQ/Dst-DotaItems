@@ -61,10 +61,10 @@ local DOTATUNING = {
 	ATTRIBUTES_SYSTEM = ATTRIBUTES_SYSTEM,
 	HEALTH_COMPATIBILITY = HEALTH_COMPATIBILITY,			-- 生命系统兼容性选择
 --生命魔法回复
-	HEALTH_REGEN_INTERVAL = seg_time/10,-- 生命恢复间隔
+	HEALTH_REGEN_INTERVAL = seg_time/6,-- 生命恢复间隔
 	HEALTH_REGEN_TOTALTIME = total_day_time, -- 生命回复的数值在多长时间内达到
-	MANA_REGEN_INTERVAL = seg_time/10,	-- 魔法恢复间隔
-	MANA_REGEN_TOTALTIME = total_day_time/2, -- 魔法回复的数值在多长时间内达到
+	MANA_REGEN_INTERVAL = seg_time/6,	-- 魔法恢复间隔
+	MANA_REGEN_TOTALTIME = seg_time/1, -- 魔法回复的数值在多长时间内达到
 	EQUIPMENT_COOLDOWN = 6,				-- 装备后增加cd
 --各类系数
 	RATIO ={

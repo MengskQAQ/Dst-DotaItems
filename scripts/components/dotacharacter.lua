@@ -338,8 +338,8 @@ local function CalcMaxMana(self) -- 魔法总值
     -- self.inst.components.dotaattributes.maxmana:RemoveModifier(self.source, self.key)
     self.inst.components.dotaattributes:AddMaxMana(self.source, self.maxmana, self.key)
 end
-local function CalcManaRegen(self) -- 魔法恢复
-    self.manaregen = self.intelligence * 0.1 / 2 + SumTable(self.equippable.manaregen)
+local function CalcManaRegen(self) -- 魔法恢复  -- 增加了3点默认回蓝
+    self.manaregen = self.intelligence * 0.1 / 2 + SumTable(self.equippable.manaregen) + 3
     -- self.inst.components.dotaattributes:RemoveManaRegen(self.source, self.key)
     self.inst.components.dotaattributes:AddManaRegen(self.source, self.manaregen, self.key)
 end

@@ -100,6 +100,7 @@ You can report issue if you find any bugs.
 19. 分解配方失效bug
 20. 装备box时，睡眠时box的ui未能正确消失
 21. 强袭的减甲光环
+23. 客机特效音乐bug
 
 # LICENSE / 许可证
 
