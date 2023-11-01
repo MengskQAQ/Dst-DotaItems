@@ -470,6 +470,18 @@ local function TPRechargeAndSGCheck(inst, CD, player)
 	return false
 end
 
+-- 假如传送距离平方小于3，那么不予传送，避免客户端延迟同步时导致距离选取错误
+local tpdissq = 9
+local function TpDestCheck(act)
+	local act_pos = act:GetActionPoint()
+	if act_pos and act.doer:GetDistanceSqToPoint(act_pos.x, act_pos.y, act_pos.z) > tpdissq then
+		return true
+	end
+	act.doer.sg:GoToState("idle")
+	PlaySound(act.doer, "mengsk_dota2_sounds/ui/ui_general_deny", nil, BASE_VOICE_VOLUME)
+	return false
+end
+
 local function TPSCROLL(act, item, type, hud)
 	local act_pos = act:GetActionPoint()
 	ChangeActivate(item, act.doer)
@@ -492,6 +504,7 @@ actions.tpscroll = {
 	str = STRINGS.DOTA.NEWACTION.DOTA_TPSCROLL,
 	fn = function(act)
 		if act.doer ~= nil and ActionCanMaphop(act.doer) then
+			if not TpDestCheck(act) then return true end
 			local item = nil
 			item = FindActivateItemByDoer(act.doer, "dota_boots_of_travel_level2")	-- 飞鞋优先
 			if item ~= nil then
@@ -531,6 +544,7 @@ actions.tpscroll_map = {
 	str = STRINGS.DOTA.NEWACTION.DOTA_TPSCROLL,
 	fn = function(act)
 		if act.doer ~= nil and ActionCanMaphop(act.doer) then
+			if not TpDestCheck(act) then return true end
 			local item = nil
 			item = FindActivateItemByDoer(act.doer, "dota_town_portal_scroll")
 			if item ~= nil then
@@ -999,9 +1013,11 @@ actions.transmute = {
 	str = STRINGS.DOTA.NEWACTION.DOTA_TRANSMUTE,
 	fn = function(act)
 		if StandardTargetAndActivateActioniTest(act, "dota_transmute")
-		 and (act.target:HasTag("smallcreature") or act.target.components.health.maxhealth < TRANSMUTE_HEALTH_LIMIT)
-		 and (act.target.components.leader ~= nil and not act.target.components.leader:IsFollower(act.doer))
-		 and (act.target.components.follower ~= nil and act.target.components.follower.leader ~= nil and not act.target.components.follower.leader:HasTag("player"))
+		 and not act.target:HasTag("player")
+		 and not act.target:HasTag("companion") 
+		 and (act.target.components.health.currenthealth <= TRANSMUTE_HEALTH_LIMIT)
+		--  and (act.target.components.leader ~= nil and not act.target.components.leader:IsFollower(act.doer))
+		--  and (act.target.components.follower ~= nil and act.target.components.follower.leader ~= nil and not act.target.components.follower.leader:HasTag("player"))
 		then
 			local item = FindActivateItemByDoer(act.doer, "dota_hand_of_midas")
 			if item == nil then return ActionFailed(act.doer) end
@@ -2730,6 +2746,8 @@ local component_actions = {
 				action = "WEARDOTAEQUIP",
 				testfn = function(inst, doer, actions, instright)
 					if not inst:HasTag("dota_equipment") then return false end	-- dota系物品
+					-- local iscd = inst._isequipedcd and inst._isequipedcd:value()
+					-- if iscd then return false end -- 处于操作冷却
 					if doer.replica.inventory ~= nil then	-- 玩家有库存组件
 						local dota_item = doer.replica.inventory:GetEquippedItem(EQUIPSLOTS.DOTASLOT or EQUIPSLOTS.NECK or EQUIPSLOTS.BODY) -- 获取玩家装备栏物品
 						-- 如果装备栏有物品，并且物品有容器，并且容器是由玩家打开的
@@ -2747,8 +2765,11 @@ local component_actions = {
 				action = "TAKEOFFDOTAEQUIP",
 				testfn = function(inst, doer, actions, right)
 					if not inst:HasTag("dota_equipment") then return false end	-- dota系物品
+					-- local iscd = inst._isequipedcd and inst._isequipedcd:value()
+					-- if iscd then return false end -- 处于操作冷却
 					local equipped = (inst ~= nil and doer.replica.inventory ~= nil) and doer.replica.inventory:GetEquippedItem(EQUIPSLOTS.DOTASLOT or EQUIPSLOTS.NECK or EQUIPSLOTS.BODY) or nil
-					if equipped ~= nil and equipped:HasTag("dota_box") and equipped.replica.container ~= nil and equipped.replica.container:IsHolding(inst) then
+					if equipped ~= nil and equipped:HasTag("dota_box") 
+					 and equipped.replica.container ~= nil and equipped.replica.container:IsHolding(inst) then
 						return true
 					end
 					return false
@@ -3132,8 +3153,7 @@ local component_actions = {
 					return doer:HasTag("dota_transmute") and right
 						and not IsEntityDead(inst, true) 
 						-- and inst.replica.combat ~= nil and inst.replica.combat:CanBeAttacked(doer)
-						and (inst:HasTag("smallcreature")
-							or (inst.replica.health ~= nil and inst.replica.health:Max() < TRANSMUTE_HEALTH_LIMIT))
+						and not inst:HasTag("player")
 				end,
 			},
 			-------------------------------------------------圣洁吊坠-------------------------------------------------
@@ -3477,48 +3497,95 @@ local component_actions = {
 	},
 }
 
--- local old_CASTAOE_strfn = ACTIONS.CASTAOE.strfn
--- local old_CASTAOE_fn = ACTIONS.CASTAOE.fn
+local old_EQUIP_fn = ACTIONS.EQUIP.fn
+local old_UNEQUIP_fn = ACTIONS.UNEQUIP.fn
+local old_PICKUP_fn = ACTIONS.PICKUP.fn
+local old_DROP_fn = ACTIONS.DROP.fn
+local old_STORE_fn = ACTIONS.STORE.fn
+local old_CONSTRUCT_fn = ACTIONS.CONSTRUCT.fn
 
 -- --修改老动作
--- local old_actions = {
--- 	-- 范围施法
--- 	{
--- 		-------------------------------------------------陨星锤-------------------------------------------------
--- 		-------------------------------------------------缚灵索-------------------------------------------------
--- 		-------------------------------------------------纷争面纱-------------------------------------------------
--- 		switch = true,
--- 		id = "CASTAOE",
--- 		actiondata = {
--- 			strfn = function(act)
--- 				return act.doer ~= nil and (
--- 					(act.doer:HasTag("dota_meteor") and "DOTA_METEOR") or
--- 					(act.doer:HasTag("dota_chains") and "DOTA_CHAINS") or
--- 					(act.doer:HasTag("dota_weakness") and "DOTA_WEAKNESS")
--- 				)
--- 				or old_CASTAOE_strfn(act)
--- 			end,
--- 			fn = function(act)
-
-
--- 				return old_CASTAOE_fn(act)
--- 			end,
--- 		},
--- 		state = {
--- 			testfn=function(inst, action)
--- 				return action.invobject == nil and (inst:HasTag("dota_meteor") or inst:HasTag("dota_chains") or inst:HasTag("dota_weakness"))
--- 			end,
--- 			deststate=function(inst,action)
--- 				return (inst:HasTag("dota_meteor") and "dota_sg_meteor") or
--- 					(inst:HasTag("dota_chains") and "dota_sg_nil") or
--- 					(inst:HasTag("dota_weakness") and "dota_sg_nil")
--- 			end,
--- 		},
--- 	},
--- }
+local old_actions = {
+-- 	------------------------------------------------- dota_box -------------------------------------------------
+	{	
+		switch = false,-- 造成闪退bug
+		id = "EQUIP",
+		actiondata = {
+			fn = function(act)
+				if act.invobject:HasTag("dota_box") and act.invobject._isequipedcd:value() then
+					return false
+				end
+				return old_EQUIP_fn(act)
+			end,
+		},
+	},
+	{	
+		switch = false,	-- 造成闪退bug
+		id = "UNEQUIP",
+		actiondata = {
+			fn = function(act)
+				if act.invobject:HasTag("dota_box") and act.invobject._isequipedcd:value() then
+					return false
+				end
+				return old_UNEQUIP_fn(act)
+			end,
+		},
+	},
+	{	
+		switch = false,
+		id = "PICKUP",
+		actiondata = {
+			fn = function(act)
+				print(1111)
+				if act.target:HasTag("dota_box") and act.target._isequipedcd:value() then
+					return false
+				end
+				return old_PICKUP_fn(act)
+			end,
+		},
+	},
+	{	
+		switch = false,
+		id = "DROP",
+		actiondata = {
+			fn = function(act)
+				if act.invobject:HasTag("dota_box") and act.invobject._isequipedcd:value() then
+					return false
+				end
+				return old_DROP_fn(act)
+			end,
+		},
+	},
+	{	
+		switch = false,
+		id = "STORE",
+		actiondata = {
+			fn = function(act)
+				if act.invobject:HasTag("dota_box") and act.invobject._isequipedcd:value() then
+					return false
+				end
+				return old_STORE_fn(act)
+			end,
+		},
+	},
+	{	
+		switch = false,
+		id = "CONSTRUCT",
+		actiondata = {
+			fn = function(act)
+				if act.invobject:HasTag("dota_box") and act.invobject._isequipedcd:value() then
+					return false
+				end
+				return old_CONSTRUCT_fn(act)
+			end,
+		},
+	},
+	
+	
+}
 
 return {
 	actions = actions,
 	component_actions = component_actions,
-	-- old_actions = old_actions,
+	old_actions = old_actions,
 }

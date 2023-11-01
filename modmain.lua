@@ -88,8 +88,9 @@ modimport("scripts/dota_defs/dota_character")
 -- --背包
 AddRecipe2(
     "dota_box", {	
-        Ingredient("boards", 3),
-        Ingredient("opalpreciousgem", 1),
+        Ingredient("boards", 2),
+        Ingredient("redgem", 1),
+        Ingredient("bluegem", 1),
     }, TECH.NONE, {	--解锁所需科技
         atlas = "images/dota_box.xml", image = "dota_box.tex"
     }, { "WEAPONS", "DOTASHOP" }
