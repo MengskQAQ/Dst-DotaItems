@@ -178,7 +178,7 @@ GLOBAL.ACTIONS_MAP_REMAP[ACTIONS.DOTA_TPSCROLL.code] = function(act, targetpos)
     -- local dist = distoverride or act.pos:GetPosition():Dist(targetpos)
     local act_remap = BufferedAction(doer, nil, ACTIONS.DOTA_TPSCROLL_MAP, act.invobject, targetpos)
 	act_remap.manacost = TPSCROLL_MANA
-	act_remap.currentmana = act_remap.doer.replica.dotaattributes ~= nil and act_remap.doer.replica.dotaattributes.mana or 0
+	act_remap.currentmana = act_remap.doer.replica.dotaattributes and act_remap.doer.replica.dotaattributes:GetMana_Double() or 0
     act_remap.aimassisted = aimassisted
 	if not ActionCanMaphop(act_remap) then
         return nil
@@ -213,6 +213,7 @@ MapScreen.ProcessRMBDecorations = function (self,rmb, fresh)
             decor1 = self.decorationrootrmb:AddChild(GLOBAL.Image(atlas, image))
             decor1.text = decor1:AddChild(Text(GLOBAL.NUMBERFONT, 42))
             self.decorationdata.rmbents[1] = decor1
+            -- rmb.currentmana = rmb.doer.replica.dotaattributes and rmb.doer.replica.dotaattributes:GetMana_Double() or 0
         else
             decor1 = self.decorationdata.rmbents[1]
         end
