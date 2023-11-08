@@ -232,8 +232,11 @@ end
 -- 通过玩家寻找到激活的物品
 local function FindActivateItemByDoer(owner, prefab)
 	local equipped = owner.components.inventory:GetEquippedItem(EQUIPSLOTS.DOTASLOT or EQUIPSLOTS.NECK or EQUIPSLOTS.BODY) -- 获取玩家装备栏的物品
-	if equipped.components.container ~= nil then
+	if equipped and equipped.components.container ~= nil then
 		equipped = equipped.components.container:FindItem(function(inst) return inst and inst.prefab == prefab and inst:HasTag("dota_activate") end)
+	end
+	if equipped and equipped.prefab ~= prefab then
+		return nil
 	end
 	return equipped
 end
