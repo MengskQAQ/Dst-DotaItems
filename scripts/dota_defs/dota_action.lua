@@ -483,14 +483,14 @@ local function TpDestCheck(act)
 	return false
 end
 
-local function TPSCROLL(act, item, type, hud)
+local function TPSCROLL(act, item, shouldremove, hud)
 	local act_pos = act:GetActionPoint()
 	ChangeActivate(item, act.doer)
 	act.doer.sg:GoToState("portal_jumpin", {dest = act_pos,})	-- TODO
-	if type ~= nil then
+	if shouldremove then
 		UseOne(item)
 	end
-	if hud ~= nil and act.doer.HUD ~= nil and act.doer.HUD:IsMapScreenOpen() then
+	if hud and act.doer.HUD ~= nil and act.doer.HUD:IsMapScreenOpen() then
 		GLOBAL.TheFrontEnd:PopScreen()
 	end
 	if act.doer.components.dotaattributes then
@@ -511,19 +511,19 @@ actions.tpscroll = {
 			if item ~= nil then
 				if not IsManaEnough(act.doer, item) then return true end
 				if not TPRechargeAndSGCheck(item, TUNING.DOTA.BOOTS_OF_TRAVEL_LEVEL2.CD, act.doer) then return true end
-				return TPSCROLL(act, item, nil, nil)
+				return TPSCROLL(act, item, false, false)
 			end
 			item = FindActivateItemByDoer(act.doer, "dota_boots_of_travel_level1")
 			if item ~= nil then
 				if not IsManaEnough(act.doer, item) then return true end
 				if not TPRechargeAndSGCheck(item, TUNING.DOTA.BOOTS_OF_TRAVEL_LEVEL1.CD, act.doer) then return true end
-				return TPSCROLL(act, item, nil, nil)
+				return TPSCROLL(act, item, false, false)
 			end
 			item = FindActivateItemByDoer(act.doer, "dota_town_portal_scroll")
 			if item ~= nil then
 				if not IsManaEnough(act.doer, item) then return true end
 				if not TPRechargeAndSGCheck(item, TUNING.DOTA.TOWN_PORTAL_SCROLL.CD, act.doer) then return true end
-				return TPSCROLL(act, item, true, nil)
+				return TPSCROLL(act, item, true, false)
 			end
 		end
 		return false
@@ -547,23 +547,23 @@ actions.tpscroll_map = {
 		if act.doer ~= nil and ActionCanMaphop(act.doer) then
 			if not TpDestCheck(act) then return true end
 			local item = nil
-			item = FindActivateItemByDoer(act.doer, "dota_town_portal_scroll")
+			item = FindActivateItemByDoer(act.doer, "dota_boots_of_travel_level2")
 			if item ~= nil then
 				if not IsManaEnough(act.doer, item) then return true end
-				if not TPRechargeAndSGCheck(item, TUNING.DOTA.TOWN_PORTAL_SCROLL.CD, act.doer) then return true end
-				return TPSCROLL(act, item, true, true)
+				if not TPRechargeAndSGCheck(item, TUNING.DOTA.BOOTS_OF_TRAVEL_LEVEL2.CD, act.doer) then return true end
+				return TPSCROLL(act, item, false, true)
 			end
 			item = FindActivateItemByDoer(act.doer, "dota_boots_of_travel_level1")
 			if item ~= nil then
 				if not IsManaEnough(act.doer, item) then return true end
 				if not TPRechargeAndSGCheck(item, TUNING.DOTA.BOOTS_OF_TRAVEL_LEVEL1.CD, act.doer) then return true end
-				return TPSCROLL(act, item, nil, true)
+				return TPSCROLL(act, item, false, true)
 			end
-			item = FindActivateItemByDoer(act.doer, "dota_boots_of_travel_level2")
+			item = FindActivateItemByDoer(act.doer, "dota_town_portal_scroll")
 			if item ~= nil then
 				if not IsManaEnough(act.doer, item) then return true end
-				if not TPRechargeAndSGCheck(item, TUNING.DOTA.BOOTS_OF_TRAVEL_LEVEL2.CD, act.doer) then return true end
-				return TPSCROLL(act, item, nil, true)
+				if not TPRechargeAndSGCheck(item, TUNING.DOTA.TOWN_PORTAL_SCROLL.CD, act.doer) then return true end
+				return TPSCROLL(act, item, true, true)
 			end
 		end
 		return false
