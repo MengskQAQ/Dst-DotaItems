@@ -99,12 +99,12 @@ AddComponentPostInit("grogginess", function(self)
     function self:AddGrogginess(grogginess, knockoutduration)
         if self.inst.components.dotaattributes ~= nil then
             local statusresistance = self.inst.components.dotaattributes.statusresistance:Get()
+            local duration = knockoutduration and (knockoutduration * (1 - statusresistance))   -- 让睡眠持续时间应用抗性
             grogginess = grogginess * (1 - statusresistance)    -- 让睡眠值应用抗性
-            knockoutduration = knockoutduration * (1 - statusresistance)    -- 让睡眠持续时间应用抗性
             if self.inst.components.grogginess.wearoffduration ~= self.dota_oldwearoffduration * (1 - statusresistance) then -- 修改onupdate里的数值
                 self.inst.components.grogginess.wearoffduration = self.dota_oldwearoffduration * (1 - statusresistance)  -- 让睡眠结束后的昏沉阶段应用抗性
             end
-            return old_AddGrogginess(self, grogginess, knockoutduration)
+            return old_AddGrogginess(self, grogginess, duration)
         end
         if old_AddGrogginess then
             return old_AddGrogginess(self, grogginess, knockoutduration)
