@@ -26,6 +26,8 @@ dota_item_accessories.dota_power_treads = {
     extrafn = function(inst)
         inst.primary = 3    -- 主属性(1-力量；2-敏捷；3-智力)
         inst.changeprimary = function(inst, owner)
+            if not owner then return end
+            if not owner.components.dotacharacter then return end
             if inst.primary < 3 then inst.primary = inst.primary + 1
             elseif inst.primary == 3 then inst.primary = 1 end
             if inst.primary == 1 then 

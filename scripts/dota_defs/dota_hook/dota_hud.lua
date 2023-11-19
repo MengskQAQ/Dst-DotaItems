@@ -4,7 +4,7 @@ AddClassPostConstruct("screens/playerhud", function(self)
 
     function self:Dota_GetActivateReticuleInv()
         local Inv = ThePlayer and ThePlayer.replica.dotacharacter and ThePlayer.replica.dotacharacter:GetActivateItem()
-        return Inv and Inv.components.aoetargeting and Inv
+        return Inv and Inv.components.aoetargeting and Inv.components.aoetargeting:IsEnabled() and Inv
     end
 
     function self:Dota_StartReticule(invobject)

@@ -26,6 +26,7 @@ local DSTRECIPES_MODE = GetModConfigData("recipes_mode") or false
 local UI_DRAG = GetModConfigData("ui_drag") or true
 local HEALTH_COMPATIBILITY = GetModConfigData("health_compatibility_deafultmode") or 2
 local RECHARGEMOD = GetModConfigData("rechargemod") or false
+local SPEED_SYSTEM = GetModConfigData("speed_system") or true
 
 local gold_ratio = GetModConfigData("gold_ratio") or 0.1
 local extradamage_ratio = GetModConfigData("extradamage_ratio") or 0.5
@@ -59,7 +60,9 @@ local DOTATUNING = {
 --人物属性系统
 	HEALTH_SYSTEM = HEALTH_SYSTEM,
 	ATTRIBUTES_SYSTEM = ATTRIBUTES_SYSTEM,
+	SPEED_SYSTEM = SPEED_SYSTEM,
 	HEALTH_COMPATIBILITY = HEALTH_COMPATIBILITY,			-- 生命系统兼容性选择
+	BASEMANA = 100,		-- 玩家基础蓝量
 --生命魔法回复
 	HEALTH_REGEN_INTERVAL = seg_time/6,-- 生命恢复间隔
 	HEALTH_REGEN_TOTALTIME = total_day_time, -- 生命回复的数值在多长时间内达到

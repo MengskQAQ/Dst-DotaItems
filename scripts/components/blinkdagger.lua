@@ -5,7 +5,7 @@
 --饥荒的世界加载范围16-19地皮
 --人物背后19地皮，正面16地皮（根据b站视频）
 --推测应该是加载16格，卸载19格
-local BASE_VOICE_VOLUME = TUNING.DOTA.BASE_VOICE_VOLUME
+local BASE_VOICE_VOLUME = TUNING.DOTA.BASE_VOICE_VOLUME + 1	-- 实在是太小了这个声音，加个附加值
 
 local BlinkDagger = Class(function(self, inst)
     self.inst = inst

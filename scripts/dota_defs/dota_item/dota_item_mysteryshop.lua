@@ -84,10 +84,10 @@ dota_item_mysteryshop.dota_reaver = {
     animname = "dota_reaver",
 	animzip = "dota_mysteryshop", 
 	onequipfn = function(inst,owner)
-        owner.components.dotacharacter:Add(TUNING.DOTA.ITEM_NAME.item)
+        owner.components.dotacharacter:Add(TUNING.DOTA.REAVER.item)
 	end,
 	onunequipfn = function(inst,owner)
-        owner.components.dotacharacter:Remove(TUNING.DOTA.ITEM_NAME.item)
+        owner.components.dotacharacter:Remove(TUNING.DOTA.REAVER.item)
 	end,
 }
 -------------------------------------------------闪避护符-------------------------------------------------

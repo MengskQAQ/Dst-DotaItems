@@ -70,7 +70,8 @@ modimport("scripts/dota_defs/dota_hook/dota_widgets_manaui")   -- 魔法值ui
 modimport("scripts/dota_defs/dota_hook/dota_hud")   -- AOE旋转
 modimport("scripts/dota_defs/dota_hook/dota_pigking")   -- 科技树触发
 modimport("scripts/dota_defs/dota_hook/dota_edible")    -- 食物回复魔法
-modimport("scripts/dota_defs/dota_hook/dota_edible")    -- 食物回复魔法
+modimport("scripts/dota_defs/dota_hook/dota_player_classified")    -- 特殊音效
+modimport("scripts/dota_defs/dota_hook/dota_dynamicmusic")    -- 特殊音效
 
 --sg 新动作
 modimport("scripts/stategraphs/dota_nilsg")

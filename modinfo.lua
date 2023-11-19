@@ -3,7 +3,7 @@
 local L = locale ~= nil and locale ~= "zh" and locale ~= "zhr" and locale ~= "zht" -- true 英文  false 中文
 
 name = L and "Dst Dota2 Items Test" or "Dota2 装备  测试版" -- 名称
-version = "1.0.9" -- 版本 大版本，小版本，优化/bug
+version = "1.0.10" -- 版本 大版本，小版本，优化/bug
 author = "Mengsk"   -- 作者
 forumthread = ""    -- klei官方论坛地址，为空则默认是工坊的地址
 
@@ -161,7 +161,7 @@ configuration_options =
         label = L and "Volume" or "音量大小",
         hover = L and "Volume about fx" or "选择一个合适的特效音量",
         options = normalratio,
-        default = 0.5,
+        default = 0.7,
     },
     {
         name = "rechargemod",
@@ -212,15 +212,25 @@ configuration_options =
         default = 2,
     },
     {
+        name = "speed_system",
+        label = L and "Speed System" or "移速系统",
+        hover = L and "Disable it when the speed system conflict with other mods " or "当移速系统与其他mod冲突时，可关闭此系统",
+        options = {
+            {description = L and "Enable System" or "启动系统", data = true},
+            {description = L and "Disable System" or "禁用系统", data = false},
+        },
+        default = true,
+    },
+    {
         name = "attributes_system",
         label = L and "Attributes System" or "属性系统",
         hover = L and "Who use attributes System" or "属性系统生效范围",
         options = {
-            {description = L and "White List" or "白名单制", data = 1},
+            {description = L and "White List" or "白名单制(仅部分人物)", data = 1},
             {description = L and "All suited prefabs" or "全部合适的预制体", data = 2},
             {description = L and "Disable System(Means lose the core functions)" or "禁用系统（mod核心功能失效）", data = 3},
         },
-        default = 1,
+        default = 2,
     },
     {
         name = "ui_drag",

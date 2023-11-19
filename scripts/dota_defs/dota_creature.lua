@@ -79,6 +79,7 @@ local creature = {
 }
 
 local ATTRIBUTES_SYSTEM = GetModConfigData("attributes_system")
+
 if ATTRIBUTES_SYSTEM == 1 then    -- 白名单制
     for k, v in pairs(creature) do
         AddPrefabPostInit(v, function(inst)

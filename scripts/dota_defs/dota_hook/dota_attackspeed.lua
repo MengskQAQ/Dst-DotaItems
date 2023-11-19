@@ -87,7 +87,7 @@ local function ClientResetAttackPerior(state)
             if inst:HasTag("dota_echo") then
                 attackspeed = math.max(ATTACKSPEED, attackspeed)
             end
-            print("debug ".. attackspeed)
+            -- print("debug ".. attackspeed)
             inst.AnimState:SetDeltaTimeMultiplier(attackspeed)
             for _, v in pairs(state.timeline) do
                 v.dota_astime = v.dota_astime or v.time

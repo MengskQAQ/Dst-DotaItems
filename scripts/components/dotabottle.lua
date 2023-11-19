@@ -155,9 +155,13 @@ function DotaBottle:OnSave()
 end
 
 function DotaBottle:OnLoad(data)
-    if data ~= nil and data.level then
-        self:Setlevel(data.level)
-        self:StoreRune(data.rune)
+    if data ~= nil then
+        if data.level then
+            self:Setlevel(data.level)
+        end
+        if data.rune then
+            self:StoreRune(data.rune)
+        end
     end
 end
 

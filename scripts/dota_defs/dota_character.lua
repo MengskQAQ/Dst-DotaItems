@@ -7,7 +7,7 @@ local character_mode1 = {   -- 作者通过 基础值 + 附加值 的形式修�
     -- "xuaner", -- 璇儿
 }
 local character_mode2 = {   -- 作者通过 现有血量 + 附加值 的形式修改血量
-    "wx78", --  机器人  -- 哈人，一个作品里用了两种方式去做这个升级带来的血量变化
+    "wx78", --  机器人  -- 哈人，鱼人与机器人都拥有升级，却采用了不同的方法
 }
 ------------------------------------------------------------------------
 ----------- Attributes System White List / 属性系统白名单 ---------------
@@ -38,6 +38,7 @@ local orginal_character = {
 
 local HEALTH_SYSTEM = GetModConfigData("health_system")
 local ATTRIBUTES_SYSTEM = GetModConfigData("attributes_system")
+local BASEMANA = TUNING.DOTA.BASEMANA
 local function HealthReflash(inst)
 	if not inst:HasTag("playerghost") then	-- 当然了，幽灵刷新什么血量
 		inst.components.dotacharacter:CalcFinalAttributes()
@@ -46,7 +47,7 @@ end
 local function CommonCharcterEnable(inst)
     if not inst.components.dotaattributes then
         inst:AddComponent("dotaattributes")
-        inst.components.dotaattributes:SetBaseMaxMana(100)
+        inst.components.dotaattributes:SetBaseMaxMana(BASEMANA)  -- 设置基础蓝量
     end
     if not inst.components.dotacharacter then
         inst:AddComponent("dotacharacter")
@@ -63,6 +64,8 @@ local function CommonCharcterEnable(inst)
 	if inst.components.dotacharacter ~= nil then
 		inst:DoTaskInTime(0.1, HealthReflash)	-- 在人物初始化0.1s后刷新一下生命值
 	end
+
+    -- 我们存一下角色tag，用于隐身状态的切换
     if not inst:HasTag("shadow") and inst.Dota_IsHasTagShadow == nil then inst.Dota_IsHasTagShadow = false end
     if not inst:HasTag("notarget") and inst.Dota_IsHasTagNotarget == nil then inst.Dota_IsHasTagNotarget = false end
     if not inst:HasTag("scarytoprey") and inst.Dota_IsHasTagScarytoprey == nil then inst.Dota_IsHasTagScarytoprey = false end
@@ -70,7 +73,7 @@ end
 
 if HEALTH_SYSTEM then
 	if #character_mode1 > 0 then
-		for k, v in pairs(character_mode1) do
+		for _, v in pairs(character_mode1) do
 			AddPrefabPostInit(v, function(inst)
 				if GLOBAL.TheWorld.ismastersim then
 					if inst.components.health then
@@ -82,7 +85,7 @@ if HEALTH_SYSTEM then
 		end
 	end
 	if #character_mode2 > 0 then
-		for k, v in pairs(character_mode2) do
+		for _, v in pairs(character_mode2) do
 			AddPrefabPostInit(v, function(inst)
 				if GLOBAL.TheWorld.ismastersim then
 					if inst.components.health then
@@ -97,7 +100,7 @@ end
 
 local function DoDotaattributesInit(player)
 	AddPrefabPostInit(player, function(inst)
-		if not inst:HasTag("dotaattributes") then
+		if not inst:HasTag("dotaattributes") then   -- 虽然组件里加了这个tag，但不知为何不生效
 			inst:AddTag("dotaattributes")
 		end
 		if GLOBAL.TheWorld.ismastersim then

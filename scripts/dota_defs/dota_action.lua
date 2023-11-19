@@ -95,7 +95,8 @@ local function IsManaEnough(player, item, novoice)
 	if item and item.manacost
 	 and player.components.dotaattributes and player.components.dotaattributes.mana < item.manacost then
 		if novoice == nil then
-			PlaySound(player, "mengsk_dota2_sounds/ui/deny_mana", nil, BASE_VOICE_VOLUME)
+			player:PushEvent("dotaevent_theme_mana")
+			-- PlaySound(player, "mengsk_dota2_sounds/ui/deny_mana", nil, BASE_VOICE_VOLUME)
 			if player.components.talker ~= nil then
 				player.components.talker:Say(GetRandomStringFromTable(STRINGS.DOTA.SPEECH.NOMANA) or "lack mana")
 			end
@@ -135,14 +136,20 @@ end
 local function PlaySound_CoolingDown(player)
 	if player ~= nil and player.components.talker ~= nil then
 		player.components.talker:Say(GetRandomStringFromTable(STRINGS.DOTA.SPEECH.COOLDOWN) or "Cooling down")
-		PlaySound(player, "mengsk_dota2_sounds/ui/deny_cooldown", nil, BASE_VOICE_VOLUME)
+		player:PushEvent("dotaevent_theme_cd")
+		-- PlaySound(player, "mengsk_dota2_sounds/ui/deny_cooldown", nil, BASE_VOICE_VOLUME)
 	end
+end
+
+local function PlaySound_GeneralDeny(player)
+	player:PushEvent("dotaevent_theme_default")
+	-- PlaySound(player, "mengsk_dota2_sounds/ui/ui_general_deny", nil, BASE_VOICE_VOLUME)
 end
 
 local function PlaySound_NoPoint(player)
 	if player and player.components.talker ~= nil then
 		player.components.talker:Say(GetRandomStringFromTable(STRINGS.DOTA.SPEECH.NOPOINT) or "no power point")
-		PlaySound(player, "mengsk_dota2_sounds/ui/ui_general_deny", nil, BASE_VOICE_VOLUME)
+		PlaySound_GeneralDeny(player)
 	end
 end
 
@@ -283,7 +290,7 @@ local function ActionWalking(player)
 end
 
 local function ActionFailed(player)
-	PlaySound(player, "mengsk_dota2_sounds/ui/ui_general_deny", nil, BASE_VOICE_VOLUME)
+	PlaySound_GeneralDeny(player)
 	return true
 end
 
@@ -326,7 +333,7 @@ local exceuce_tags = { "INLIMBO", "notarget", "noattack", "flight", "invisible",
 local actions = {}
 
 -----------------------------------------------激活装备-------------------------------------------------
--- 早知道一个动作那么麻烦，当初就分成2个动作了
+-- 表面激活，实则切换激活状态，用于未来可能存在的快捷键
 actions.activateitem = {
 	id = "ACTIVATEITEM",
 	str = STRINGS.DOTA.NEWACTION.ACTIVATEITEM,
@@ -336,9 +343,11 @@ actions.activateitem = {
 			if not act.invobject.components.activatableitem:IsActivate() then
 				act.invobject.components.activatableitem:ResetAllItems(act.doer)
 				if IsManaEnough(act.doer, act.invobject) then
+					act.doer:PushEvent("dotaevent_theme_clickon")
 					act.invobject.components.activatableitem:StartUsingItem(act.doer, false)
 				end
 			else
+				act.doer:PushEvent("dotaevent_theme_clickoff")
 				act.invobject.components.activatableitem:StopUsingItem(act.doer, false)
 			end
 			return true
@@ -365,16 +374,63 @@ actions.activateitem = {
 
 	end,
 	actiondata = {
-		priority=6,
+		priority=6,	-- 优先级低于取消激活，让切换功能默认是关闭状态
 		rmb=true,
 		instant=true,
 		mount_valid=true, -- 骑牛
 		encumbered_valid=true,
 		strfn = function(act)
-			return act.invobject and STRINGS.ACTIONS.ACTIVATEITEM[act.invobject.activatename] and act.invobject.activatename or "ACTIVATEITEM" or nil
+			return act.invobject and act.invobject.activatename and STRINGS.ACTIONS.ACTIVATEITEM[act.invobject.activatename] 
+				and act.invobject.activatename or "ACTIVATEITEM" or nil
 		end,
+		-- theme_music_fn = function(act)
+		-- 	return act.invobject:HasTag("dota_activate") and "dotaclickoff" or "dotaclickon"
+		-- end,
 	},
 }
+-----------------------------------------------取消装备激活-------------------------------------------------
+actions.deactivateitem = {
+	id = "DEACTIVATEITEM",
+	str = STRINGS.DOTA.NEWACTION.DEACTIVATEITEM,
+	fn = function(act)
+		if act.invobject and act.invobject.components.activatableitem
+		and act.doer and act.doer.components.inventory and act.doer.components.inventory:IsOpenedBy(act.doer) then
+			if act.invobject.components.activatableitem:IsActivate() then
+				act.doer:PushEvent("dotaevent_theme_clickoff")
+				act.invobject.components.activatableitem:StopUsingItem(act.doer, false)
+			end
+			return true
+		end
+		return ActionFailed(act.doer)
+	end,
+	pre_action_cb = function(act)
+
+		if act.doer.HUD then
+			local item = act.doer.HUD:Dota_GetActivateReticuleInv()
+			if item == act.invobject then
+				act.doer.HUD:Dota_EndReticule()
+			end
+		end
+
+		if act.doer.components.playercontroller then
+			TakeOverPlayerController(act.doer, false)
+		end
+
+	end,
+	actiondata = {
+		priority=7,
+		rmb=true,
+		instant=true,
+		mount_valid=true, -- 骑牛
+		encumbered_valid=true,
+		strfn = function(act)
+			return act.invobject and act.invobject.activatename and STRINGS.ACTIONS.ACTIVATEITEM[act.invobject.activatename] 
+				and act.invobject.activatename or "DEACTIVATEITEM" or nil
+		end,
+		-- theme_music = "dotaclickoff"
+	},
+}
+
 -------------------------------------------------dota_box-------------------------------------------------
 actions.weardotaequip = {
 	id = "WEARDOTAEQUIP",	-- 装备
@@ -482,7 +538,7 @@ local function TpDestCheck(act)
 		return true
 	end
 	act.doer.sg:GoToState("idle")
-	PlaySound(act.doer, "mengsk_dota2_sounds/ui/ui_general_deny", nil, BASE_VOICE_VOLUME)
+	PlaySound_GeneralDeny(act.doer)
 	return false
 end
 
@@ -2347,10 +2403,8 @@ actions.rend = {
 	str = STRINGS.DOTA.NEWACTION.DOTA_REND,
 	fn = function(act)
 		if StandardTargetAndActivateActioniTest(act, "dota_rend") then
-			print(1)
 		   local item = FindActivateItemByDoer(act.doer, "dota_bloodthorn")
 		   if item == nil then return ActionFailed(act.doer) end
-		   print(2)
 		   if not IsManaEnough(act.doer, item) then return true end
 		   if not RechargeCheck(item, TUNING.DOTA.BLOODTHORN.REND.CD, act.doer) then return true end
 		   AddDebuff(act.target, "buff_dota_rend", {attacker = act.doer})
@@ -2734,6 +2788,23 @@ local component_actions = {
 				testfn = function(inst, doer, actions, right)
 					local equipped = (inst ~= nil and doer.replica.inventory ~= nil) and doer.replica.inventory:GetEquippedItem(EQUIPSLOTS.DOTASLOT or EQUIPSLOTS.NECK or EQUIPSLOTS.BODY) or nil
 					if inst:HasTag("dota_needactivate")
+					 and ((inst.replica.equippable ~= nil and inst.replica.equippable:IsEquipped())
+					 or (equipped ~= nil and equipped.replica.container ~= nil and equipped.replica.container:IsHolding(inst)))
+--					 or (inst:HasTag("dota_canuse")))
+					 and doer.replica.inventory ~= nil 
+					 and doer.replica.inventory:IsOpenedBy(doer) 
+					 then
+						return true
+					end
+					return false
+				end,
+			},
+			-----------------------------------------------取消装备激活-------------------------------------------------
+			{
+				action = "DEACTIVATEITEM",
+				testfn = function(inst, doer, actions, right)
+					local equipped = (inst ~= nil and doer.replica.inventory ~= nil) and doer.replica.inventory:GetEquippedItem(EQUIPSLOTS.DOTASLOT or EQUIPSLOTS.NECK or EQUIPSLOTS.BODY) or nil
+					if inst:HasTag("dota_needactivate") and inst:HasTag("dota_activate")
 					 and ((inst.replica.equippable ~= nil and inst.replica.equippable:IsEquipped())
 					 or (equipped ~= nil and equipped.replica.container ~= nil and equipped.replica.container:IsHolding(inst)))
 --					 or (inst:HasTag("dota_canuse")))
@@ -3541,7 +3612,6 @@ local old_actions = {
 		id = "PICKUP",
 		actiondata = {
 			fn = function(act)
-				print(1111)
 				if act.target:HasTag("dota_box") and act.target._isequipedcd:value() then
 					return false
 				end

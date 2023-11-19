@@ -23,6 +23,8 @@
 -------------------------------------------------阿托斯之棍-------------------------------------------------
 -------------------------------------------------风之杖 or 大吹风-------------------------------------------
 
+local SPEED_SYSTEM = TUNING.DOTA.SPEED_SYSTEM
+
 AddComponentPostInit("locomotor", function(self)
 
 	self.date_canmove = true
@@ -31,6 +33,7 @@ AddComponentPostInit("locomotor", function(self)
 	
     local old_RecalculateExternalSpeedMultiplier = self.RecalculateExternalSpeedMultiplier	-- 获取原函数
     function self:RecalculateExternalSpeedMultiplier(sources)
+		if not SPEED_SYSTEM then return old_RecalculateExternalSpeedMultiplier(self, sources) end
 		if self.runspeed <= 0 then return old_RecalculateExternalSpeedMultiplier(self, sources) end	-- runspeed不可控，所以遇到除法就得谨慎一点
 		local mult = old_RecalculateExternalSpeedMultiplier(self, sources)
 		-- print("[locomotor] dota_extraspeed: " .. self.dota_extraspeed .. "  runspeed: " .. self.runspeed .. "  mult: " .. mult)
@@ -39,6 +42,7 @@ AddComponentPostInit("locomotor", function(self)
 
     -- 重新计算一下修正后的 mult，然后通过 player_classified 同步
     function self:Dota_UpdateRunSpeed(val)
+		if not SPEED_SYSTEM then return end
 		if val then
 			self.dota_extraspeed = val
 		else

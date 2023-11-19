@@ -103,15 +103,25 @@ if actionqueuer_status then
     end
 end
 
------------------------------------------------激活装备-------------------------------------------------
+-----------------------------------------------激活装备 / 取消装备激活 -------------------------------------------
 
 STRINGS.ACTIONS.ACTIVATEITEM = {
 	ACTIVATEITEM = STRINGS.DOTA.NEWACTION.ACTIVATEITEM,
 }
 
+STRINGS.ACTIONS.DEACTIVATEITEM = {
+	DEACTIVATEITEM = STRINGS.DOTA.NEWACTION.DEACTIVATEITEM,
+}
+
 -- 为 激活动作 命名
 for k, v in pairs(STRINGS.DOTA.NEWACTION) do
 	STRINGS.ACTIONS.ACTIVATEITEM[k] = v
+end
+
+-- 为 取消装备激活 命名
+local salt = STRINGS.DOTA.DEACTIVATESALT
+for k, v in pairs(STRINGS.DOTA.NEWACTION) do
+	STRINGS.ACTIONS.DEACTIVATEITEM[k] = v .. salt
 end
 
 local function AoeInActivate(val)

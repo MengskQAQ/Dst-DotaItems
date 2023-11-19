@@ -1,7 +1,9 @@
 ------------------------------------生命系统----------------------------------------
 -- 有些mod的人物生命值是在人物初始化之后再计算的，也有一些升级mod会在升级后重置生命值
--- 因此涉及生命值的时候，我们想要正确更新生命时，这个问题就非常复杂
--- 当作者通过直接更改 self.maxhealth 来修改血量时，有2种情况
+-- 因此涉及生命值的时候，我们想要正确更新生命时，这个问题就令人头疼
+-- 当作者是通过科雷提供的接口改变生命值，那么兼容性可以很轻易地解决
+-- 但当作者通过直接更改 self.maxhealth 来修改血量时，这个问题就很棘手
+-- 会出现2种情况
 -- 第一种：作者通过 基础值 + 附加值 的形式修改血量
 -- 第二种：作者通过 现有血量 + 附加值 的形式修改血量（比如机器人）
 -- 对于第一种，新的基础值 = 人物现有血量
@@ -9,7 +11,10 @@
 -- 在没去详细查看mod前，我们无法判断哪一种才是作者使用的方法，也没有方法去分辨两种情况
 -- 甚至存在可能，装备加成与附加值相等，以至于我们无法分辨两者情况
 -- 对于这种情况，我们不可能面面俱到，只能考虑一种情况
--- 如果多种情况同时存在时，只能放弃兼容，或者手动指定一种兼容方式
+-- 如果多种情况同时存在时，只能手动指定一种兼容方式，或者放弃兼容
+-------------------------------------------------------------------------------------
+-- 虽然我很想兼容，但无能为力，因为无法强制要求每一位作者用相同的写法
+-- 我只能想办法兼容做法相仿的mod
 -------------------------------------------------------------------------------------
 -- 为了保留其他mod的特色，我们尽量采用原函数进行结算，避免影响其他mod
 -------------------------------------------------------------------------------------
@@ -50,13 +55,15 @@ AddComponentPostInit("health", function(self, inst)
 	----------------------------------------------------
 	------------------- SetMaxHealth -------------------
 	----------------------------------------------------
+	-- 我们可以通过设置元表来简化这部分函数，但这解决不了核心问题，仅可能在优化上有进步，但我甚至还没验证过
+	-- 因此此处就不考虑元表，仅根据文件开头的阐述来写这个函数
     local old_SetMaxHealth = self.SetMaxHealth
 	function self:SetMaxHealth(amount)
 		if self.inst.components.dotaattributes ~= nil then
 			self.dota_lastmaxhealth = amount	-- 记录调用SetMaxHealth时设置的值
 
-			if self.maxhealth ~= self.dota_lastmaxhealth + self.dota_extrehealth then	-- 最大生命值与预期不符
-				self.dota_isextrehealth = false
+			if self.maxhealth ~= self.dota_lastmaxhealth + self.dota_extrehealth then	-- 最大生命值与预期不符，触发修正部分
+				-- self.dota_isextrehealth = false
 				if self.dota_compatibility == 1 then	-- 兼容性选择
 					self.dota_lastmaxhealth = self.maxhealth
 					self.dota_extrehealth = 0
@@ -68,20 +75,22 @@ AddComponentPostInit("health", function(self, inst)
 						self.dota_extrehealth = 0
 					end
 				else
-					old_SetMaxHealth(self, amount)
+					old_SetMaxHealth(self, amount)	-- 如果没有指定兼容性，那最好返回原函数避免报错出现
 					return
-				end			
-				self:Dota_UpdateDefaultHealth()	-- 在更新了默认最大值后，重新执行一次函数
+				end
+				-- 在更新了默认最大值后，重新执行一次函数，根据上部分的公式计算，此处理论上不会再触发这部分修正函数
+				-- 但由于mod加载顺序的问题，可能由于其他低优先级mod同时修改该部分，导致循环触发卡机，该部分暂时存疑
+				self:Dota_UpdateDefaultHealth()
 				return
 			end
 
 			local extrehealth = self.inst.components.dotaattributes.extrahealth:Get()	-- 获取装备提供的额外血量
 			if extrehealth ~= nil then 
-				self.dota_isextrehealth = true	 -- 装备提供的额外血量已经纳入计算
+				-- self.dota_isextrehealth = true	 -- 装备提供的额外血量已经纳入计算
 				self.dota_extrehealth = extrehealth
+				old_SetMaxHealth(self, amount + extrehealth)	-- 执行旧的函数，只不过加上了装备加成
+				return
 			end
-			old_SetMaxHealth(self, amount + extrehealth)	-- 执行旧的函数，只不过加上了装备加成
-			return
 		end
 		if old_SetMaxHealth then
 			old_SetMaxHealth(self, amount)
@@ -102,7 +111,21 @@ AddComponentPostInit("health", function(self, inst)
 			return old_DoDelta(self, amount, overtime, cause, ignore_invincible, afflicter, ignore_absorb)
 		end
 	end
-	
+	----------------------------------------------------
+	---------------- Dota_LimitDelta -------------------
+	----------------------------------------------------
+	-- 为生物造成非致命伤害
+	function self:Dota_LimitDelta(amount, overtime, cause, ignore_invincible, afflicter, ignore_absorb)
+		if self.dota_protect then
+			return 0
+		end
+		
+		amount = math.min(amount, self.currenthealth - 1)
+		if old_DoDelta then
+			return old_DoDelta(self, amount, overtime, cause, ignore_invincible, afflicter, ignore_absorb)
+		end
+	end
+
 	-- local old_SetVal = self.SetVal
 	-- function self:SetVal(val, cause, afflicter)
 		-- if self.inst:HasTag("player") then
@@ -124,10 +147,10 @@ AddComponentPostInit("health", function(self, inst)
 	----------------------------------------------------
 	--------------- Dota_UpdateDefaultHealth --------------
 	----------------------------------------------------
-	-- 设置最大生命值基础值，可能会用上
+	-- 设置最大生命值基础值
 	function self:Dota_UpdateDefaultHealth(amount)
 		if amount then 
-			self.dota_lastmaxhealth = amount 
+			self.dota_lastmaxhealth = amount
 		end
 		self:Dota_SetMaxHealthWithPercent(self.dota_lastmaxhealth)
 	end

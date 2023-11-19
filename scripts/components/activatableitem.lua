@@ -66,9 +66,10 @@ function ActivatableItem:StartUsingItem(owner, novoice)
 		owner.components.dotacharacter:SetActivateItem(self.inst)
 	end
 
-	if not novoice and self.presound ~= "" then
-		owner.SoundEmitter:PlaySound(self.presound)
-	end
+	-- 目前该音效由dotadynamicmusic组件接管
+	-- if not novoice and self.presound ~= "" then
+	-- 	owner.SoundEmitter:PlaySound(self.presound)
+	-- end
 
 	if self.activatefn then
 		self.activatefn(self.inst, owner)
@@ -90,9 +91,9 @@ function ActivatableItem:StopUsingItem(owner, novoice)
 		if owner:HasTag(tag) then owner:RemoveTag(tag) end
 	end
 
-	if not novoice and self.postsound ~= "" then
-		owner.SoundEmitter:PlaySound(self.postsound)
-	end
+	-- if not novoice and self.postsound ~= "" then
+	-- 	owner.SoundEmitter:PlaySound(self.postsound)
+	-- end
 
 	if owner.components.dotacharacter ~= nil then
 		owner.components.dotacharacter:SetActivateItem(nil)

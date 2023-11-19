@@ -4,7 +4,7 @@ local Text = require('widgets/text')
 local Widget = require "widgets/widget"
 local Image = require "widgets/image"
 
-local Dota_Mana_Badge = Class(Widget, function(self, owner, art)
+local ManaBadge = Class(Widget, function(self, owner, art)
     Widget._ctor(self, "dota_manabadge", owner)
 
     self.root = self:AddChild(Widget("ROOT"))   -- 设置一个父级方便统一管理
@@ -67,7 +67,7 @@ local Dota_Mana_Badge = Class(Widget, function(self, owner, art)
 
 end)
 
-function Dota_Mana_Badge:SetPercent(val, max)
+function ManaBadge:SetPercent(val, max)
 	val = val or self.percent
     max = max or 100
 
@@ -86,7 +86,7 @@ function Dota_Mana_Badge:SetPercent(val, max)
     self.percent = val
 end
 
-function Dota_Mana_Badge:OnUpdate(dt)
+function ManaBadge:OnUpdate(dt)
 	local dotaattributes = self.owner.replica.dotaattributes
 	if dotaattributes then
 		local mana = math.floor(dotaattributes:GetMana()) or 100 
@@ -95,7 +95,7 @@ function Dota_Mana_Badge:OnUpdate(dt)
 	end
 end
 
-function Dota_Mana_Badge:OnGainFocus()
+function ManaBadge:OnGainFocus()
     Badge._base.OnGainFocus(self)
     if self.modenable then
         self.maxnum:Show()
@@ -104,7 +104,7 @@ function Dota_Mana_Badge:OnGainFocus()
     end
 end
 
-function Dota_Mana_Badge:OnLoseFocus()
+function ManaBadge:OnLoseFocus()
     Badge._base.OnLoseFocus(self)
     if self.modenable then
         self.maxnum:Hide()
@@ -115,7 +115,7 @@ function Dota_Mana_Badge:OnLoseFocus()
 end
 
 -- 模拟三维Mod，不知道为什么三维Mod不能自动适配，只能伪装一下有三维Mod的效果
-function Dota_Mana_Badge:SetModEnable(val, pos) 
+function ManaBadge:SetModEnable(val, pos) 
     self.modenable = val
     if self.modenable then
         self.num:SetFont(NUMBERFONT)
@@ -137,8 +137,8 @@ function Dota_Mana_Badge:SetModEnable(val, pos)
     end
 end
 
-function Dota_Mana_Badge:IsModEnable() 
+function ManaBadge:IsModEnable() 
     return self.modenable
 end
 
-return Dota_Mana_Badge
+return ManaBadge
