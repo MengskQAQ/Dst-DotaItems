@@ -73,6 +73,11 @@ modimport("scripts/dota_defs/dota_hook/dota_edible")    -- 食物回复魔法
 modimport("scripts/dota_defs/dota_hook/dota_player_classified")    -- 特殊音效
 modimport("scripts/dota_defs/dota_hook/dota_dynamicmusic")    -- 特殊音效
 
+-- 神符生成
+modimport("scripts/dota_defs/dota_hook/dota_retrofitforestmap_anr")
+modimport("scripts/dota_defs/dota_hook/dota_forest")
+modimport("scripts/dota_defs/dota_hook/dota_BGNoise")
+
 --sg 新动作
 modimport("scripts/stategraphs/dota_nilsg")
 modimport("scripts/stategraphs/dota_sg_meteor")

@@ -737,19 +737,45 @@ actions.regenerate = {
 		mount_valid=true,
 	},
 }
-
+--------------------------------------------------- 神符 ---------------------------------------------------
 actions.bottlerune = {
 	id = "DOTA_BOTTLERUNE",
 	str = STRINGS.DOTA.NEWACTION.DOTA_BOTTLERUNE,
 	fn = function(act)
-		if act.target and act.target:HasTag("dota_rune") and act.invobject and act.invobject.prefab == "dota_bottle" then
-			if act.invobject.components.dotabottle then
+		if act.target and act.target:HasTag("dota_rune")
+		 and act.invobject and act.invobject.prefab == "dota_bottle" then
+			if act.invobject.components.dotabottle and not act.invobject.components.dotabottle:IsStoreRune() then
 				PlaySound(act.invobject, "mengsk_dota2_sounds/ui/bottle_corked", nil, BASE_VOICE_VOLUME)
 				act.invobject.components.dotabottle:StoreRune(act.target)
 				return true
 			end
+
+			if act.target.buffname then
+				AddDebuff(act.doer, act.target.buffname)
+				return true
+			end
 		end
-		return false
+		return ActionFailed(act.doer)
+	end,
+	actiondata = {
+		priority=7,
+		mount_valid=true,
+	},
+}
+
+actions.touchrune = {
+	id = "DOTA_TOUCHRUNE",
+	str = STRINGS.DOTA.NEWACTION.DOTA_TOUCHRUNE,
+	fn = function(act)
+		if act.target and act.target:HasTag("dota_rune")
+		 and act.doer ~= nil and act.doer:HasTag("player") and not act.doer:HasTag("playerghost") then
+			if act.target.buffname then
+				AddDebuff(act.doer, act.target.buffname)
+				act.target:Remove()
+				return true
+			end
+		end
+		return ActionFailed(act.doer)
 	end,
 	actiondata = {
 		priority=7,
@@ -3168,7 +3194,7 @@ local component_actions = {
 					return false
 				end,
 			},
-			---------------------------------------------------魔瓶 or 瓶子---------------------------------------------------
+			--------------------------------------------------- 神符 ---------------------------------------------------
 			{
 				action = "DOTA_BOTTLERUNE",
 				testfn = function(inst, doer, target, actions, right)
@@ -3176,6 +3202,22 @@ local component_actions = {
 						return right
 					end
 					return false
+				end,
+			},
+		},
+	},
+	{
+		type = "SCENE",
+		component = "dotaitem",
+		tests = {
+			--------------------------------------------------- 神符 ---------------------------------------------------
+			{
+				action = "DOTA_TOUCHRUNE", -- DOTA_TANGO
+				testfn = function(inst, doer, actions, right)
+					return inst:HasTag("dota_rune")
+					 and doer:HasTag("player") and not doer:HasTag("playerghost")
+					 and not (doer.replica.rider ~= nil and doer.replica.rider:IsRiding()) --骑牛时不能用
+					 and right
 				end,
 			},
 		},
@@ -3202,7 +3244,7 @@ local component_actions = {
 					return doer:HasTag("dota_chop") 
 					 and doer:HasTag("player") and not doer:HasTag("playerghost")
 					 and not (doer.replica.rider ~= nil and doer.replica.rider:IsRiding()) --骑牛时不能用
-					 and inst:HasTag("plant") and not inst:HasTag("burnt") and inst:HasTag("chop_workable") 
+					 and inst:HasTag("plant") and not inst:HasTag("burnt") and inst:HasTag("chop_workable")
 					 and right
 				end,
 			},

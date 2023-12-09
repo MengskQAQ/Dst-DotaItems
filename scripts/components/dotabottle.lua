@@ -1,4 +1,5 @@
 -------------------------------------------------瓶子----------------------------------------------
+-------------------------------------------------神符----------------------------------------------
 -- 神符组件主要由两部分构成，一部分是普通状态，一部分是特殊状态
 -- 在表现形式上，特殊状态优先
 
@@ -90,13 +91,16 @@ function DotaBottle:UpdateImage()
 end
 
 function DotaBottle:StoreRune(rune)
-    for _,v in ipairs(self.states) do
-        if v.rune == rune.prefab then
-            self.rune = v
-            rune:Remove()
-            self:UpdateImage()
-            return true
-        end 
+    if rune then
+        for _,v in ipairs(self.states) do
+            if v.rune == rune.prefab then
+                self.rune = v
+                rune:Remove()
+                self:StartAutoDrinkTimer(TUNING.TOTAL_DAY_TIME)
+                self:UpdateImage()
+                return true
+            end 
+        end
     end
     return false
 end

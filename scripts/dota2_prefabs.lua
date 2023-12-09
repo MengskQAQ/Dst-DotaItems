@@ -10,4 +10,6 @@ return {
 	"dota_placer",
 	"dota_projectile_fx",
 	"dota_shield_fx",
+	"dota_rune",
+	"dota_runespawningground",
 }

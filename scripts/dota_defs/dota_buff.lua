@@ -1550,16 +1550,23 @@ buff_defs.buff_dota_regenerate={
 	end,
 }
 
+-------------------------------------------------神符 - 效果 ----------------------------------------------
+
+-- 奥术
 buff_defs.buff_dota_rune_arcane={
 	name="buff_dota_rune_arcane",
 	duration=TUNING.DOTA.BOTTLE.RUNE.ARCANE.DURATION,
 	onattachedfn=function(inst, target)
+		PlaySound(target, "mengsk_dota2_sounds/items/rune_arcane", nil, BASE_VOICE_VOLUME)
+	end,
+	onextendedfn=function(inst, target)
+		PlaySound(target, "mengsk_dota2_sounds/items/rune_arcane", nil, BASE_VOICE_VOLUME)
 	end,
 	ondetachedfn=function(inst, target)
 	end,
 }
 
--- 取自pigking，让物品抛出
+-- 赏金
 local function launchitem(item, angle)
     local speed = math.random() * 4 + 2
     angle = (angle + math.random() * 60 - 30) * DEGREES
@@ -1569,6 +1576,8 @@ buff_defs.buff_dota_rune_bounty={
 	name="buff_dota_rune_bounty",
 	duration=0.1,
 	onattachedfn=function(inst, target)
+		PlaySound(target, "mengsk_dota2_sounds/items/rune_bounty", nil, BASE_VOICE_VOLUME)
+
 		local x, y, z = target.Transform:GetWorldPosition()
 		y = 2.5
 		local down = TheCamera:GetDownVec()
@@ -1596,16 +1605,24 @@ buff_defs.buff_dota_rune_bounty={
 			end
 		end
 	end,
+	onextendedfn=function(inst, target)
+		PlaySound(target, "mengsk_dota2_sounds/items/rune_bounty", nil, BASE_VOICE_VOLUME)
+	end,
 }
 
+ -- 双倍伤害
 buff_defs.buff_dota_rune_double={
 	name="buff_dota_rune_double",
 	duration=TUNING.DOTA.BOTTLE.RUNE.DOUBLE.DURATION,
 	onattachedfn=function(inst, target)
 		if target.components.dotacharacter then
+			PlaySound(target, "mengsk_dota2_sounds/items/rune_dd", nil, BASE_VOICE_VOLUME)
 			local damage = target.components.dotacharacter.extradamage
 			target.components.dotaattributes.extradamage:SetModifier("buff", damage, "buff_dota_rune_double")
 		end
+	end,
+	onextendedfn=function(inst, target)
+		PlaySound(target, "mengsk_dota2_sounds/items/rune_dd", nil, BASE_VOICE_VOLUME)
 	end,
 	ondetachedfn=function(inst, target)
 		if target.components.dotacharacter then
@@ -1614,42 +1631,60 @@ buff_defs.buff_dota_rune_double={
 	end,
 }
 
+-- 急速
 buff_defs.buff_dota_rune_haste={
 	name="buff_dota_rune_haste",
 	duration=TUNING.DOTA.BOTTLE.RUNE.HASTE.DURATION,
 	onattachedfn=function(inst, target)
 		if target.components.dotacharacter then
+			PlaySound(target, "mengsk_dota2_sounds/items/rune_haste", nil, BASE_VOICE_VOLUME)
 			target.components.dotacharacter:AddExtraSpeed("buff", TUNING.DOTA.BOTTLE.RUNE.HASTE.EXTRASPEED, "haste")
+			if target.components.locomotor ~= nil then
+				target.components.locomotor:SetExternalSpeedMultiplier(inst, "buff_dota_rune_haste", 1.25)
+			end
 		end
+	end,
+	onextendedfn=function(inst, target)
+		PlaySound(target, "mengsk_dota2_sounds/items/rune_haste", nil, BASE_VOICE_VOLUME)
 	end,
 	ondetachedfn=function(inst, target)
 		if target.components.dotacharacter then
 			target.components.dotacharacter:RemoveExtraSpeed("buff", "haste")
+			if target.components.locomotor ~= nil then
+				target.components.locomotor:RemoveExternalSpeedMultiplier(inst, "buff_dota_rune_haste")
+			end
 		end
 	end,
 }
 
+-- 幻象
 buff_defs.buff_dota_rune_illusion={
 	name="buff_dota_rune_illusion",
 	duration=TUNING.DOTA.BOTTLE.RUNE.ILLUSION.DURATION,	-- 0
 	onattachedfn=function(inst, target)
-
+		PlaySound(target, "mengsk_dota2_sounds/items/rune_illusion", nil, BASE_VOICE_VOLUME)
+	end,
+	onextendedfn=function(inst, target)
+		PlaySound(target, "mengsk_dota2_sounds/items/rune_illusion", nil, BASE_VOICE_VOLUME)
 	end,
 	ondetachedfn=function(inst, target)
 
 	end,
 }
 
+-- 隐身
 buff_defs.buff_dota_rune_invisbility={
 	name="buff_dota_rune_invisbility",
 	duration=TUNING.DOTA.BOTTLE.RUNE.INVISBILITY.DURATION,
 	onattachedfn=function(inst, target)
+		PlaySound(target, "mengsk_dota2_sounds/items/rune_invis", nil, BASE_VOICE_VOLUME)
 		if inst.fadingtimer ~= nil then
 			inst.fadingtimer:Cancel()
 		end
 		inst.fadingtimer = inst:DoTaskInTime(TUNING.DOTA.BOTTLE.RUNE.INVISBILITY.FADING, GoToShadow, target, "buff_dota_rune_invisbility")
 	end,
 	onextendedfn=function(inst, target)
+		PlaySound(target, "mengsk_dota2_sounds/items/rune_invis", nil, BASE_VOICE_VOLUME)
 		LeaveShadow(target, "buff_dota_rune_invisbility")
 		if inst.fadingtimer ~= nil then
 			inst.fadingtimer:Cancel()
@@ -1666,27 +1701,39 @@ buff_defs.buff_dota_rune_invisbility={
 }
 
 local function runeregentick(inst, target)
-	if target.components.health ~= nil and
-	 not target.components.health:IsDead() and
+	if target.components.health ~= nil and not target.components.health:IsDead() and
 	 not target:HasTag("playerghost") then
 		target.components.health:DoDelta(inst.health, nil, "rune_regen")
 		if target.components.dotaattributes ~= nil then
 			target.components.dotaattributes:Mana_DoDelta(inst.mana, nil, "rune_regen")
 		end
+		if inst.hunger then
+			target.components.hunger:DoDelta(inst.hunger)
+		end
+		if inst.sanity then -- 不对月岛状态进行判断
+			target.components.sanity:DoDelta(inst.sanity)
+		end
 	end
 end
 
+-- 恢复
 buff_defs.buff_dota_rune_regeneration={
 	name="buff_dota_rune_regeneration",
 	duration=TUNING.DOTA.BOTTLE.RUNE.REGENERATION.DURATION,
 	onattachedfn=function(inst, target)
-		inst.health = target.compoents.health and (target.components.health.maxhealth * TUNING.DOTA.BOTTLE.RUNE.REGENERATION.MAXRATIO)
-		inst.mana = target.compoents.dotaattributes and (target.components.dotaattributes.maxmana * TUNING.DOTA.BOTTLE.RUNE.REGENERATION.MAXRATIO)
+		PlaySound(target, "mengsk_dota2_sounds/items/rune_regen", nil, BASE_VOICE_VOLUME)
+		inst.health = target.components.health and (target.components.health.maxhealth * TUNING.DOTA.BOTTLE.RUNE.REGENERATION.MAXRATIO)
+		inst.hunger = target.components.hunger and (target.components.hunger.max * TUNING.DOTA.BOTTLE.RUNE.REGENERATION.MAXRATIO) or false
+		inst.sanity = target.components.sanity and (target.components.sanity.max * TUNING.DOTA.BOTTLE.RUNE.REGENERATION.MAXRATIO) or false
+		inst.mana = target.components.dotaattributes and (target.components.dotaattributes.maxmana * TUNING.DOTA.BOTTLE.RUNE.REGENERATION.MAXRATIO)
 		if inst.regeneratetask ~= nil then
 			inst.regeneratetask:Cancel()
 			inst.regeneratetask = nil
 		end
 		inst.regeneratetask = inst:DoPeriodicTask(TUNING.DOTA.BOTTLE.RUNE.REGENERATION.INTERVAL, runeregentick, nil, target)
+	end,
+	onextendedfn=function(inst, target)
+		PlaySound(target, "mengsk_dota2_sounds/items/rune_regen", nil, BASE_VOICE_VOLUME)
 	end,
 	ondetachedfn=function(inst, target)
 		if inst.regeneratetask ~= nil then
@@ -1696,6 +1743,7 @@ buff_defs.buff_dota_rune_regeneration={
 	end,
 }
 
+-- 护盾
 buff_defs.buff_dota_rune_shield={
 	name="buff_dota_rune_shield",
 	duration=TUNING.DOTA.BOTTLE.RUNE.SHIELD.DURATION,
@@ -1707,25 +1755,34 @@ buff_defs.buff_dota_rune_shield={
 	end,
 }
 
+-- 圣水
 buff_defs.buff_dota_rune_water={
 	name="buff_dota_rune_water",
 	duration=0.1,
 	onattachedfn=function(inst, target)
+		PlaySound(target, "mengsk_dota2_sounds/items/rune_water", nil, BASE_VOICE_VOLUME)
 		if target.components.health ~= nil and not target.components.health:IsDead() and
 		not target:HasTag("playerghost") then
-		   target.components.health:DoDelta(TUNING.DOTA.BOTTLE.RUNE.SHIELD.HEALTH, nil, "rune_water")
+		   target.components.health:DoDelta(TUNING.DOTA.BOTTLE.RUNE.WATER.HEALTH, nil, "rune_water")
 		   if target.components.dotaattributes ~= nil then
-			   target.components.dotaattributes:Mana_DoDelta(TUNING.DOTA.BOTTLE.RUNE.SHIELD.MANA, nil, "rune_water")
+			   target.components.dotaattributes:Mana_DoDelta(TUNING.DOTA.BOTTLE.RUNE.WATER.MANA, nil, "rune_water")
 		   end
 	   end
 	end,
+	onextendedfn=function(inst, target)
+		PlaySound(target, "mengsk_dota2_sounds/items/rune_water", nil, BASE_VOICE_VOLUME)
+	end,
 }
 
+-- 智慧
 buff_defs.buff_dota_rune_wisdom={
 	name="buff_dota_rune_wisdom",
 	duration=0.1,
 	onattachedfn=function(inst, target)
-
+		PlaySound(target, "mengsk_dota2_sounds/items/tome_of_knowledge", nil, BASE_VOICE_VOLUME)
+	end,
+	onextendedfn=function(inst, target)
+		PlaySound(target, "mengsk_dota2_sounds/items/tome_of_knowledge", nil, BASE_VOICE_VOLUME)
 	end,
 	ondetachedfn=function(inst, target)
 

@@ -117,6 +117,7 @@ local levelimages = {
     {level = 4 , image = "dota_bottle",         buff = "buff_dota_regenerate"},
 }
 
+-- 瓶子中神符的状态并不总是和神符自身对应
 local runestates = {
     {rune = "dota_rune_arcane",       level = 4, image = "dota_rune_arcane", 		buff = "buff_dota_rune_arcane"},    -- 奥术
     {rune = "dota_rune_bounty",       level = 3, image = "dota_rune_bounty", 		buff = "buff_dota_rune_bounty"},    -- 赏金

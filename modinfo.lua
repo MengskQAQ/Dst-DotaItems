@@ -3,7 +3,7 @@
 local L = locale ~= nil and locale ~= "zh" and locale ~= "zhr" and locale ~= "zht" -- true 英文  false 中文
 
 name = L and "Dst Dota2 Items Test" or "Dota2 装备  测试版" -- 名称
-version = "1.0.11" -- 版本 大版本，小版本，优化/bug
+version = "1.1.0" -- 版本 大版本，小版本，优化/bug
 author = "Mengsk"   -- 作者
 forumthread = ""    -- klei官方论坛地址，为空则默认是工坊的地址
 
@@ -376,6 +376,16 @@ configuration_options =
         hover = L and "How many bananas need to fill bottle" or "需要多少香蕉才允许猴王装满瓶子",
         options = numtable,
         default = 1,
+    },
+    {
+        name = "should_spawn_rune",
+        label = L and "Rune Spawn" or "神符生成",
+        hover = L and "Will rune spawn on the ground at daybreak" or "破晓时地面上是否会产生神符",
+        options = {
+            {description = L and "Enable" or "产生", data = true},
+            {description = L and "Disable" or "不产生", data = false},
+        },
+        default = true,
     },
     -------------------------------------------------------------------------------------------------
     {

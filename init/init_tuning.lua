@@ -45,6 +45,7 @@ local handofmidas_limit = GetModConfigData("hand_of_midas_limit") or 110
 local blinkdagger_cdplus = GetModConfigData("blink_dagger_cdplus") or 1
 local tpscroll_cdplus = GetModConfigData("tpscroll_cdplus") or 1
 local bananalimit = GetModConfigData("bottle_bananalimit") or 1
+local should_spawn_rune = GetModConfigData("should_spawn_rune") or true
 
 local debug_optional = GetModConfigData("debug_optional") or false
 
@@ -69,6 +70,8 @@ local DOTATUNING = {
 	MANA_REGEN_INTERVAL = seg_time/6,	-- 魔法恢复间隔
 	MANA_REGEN_TOTALTIME = seg_time/1, -- 魔法回复的数值在多长时间内达到
 	EQUIPMENT_COOLDOWN = 6,				-- 装备后增加cd
+--神符 - 生成
+	SPAWN_RUNE = should_spawn_rune,
 --各类系数
 	RATIO ={
 		GOLD = gold_ratio,
@@ -138,7 +141,7 @@ local DOTATUNING = {
 		MAXSIZE = stack_size,		-- 最大堆叠数量
 		HEALTHREGEN = 0.3 * healthregen_ratio,	-- 生命恢复速率
 	},
---魔瓶 or 瓶子
+--魔瓶 or 瓶子 and 神符
 	BOTTLE = {
 		GOLD = 675 * gold_ratio,
 		BANANALIMIT = bananalimit,
