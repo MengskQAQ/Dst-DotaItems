@@ -120,7 +120,8 @@ AddComponentPostInit("health", function(self, inst)
 			return 0
 		end
 		
-		amount = math.min(amount, self.currenthealth - 1)
+		local min_health = math.min(self.minhealth or 0, self:GetMaxWithPenalty())
+		amount = math.min(amount, self.min_health + 1)
 		if old_DoDelta then
 			return old_DoDelta(self, amount, overtime, cause, ignore_invincible, afflicter, ignore_absorb)
 		end

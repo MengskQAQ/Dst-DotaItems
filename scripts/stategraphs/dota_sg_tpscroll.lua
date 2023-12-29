@@ -1,8 +1,7 @@
 local TIMEOUT = 2
 
 local function Dota_TpSG()
-    local state =
-    GLOBAL.State{
+    local state = GLOBAL.State{
         name = "dota_sg_portal_jumpin",
         tags = { "busy", "pausepredict", "nodangle", "nomorph" },
 
@@ -29,8 +28,7 @@ local function Dota_TpSG()
 end
 
 local function Dota_TpSGClient()
-    local state =
-    GLOBAL.State{
+    local state = GLOBAL.State{
         name = "dota_sg_portal_jumpin",
         tags = { "busy" },
 

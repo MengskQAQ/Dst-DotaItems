@@ -68,7 +68,7 @@ local creature = {
 "glacialhound","um_pawn","um_pawn_nightmare","pollenmites","um_scorpion",
 "um_scorpion","spider_trapdoor","creepingfear","dreadeye",
 "hoodedwidow",--boss
---未分类
+--待分类
 "dustmoth","friendlyfruitfly","fruitfly","lordfruitfly","waterplant",
 "moonbytterfly","bird_mutant","mutated_hound","spider_water","grassgator",
 "oceanvine","coeantree_pillar","oceantree_cocoon","ticoon","pumpkin_lantern",
@@ -79,24 +79,40 @@ local creature = {
 }
 
 local ATTRIBUTES_SYSTEM = GetModConfigData("attributes_system")
+local function CommonCreatureEnable_Client(inst)
+    if not inst:HasTag("dotaattributes") then
+        inst:AddTag("dotaattributes")
+    end
+end
+local function CommonCreatureEnable_Server(inst)
+    if not inst.components.dotaattributes then
+        inst:AddComponent("dotaattributes")	    --普通生物
+    end
+    if not inst.components.debuffable then
+        inst:AddComponent("debuffable")	 
+    end
+    if not inst.components.dotaethereal then
+        inst:AddComponent("dotaethereal")
+    end
+    if not inst.components.dotastunned then
+        inst:AddComponent("dotastunned")
+    end
+    -- if not inst.components.dotadominatetarget then
+    --     inst:AddComponent("dotadominatetarget")
+    -- end
 
+    -- TODO: 该组件存在bug，加入后无法选中生物，是实体覆盖导致的吗？
+    -- if not inst.components.dotastunbar then
+    --     inst:AddComponent("dotastunbar")
+    -- end
+end
 if ATTRIBUTES_SYSTEM == 1 then    -- 白名单制
     for k, v in pairs(creature) do
         AddPrefabPostInit(v, function(inst)
             if not inst.components.dotaattributes then
-                if  not inst:HasTag("dotaattributes") then
-                    inst:AddTag("dotaattributes")
-                end
+                CommonCreatureEnable_Client(inst)
                 if GLOBAL.TheWorld.ismastersim then
-                    if not inst.components.dotaattributes then
-                        inst:AddComponent("dotaattributes")	    --普通生物
-                    end
-					if not inst.components.debuffable then
-                        inst:AddComponent("debuffable")	 
-                    end
-                    if not inst.components.dotaethereal then
-                        inst:AddComponent("dotaethereal")
-                    end
+                    CommonCreatureEnable_Server(inst)
                     return inst
                 end
             end
@@ -113,39 +129,21 @@ elseif ATTRIBUTES_SYSTEM == 2 then    -- 全体
          and not inst:HasTag("molebait")  
          and not inst:HasTag("shadowminion") 
          and not inst:HasTag("shadow") 
-         and not inst:HasTag("boat")  
+         and not inst:HasTag("boat")
+         and not inst:HasTag("object")  
+         and not inst:HasTag("plant")  
          and not inst:HasTag("player")  -- 玩家在另一个文件定义
          then 
             if inst:HasTag("epic") then
-                if  not inst:HasTag("dotaattributes") then
-                    inst:AddTag("dotaattributes")
-                end
+                CommonCreatureEnable_Client(inst)
                 if GLOBAL.TheWorld.ismastersim then
-                    if not inst.components.dotaattributes then
-                        inst:AddComponent("dotaattributes")		--boss级生物
-                    end
-					if not inst.components.debuffable then
-                        inst:AddComponent("debuffable")	    --普通生物
-                    end
-                    if not inst.components.dotaethereal then
-                        inst:AddComponent("dotaethereal")
-                    end
+                    CommonCreatureEnable_Server(inst)
                     return inst
                 end
             else
-                if  not inst:HasTag("dotaattributes") then
-                    inst:AddTag("dotaattributes")
-                end
+                CommonCreatureEnable_Client(inst)
                 if GLOBAL.TheWorld.ismastersim then
-                    if not inst.components.dotaattributes then
-                        inst:AddComponent("dotaattributes")		--普通生物
-                    end
-					if not inst.components.debuffable then
-                        inst:AddComponent("debuffable")	    --普通生物
-                    end
-                    if not inst.components.dotaethereal then
-                        inst:AddComponent("dotaethereal")
-                    end
+                    CommonCreatureEnable_Server(inst)
                     return inst
                 end
             end

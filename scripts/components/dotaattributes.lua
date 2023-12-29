@@ -3,6 +3,7 @@
 
 local SourceModifierList = require("util/sourcemodifierlist")
 local DotaModifierList = require("dota_defs/dotamodifierlist")  -- 与原版无多大差异，主要添加了一个边际衰减的函数
+local DamageModifierList = require("dota_defs/dotadamagemodifierlist")  -- 与原版无多大差异，主要添加了一个边际衰减的函数
 local MANA_REGEN_TOTALTIME = TUNING.DOTA.MANA_REGEN_TOTALTIME
 
 local function on_mana(self, mana)
@@ -28,7 +29,7 @@ local DotaAttributes = Class(function(self, inst)   -- 参数有那么亿点点�
     self.maxmanacalc = SourceModifierList(self.inst, 0, SourceModifierList.additive)                -- 魔法总值
     self.manaregen = SourceModifierList(self.inst, 0, SourceModifierList.additive)                   -- 魔法恢复
     ---------------------额外属性----------------------
-    self.extradamage = SourceModifierList(self.inst, 0, SourceModifierList.additive)                 -- 额外攻击力
+    self.extradamage = DamageModifierList(self.inst, 0, DamageModifierList.additive)                 -- 额外攻击力
     self.damagerange = SourceModifierList(self.inst, 0, SourceModifierList.additive)                 -- 额外攻击距离
     self.extraspeed = SourceModifierList(self.inst, 0, SourceModifierList.additive)                  -- 额外移速
     self.extraspellrange = SourceModifierList(self.inst, 0, SourceModifierList.additive)            -- 施法距离加成
@@ -453,8 +454,10 @@ function DotaAttributes:OnSave()
 end
 
 function DotaAttributes:OnLoad(data)
-    self.mana = data.mana or 100
-	self.maxmana = data.maxmana or 100
+    if data then
+        self.mana = data.mana or 100
+        self.maxmana = data.maxmana or 100
+    end
 end
 
 return DotaAttributes

@@ -27,6 +27,7 @@ local UI_DRAG = GetModConfigData("ui_drag") or true
 local HEALTH_COMPATIBILITY = GetModConfigData("health_compatibility_deafultmode") or 2
 local RECHARGEMOD = GetModConfigData("rechargemod") or false
 local SPEED_SYSTEM = GetModConfigData("speed_system") or true
+local EXTRADAMAGE_MODE = GetModConfigData("extradamage_mode") or 0
 
 local gold_ratio = GetModConfigData("gold_ratio") or 0.1
 local extradamage_ratio = GetModConfigData("extradamage_ratio") or 0.5
@@ -57,6 +58,7 @@ local DOTATUNING = {
 	BASE_VOICE_VOLUME = BASE_VOICE_VOLUME,
 	UI_DRAG = UI_DRAG,
 	SHARINGCD = RECHARGEMOD,
+	EXTRADAMAGE_MODE = EXTRADAMAGE_MODE,
 	ISDEBUG = debug_optional,
 --人物属性系统
 	HEALTH_SYSTEM = HEALTH_SYSTEM,
@@ -72,6 +74,8 @@ local DOTATUNING = {
 	EQUIPMENT_COOLDOWN = 6,				-- 装备后增加cd
 --神符 - 生成
 	SPAWN_RUNE = should_spawn_rune,
+--支配实现方法选择
+	-- DOMINATE_LINK_METHOD = 1,
 --各类系数
 	RATIO ={
 		GOLD = gold_ratio,

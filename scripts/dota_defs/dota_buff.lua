@@ -783,12 +783,20 @@ buff_defs.buff_dota_return={
 		inst:ListenForEvent("blocked", inst._onblocked, target)
 		inst:ListenForEvent("attacked", inst._onblocked, target)
 		PlaySound(target, "mengsk_dota2_sounds/items/dota_item_blade_mail", nil, BASE_VOICE_VOLUME)
+
+		inst.needle = SpawnPrefab("dota_fx_needle")
+		if inst.needle then
+			inst.needle:SetFXOwner(target)
+		end
 	end,
 	ondetachedfn=function(inst, target)
 		if inst._onblocked ~= nil then
 			inst:RemoveEventCallback("blocked", inst._onblocked, target)
 			inst:RemoveEventCallback("attacked", inst._onblocked, target)
 			inst._onblocked = nil
+		end
+		if inst.needle then
+			inst.needle:Remove()
 		end
 	end,
 }
@@ -1174,6 +1182,9 @@ buff_defs.buff_dota_avatar={
 		if target.components.dotaattributes then
 			target.components.dotaattributes.statusresistance:SetModifier("buff", 1.0, "buff_dota_avatar")
 		end
+		if target.components.slipperyfeet then
+			target.components.slipperyfeet:SetCurrent(0)
+		end
 		PlaySound(target, "mengsk_dota2_sounds/items/black_king_bar", nil, BASE_VOICE_VOLUME)
 	end,
 	ondetachedfn=function(inst, target)
@@ -1184,6 +1195,9 @@ buff_defs.buff_dota_avatar={
 		end
 		if target.components.dotaattributes then
 			target.components.dotaattributes.statusresistance:RemoveModifier("buff", "buff_dota_avatar")
+		end
+		if target.components.slipperyfeet then
+			target.components.slipperyfeet:SetCurrent(0)
 		end
 	end,
 }

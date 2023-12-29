@@ -2,7 +2,6 @@
 
 GLOBAL.setmetatable(env, { __index = function(t, k) return GLOBAL.rawget(GLOBAL, k) end })
 local require = GLOBAL.require
--- require("debug_dota")
 
 -- 语言
 local language = GetModConfigData("language") or "AUTO"
@@ -18,6 +17,9 @@ modimport("init/init_assets")
 
 --tuning 各类预设数值
 modimport("init/init_tuning")
+
+--global 某些全局函数
+modimport("scripts/dota_defs/dota_global")
 
 -- 真视宝石
 AddMinimapAtlas("minimap/dota_gem_of_true_sight_icon.xml")
@@ -62,7 +64,7 @@ modimport("scripts/dota_defs/dota_hook/dota_inventory")
 modimport("scripts/dota_defs/dota_hook/dota_attackspeed")   -- 攻速系统
 modimport("scripts/dota_defs/dota_hook/dota_playercontroller")  -- TP效果实现文件之一
 modimport("scripts/dota_defs/dota_hook/dota_arcane_buff")   -- 智力跳效果
-modimport("scripts/dota_defs/dota_hook/dota_monkeyqueen")   -- 猴王补充魔瓶
+-- modimport("scripts/dota_defs/dota_hook/dota_monkeyqueen")   -- 猴王补充魔瓶  --TODO:有bug，暂时关闭
 modimport("scripts/dota_defs/dota_hook/dota_avatar")   -- bkb期间无硬直
 -- modimport("scripts/dota_defs/dota_hook/dota_debuffable")   -- 装备被动属性(废案)
 -- modimport("scripts/dota_defs/dota_hook/dota_widgets_craftingmenu")   -- 多配方(未测试，不启用)
@@ -75,13 +77,16 @@ modimport("scripts/dota_defs/dota_hook/dota_dynamicmusic")    -- 特殊音效
 
 -- 神符生成
 modimport("scripts/dota_defs/dota_hook/dota_retrofitforestmap_anr")
+modimport("scripts/dota_defs/dota_hook/dota_retrofitcavemap_anr")
 modimport("scripts/dota_defs/dota_hook/dota_forest")
-modimport("scripts/dota_defs/dota_hook/dota_BGNoise")
+modimport("scripts/dota_defs/dota_hook/dota_cave")
+modimport("scripts/dota_defs/dota_hook/dota_room")
 
 --sg 新动作
 modimport("scripts/stategraphs/dota_nilsg")
 modimport("scripts/stategraphs/dota_sg_meteor")
 modimport("scripts/stategraphs/dota_sg_tpscroll_pre")
+modimport("scripts/stategraphs/dota_sg_stunned")    -- 眩晕特效
 
 --为实体添加组件
 modimport("scripts/dota_defs/dota_creature")
@@ -105,6 +110,7 @@ AddRecipe2(
 -- 调试模式
 local debug_optional = GetModConfigData("debug_optional") or false
 if debug_optional then
+    require("debug_dota")
     modimport("scripts/dota_debug")
 end
 

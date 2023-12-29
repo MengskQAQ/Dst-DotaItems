@@ -288,7 +288,7 @@ dota_item_weapon.dota_armlet_of_mordiggian = {
         owner.components.dotacharacter:RemoveExtraArmor(TUNING.DOTA.ARMLET.EXTRAARMOR)
 	end,
 }
--------------------------------------------------深渊之刃 or 大晕-------------------------------------------------
+-------------------------------------------------深渊之刃 or 大晕锤-------------------------------------------------
 dota_item_weapon.dota_abyssal_blade = {
     name = "dota_abyssal_blade",
     animname = "dota_abyssal_blade",
@@ -301,12 +301,16 @@ dota_item_weapon.dota_abyssal_blade = {
         owner.components.dotacharacter:AddStrength(TUNING.DOTA.ABYSSAL_BLADE.STRENGTH)
         owner.components.dotacharacter:AddExtraHealth(TUNING.DOTA.ABYSSAL_BLADE.EXTRAHEALTH)
         owner.components.dotacharacter:AddExtraDamage(TUNING.DOTA.ABYSSAL_BLADE.EXTRADAMAGE)
+        owner.components.dotacharacter:AddTrueStrike(TUNING.DOTA.ABYSSAL_BLADE.BASH.CHANCE,TUNING.DOTA.ABYSSAL_BLADE.BASH.DAMAGE,"bash")
+        owner.components.dotacharacter:AddAbility(inst, "ability_dota_bashattack", "ability_dota_bashattack")
 	end,
 	onunequipfn = function(inst,owner)
         owner.components.dotacharacter:RemoveHealthRegen(TUNING.DOTA.ABYSSAL_BLADE.HEALTHREGEN)
         owner.components.dotacharacter:RemoveStrength(TUNING.DOTA.ABYSSAL_BLADE.STRENGTH)
         owner.components.dotacharacter:RemoveExtraHealth(TUNING.DOTA.ABYSSAL_BLADE.EXTRAHEALTH)
         owner.components.dotacharacter:RemoveExtraDamage(TUNING.DOTA.ABYSSAL_BLADE.EXTRADAMAGE)
+        owner.components.dotacharacter:RemoveTrueStrike(TUNING.DOTA.ABYSSAL_BLADE.BASH.CHANCE,TUNING.DOTA.ABYSSAL_BLADE.BASH.DAMAGE,"bash")
+        owner.components.dotacharacter:RemoveAbility(inst, "ability_dota_bashattack")
 	end,
 }
 -------------------------------------------------圣剑-------------------------------------------------
@@ -336,12 +340,6 @@ dota_item_weapon.dota_crystalys = {
 	end,
 }
 -------------------------------------------------碎颅锤 or 晕锤-------------------------------------------------
-local function BashSoundEmitter(owner, data)
-    if data and data.weapon and data.weapon == "bash" then
-		PlaySound(owner, "mengsk_dota2_sounds/items/skull_basher", "skull_basher", BASE_VOICE_VOLUME)
-	end
-end
-
 dota_item_weapon.dota_skull_basher = {
     name = "dota_skull_basher",
     animname = "dota_skull_basher",
@@ -350,13 +348,22 @@ dota_item_weapon.dota_skull_basher = {
         owner.components.dotacharacter:AddStrength(TUNING.DOTA.SKULL_BASHER.STRENGTH)
         owner.components.dotacharacter:AddExtraDamage(TUNING.DOTA.SKULL_BASHER.EXTRADAMAGE)
         owner.components.dotacharacter:AddTrueStrike(TUNING.DOTA.SKULL_BASHER.BASH.CHANCE,TUNING.DOTA.SKULL_BASHER.BASH.DAMAGE,"bash")
-        owner:ListenForEvent("dotaevent_truestrike", BashSoundEmitter)
+        owner.components.dotacharacter:AddAbility(inst, "ability_dota_bashattack", "ability_dota_bashattack")
+        owner:ListenForEvent("dotaevent_bash", inst._onrecharger)
     end,
 	onunequipfn = function(inst,owner)
         owner.components.dotacharacter:RemoveStrength(TUNING.DOTA.SKULL_BASHER.STRENGTH)
         owner.components.dotacharacter:RemoveExtraDamage(TUNING.DOTA.SKULL_BASHER.EXTRADAMAGE)
         owner.components.dotacharacter:RemoveTrueStrike(TUNING.DOTA.SKULL_BASHER.BASH.CHANCE,TUNING.DOTA.SKULL_BASHER.BASH.DAMAGE,"bash")
-        owner:RemoveEventCallback("dotaevent_truestrike", BashSoundEmitter)
+        owner.components.dotacharacter:RemoveAbility(inst, "ability_dota_bashattack")
+        owner:RemoveEventCallback("dotaevent_bash", inst._onrecharger)
+    end,
+    extrafn=function(inst)
+        inst._onrecharger = function(owner)
+            if inst and inst.components.rechargeable ~= nil then
+                inst.components.rechargeable:Discharge(TUNING.DOTA.SKULL_BASHER.BASH.CD)
+			end
+        end
     end,
 }
 -------------------------------------------------虚灵之刃-------------------------------------------------

@@ -11,9 +11,9 @@ local STRINGS = GLOBAL.STRINGS
 
 local queueractlist={}--可兼容排队论的动作
 local actions_status,actions_data = pcall(require,"dota_defs/dota_action")
---local actions_data = require("dota_defs/dota_action")
+-- local actions_data = require("dota_defs/dota_action")
 
---if actions_data then
+-- if actions_data then
 if actions_status then
     -- 导入自定义动作
     if actions_data.actions then

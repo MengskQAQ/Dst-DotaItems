@@ -40,6 +40,7 @@
 local easing = require("easing")
 
 local HIGH_ACTION_PRIORITY = 10
+local NORMAL_ACTION_PRIORITY = 8
 local BASE_VOICE_VOLUME = TUNING.DOTA.BASE_VOICE_VOLUME
 
 local function ArriveAnywhere()
@@ -241,6 +242,18 @@ local function FindActivateItemByDoer(owner, prefab)
 	local equipped = owner.components.inventory:GetEquippedItem(EQUIPSLOTS.DOTASLOT or EQUIPSLOTS.NECK or EQUIPSLOTS.BODY) -- 获取玩家装备栏的物品
 	if equipped and equipped.components.container ~= nil then
 		equipped = equipped.components.container:FindItem(function(inst) return inst and inst.prefab == prefab and inst:HasTag("dota_activate") end)
+	end
+	if equipped and equipped.prefab ~= prefab then
+		return nil
+	end
+	return equipped
+end
+
+-- 玩家装备栏中是否拥有某个物品
+local function GetSpecialItemByDoer(owner, prefab)
+	local equipped = owner.components.inventory:GetEquippedItem(EQUIPSLOTS.DOTASLOT or EQUIPSLOTS.NECK or EQUIPSLOTS.BODY) -- 获取玩家装备栏的物品
+	if equipped and equipped.components.container ~= nil then
+		equipped = equipped.components.container:FindItem(function(inst) return inst and inst.prefab == prefab end)
 	end
 	if equipped and equipped.prefab ~= prefab then
 		return nil
@@ -652,7 +665,7 @@ actions.clarity = {
 		return ActionFailed(act.doer)
 	end,
 	actiondata = {
-		priority=8,
+		priority=NORMAL_ACTION_PRIORITY,
 		mount_valid=true,
 	},
 }
@@ -672,7 +685,7 @@ actions.faeriefire = {
 		return ActionFailed(act.doer)
 	end,
 	actiondata = {
-		priority=7,
+		priority=NORMAL_ACTION_PRIORITY,
 		mount_valid=true,
 	},
 }
@@ -695,7 +708,7 @@ actions.smoke = {
 		return ActionFailed(act.doer)
 	end,
 	actiondata = {
-		priority=7,
+		priority=NORMAL_ACTION_PRIORITY,
 		mount_valid=true,
 	},
 }
@@ -714,7 +727,7 @@ actions.mango = {
 		return ActionFailed(act.doer)
 	end,
 	actiondata = {
-		priority=7,
+		priority=NORMAL_ACTION_PRIORITY,
 		mount_valid=true,
 	},
 }
@@ -733,42 +746,50 @@ actions.regenerate = {
 		return ActionFailed(act.doer)
 	end,
 	actiondata = {
-		priority=7,
+		priority=NORMAL_ACTION_PRIORITY,
 		mount_valid=true,
 	},
 }
 --------------------------------------------------- 神符 ---------------------------------------------------
-actions.bottlerune = {
+local function DoStoreRune(bottle, rune)
+	if bottle and bottle.components.dotabottle and not bottle.components.dotabottle:IsStoreRune() then
+		PlaySound(bottle, "mengsk_dota2_sounds/ui/bottle_corked", nil, BASE_VOICE_VOLUME)
+		bottle.components.dotabottle:StoreRune(rune)
+		return true
+	end
+	return false
+end
+
+actions.bottlerune = {	-- 瓶子放到神符上时
 	id = "DOTA_BOTTLERUNE",
 	str = STRINGS.DOTA.NEWACTION.DOTA_BOTTLERUNE,
 	fn = function(act)
 		if act.target and act.target:HasTag("dota_rune")
 		 and act.invobject and act.invobject.prefab == "dota_bottle" then
-			if act.invobject.components.dotabottle and not act.invobject.components.dotabottle:IsStoreRune() then
-				PlaySound(act.invobject, "mengsk_dota2_sounds/ui/bottle_corked", nil, BASE_VOICE_VOLUME)
-				act.invobject.components.dotabottle:StoreRune(act.target)
-				return true
-			end
-
-			if act.target.buffname then
-				AddDebuff(act.doer, act.target.buffname)
+			if DoStoreRune(act.invobject, act.target) then
 				return true
 			end
 		end
 		return ActionFailed(act.doer)
 	end,
 	actiondata = {
-		priority=7,
+		priority=NORMAL_ACTION_PRIORITY,
 		mount_valid=true,
 	},
 }
 
-actions.touchrune = {
+actions.touchrune = {	-- 主动拾取神符
 	id = "DOTA_TOUCHRUNE",
 	str = STRINGS.DOTA.NEWACTION.DOTA_TOUCHRUNE,
 	fn = function(act)
 		if act.target and act.target:HasTag("dota_rune")
 		 and act.doer ~= nil and act.doer:HasTag("player") and not act.doer:HasTag("playerghost") then
+
+			local bottle = GetSpecialItemByDoer(act.doer, "dota_bottle")	-- 有瓶子时自动存瓶
+			if bottle and DoStoreRune(bottle, act.target) then
+				return true
+			end
+
 			if act.target.buffname then
 				AddDebuff(act.doer, act.target.buffname)
 				act.target:Remove()
@@ -778,7 +799,7 @@ actions.touchrune = {
 		return ActionFailed(act.doer)
 	end,
 	actiondata = {
-		priority=7,
+		priority=NORMAL_ACTION_PRIORITY,
 		mount_valid=true,
 	},
 }
@@ -812,7 +833,7 @@ actions.tango = {
 		return ActionFailed(act.doer)
 	end,
 	actiondata = {
-		priority=7,
+		priority=NORMAL_ACTION_PRIORITY,
 		mount_valid=true,
 		distance = TUNING.DOTA.TANGO.DEVOU.SPELLRANGE,
 	},
@@ -835,7 +856,7 @@ actions.dust = {
 		return ActionFailed(act.doer)
 	end,
 	actiondata = {
-		priority=7,
+		priority=NORMAL_ACTION_PRIORITY,
 		mount_valid=true,
 	},
 }
@@ -859,7 +880,7 @@ actions.tome = {
 		return ActionFailed(act.doer)
 	end,
 	actiondata = {
-		priority=7,
+		priority=NORMAL_ACTION_PRIORITY,
 		mount_valid=true,
 	},
 }
@@ -877,7 +898,7 @@ actions.salve = {
 		return ActionFailed(act.doer)
 	end,
 	actiondata = {
-		priority=7,
+		priority=NORMAL_ACTION_PRIORITY,
 		mount_valid=true,
 	},
 }
@@ -905,7 +926,7 @@ actions.chop = {
 		return ActionFailed(act.doer)
 	end,
 	actiondata = {
-		priority=7,
+		priority=NORMAL_ACTION_PRIORITY,
 		mount_valid=false,
 		distance = TUNING.DOTA.QUELLING_BLADE.CHOP.SPELLRANGE,
 	},
@@ -923,7 +944,7 @@ actions.fading = {
 		return ActionFailed(act.doer)
 	end,
 	actiondata = {
-		priority=7,
+		priority=NORMAL_ACTION_PRIORITY,
 		mount_valid=false,
 	},
 }
@@ -942,42 +963,38 @@ local function MagicTickHeal(item, doer, target, health, mana, reason)
 	end
 end
 
-local MAGIC_STICK_HEALTH = TUNING.DOTA.MAGIC_STICK.HEAL
-local MAGIC_STICK_MANA = TUNING.DOTA.MAGIC_STICK.MANA
 actions.magiccharge = {
 	id = "DOTA_MAGICCHARGE",
 	str = STRINGS.DOTA.NEWACTION.DOTA_MAGICCHARGE,
 	fn = function(act)
 		if StandardInvobjectActioniTest(act, "dota_magic_stick") then
 			if not RechargeCheck(act.invobject, TUNING.DOTA.MAGIC_STICK.CD, act.doer) then return true end
-			MagicTickHeal(act.invobject, act.doer, act.doer, MAGIC_STICK_HEALTH, MAGIC_STICK_MANA, "magiccharge")
+			MagicTickHeal(act.invobject, act.doer, act.doer, TUNING.DOTA.MAGIC_STICK.HEAL, TUNING.DOTA.MAGIC_STICK.MANA, "magiccharge")
 			PlaySound(act.doer, "mengsk_dota2_sounds/items/magic_stick_activate", nil, BASE_VOICE_VOLUME)
 			return true
 		end
 		return ActionFailed(act.doer)
 	end,
 	actiondata = {
-		priority=7,
+		priority=NORMAL_ACTION_PRIORITY,
 		mount_valid=false,
 	},
 }
 -------------------------------------------------魔杖-------------------------------------------------
-local MAGIC_WAND_HEALTH = TUNING.DOTA.MAGIC_WAND.HEAL
-local MAGIC_WAND_MANA = TUNING.DOTA.MAGIC_WAND.MANA
 actions.magicchargeplus = {
 	id = "DOTA_MAGICCHARGEPLUS",
 	str = STRINGS.DOTA.NEWACTION.DOTA_MAGICCHARGEPLUS,
 	fn = function(act)
 		if StandardInvobjectActioniTest(act, "dota_magic_wand") then
 			if not RechargeCheck(act.invobject, TUNING.DOTA.MAGIC_WAND.CD, act.doer) then return true end
-			MagicTickHeal(act.invobject, act.doer, act.doer, MAGIC_WAND_HEALTH, MAGIC_WAND_MANA, "magicchargeplus")
+			MagicTickHeal(act.invobject, act.doer, act.doer, TUNING.DOTA.MAGIC_WAND.HEAL, TUNING.DOTA.MAGIC_WAND.MANA, "magicchargeplus")
 			PlaySound(act.doer, "mengsk_dota2_sounds/items/magic_stick_activate", nil, BASE_VOICE_VOLUME)
 			return true
 		end
 		return ActionFailed(act.doer)
 	end,
 	actiondata = {
-		priority=7,
+		priority=NORMAL_ACTION_PRIORITY,
 		mount_valid=false,
 	},
 }
@@ -1004,7 +1021,7 @@ actions.blink = {
 		return ActionFailed(act.doer)
 	end,
 	actiondata = {
-		priority=7,
+		priority=NORMAL_ACTION_PRIORITY,
 		rmb=true,
 		distance=50, 	--动作最小触发距离
 		mount_valid=false,
@@ -1024,7 +1041,7 @@ actions.ghostform = {
 		return ActionFailed(act.doer)
 	end,
 	actiondata = {
-		priority=7,
+		priority=NORMAL_ACTION_PRIORITY,
 		mount_valid=false,
 	},
 }
@@ -1041,12 +1058,12 @@ actions.toggle = {
 		return ActionFailed(act.doer)
 	end,
 	actiondata = {
-		priority=7,
+		priority=NORMAL_ACTION_PRIORITY,
 		mount_valid=false,
 	},
 }
 --------------------------------------------疯狂面具 or 疯脸------------------------------------------------
-local berserk_mana = TUNING.DOTA.MASK_OF_MADNESS.BERSERK.MANA
+-- local berserk_mana = TUNING.DOTA.MASK_OF_MADNESS.BERSERK.MANA
 actions.berserk = {
 	id = "DOTA_BERSERK",
 	str = STRINGS.DOTA.NEWACTION.DOTA_BERSERK,
@@ -1062,7 +1079,7 @@ actions.berserk = {
 		return ActionFailed(act.doer)
 	end,
 	actiondata = {
-		priority=7,
+		priority=NORMAL_ACTION_PRIORITY,
 		mount_valid=false,
 	},
 }
@@ -1080,7 +1097,7 @@ actions.sacrifice = {
 		return ActionFailed(act.doer)
 	end,
 	actiondata = {
-		priority=7,
+		priority=NORMAL_ACTION_PRIORITY,
 		mount_valid=false,
 	},
 }
@@ -1152,7 +1169,7 @@ actions.transmute = {
 		return ActionFailed(act.doer)
 	end,
 	actiondata = {
-		priority=7,
+		priority=NORMAL_ACTION_PRIORITY,
 		mount_valid=false,
 		distance = TUNING.DOTA.HAND_OF_MIDAS.TRANSMUTE.SPELLRANGE,
 	},
@@ -1167,8 +1184,8 @@ actions.dominate = {
 						or FindActivateItemByDoer(act.doer, "dota_helm_of_the_overlord")
 			if item == nil then return ActionFailed(act.doer) end
 			if item.components.dominate ~= nil then
-				if not RechargeCheck(item, TUNING.DOTA.HELM_OF_THE_DOMINATOR.DOMINATE.CD, act.doer) then return true end
 				if item.components.dominate:CanDominate(act.doer) and item.components.dominate:CanBeDominate(act.target) then
+					if not RechargeCheck(item, TUNING.DOTA.HELM_OF_THE_DOMINATOR.DOMINATE.CD, act.doer) then return true end
 					if not item.components.dominate:DoDominate(act.doer, act.target) then return ActionFailed(act.doer) end
 					ChangeActivate(item, act.doer)
 					return true
@@ -1179,7 +1196,7 @@ actions.dominate = {
 		return ActionFailed(act.doer)
 	end,
 	actiondata = {
-		priority=7,
+		priority=NORMAL_ACTION_PRIORITY,
 		mount_valid=false,
 		distance = TUNING.DOTA.HELM_OF_THE_DOMINATOR.DOMINATE.SPELLRANGE,
 	},
@@ -1198,7 +1215,7 @@ actions.phase = {
 		return ActionFailed(act.doer)
 	end,
 	actiondata = {
-		priority=7,
+		priority=NORMAL_ACTION_PRIORITY,
 		mount_valid=false,
 	},
 }
@@ -1227,12 +1244,12 @@ actions.replenish = {
 		return ActionFailed(act.doer)
 	end,
 	actiondata = {
-		priority=7,
+		priority=NORMAL_ACTION_PRIORITY,
 		mount_valid=false,
 	},
 }
 -------------------------------------------------洞察烟斗 or 笛子-------------------------------------------------
-local barrier_mana = TUNING.DOTA.PIPE_OF_INSIGHT.BARRIER.MANA
+-- local barrier_mana = TUNING.DOTA.PIPE_OF_INSIGHT.BARRIER.MANA
 actions.barrier = {
 	id = "DOTA_BARRIER",
 	str = STRINGS.DOTA.NEWACTION.DOTA_BARRIER,
@@ -1262,7 +1279,7 @@ actions.barrier = {
 		return ActionFailed(act.doer)
 	end,
 	actiondata = {
-		priority=7,
+		priority=NORMAL_ACTION_PRIORITY,
 		mount_valid=false,
 	},
 }
@@ -1288,7 +1305,7 @@ actions.release = {
 		return ActionFailed(act.doer)
 	end,
 	actiondata = {
-		priority=7,
+		priority=NORMAL_ACTION_PRIORITY,
 		mount_valid=false,
 		distance = TUNING.DOTA.SPIRIT_VESSEL.RELEASE.SPELLRANGE,
 	},
@@ -1314,7 +1331,7 @@ actions.releaseplus = {
 		return ActionFailed(act.doer)
 	end,
 	actiondata = {
-		priority=7,
+		priority=NORMAL_ACTION_PRIORITY,
 		mount_valid=false,
 		distance = TUNING.DOTA.URN_OF_SHADOWS.RELEASE.SPELLRANGE,
 	},
@@ -1338,7 +1355,7 @@ actions.endurance = {
 		return ActionFailed(act.doer)
 	end,
 	actiondata = {
-		priority=7,
+		priority=NORMAL_ACTION_PRIORITY,
 		mount_valid=false,
 	},
 }
@@ -1367,7 +1384,7 @@ actions.restore = {
 	end,
 	
 	actiondata = {
-		priority=7,
+		priority=NORMAL_ACTION_PRIORITY,
 		mount_valid=false,
 	},
 }
@@ -1391,13 +1408,13 @@ actions.endurancedrum = {
 	end,
 	
 	actiondata = {
-		priority=7,
+		priority=NORMAL_ACTION_PRIORITY,
 		mount_valid=false,
 	},
 }
 -------------------------------------------------圣洁吊坠-------------------------------------------------
-local HOLY_LOCKET_HEALTH = TUNING.DOTA.HOLY_LOCKET.CHARGE.HEAL
-local HOLY_LOCKET_MANA = TUNING.DOTA.HOLY_LOCKET.CHARGE.MANA
+-- local HOLY_LOCKET_HEALTH = TUNING.DOTA.HOLY_LOCKET.CHARGE.HEAL
+-- local HOLY_LOCKET_MANA = TUNING.DOTA.HOLY_LOCKET.CHARGE.MANA
 actions.charge = {
 	id = "DOTA_CHARGE",
 	str = STRINGS.DOTA.NEWACTION.DOTA_CHARGE,
@@ -1406,14 +1423,14 @@ actions.charge = {
 			local item = FindActivateItemByDoer(act.doer, "dota_holy_locket")
 			if item == nil then return ActionFailed(act.doer) end
 			if not RechargeCheck(item, TUNING.DOTA.HOLY_LOCKET.CHARGE.CD, act.doer) then return true end
-			MagicTickHeal(item, act.doer, act.target, HOLY_LOCKET_HEALTH, HOLY_LOCKET_MANA, "dota_charge")
+			MagicTickHeal(item, act.doer, act.target, TUNING.DOTA.HOLY_LOCKET.CHARGE.HEAL, TUNING.DOTA.HOLY_LOCKET.CHARGE.MANA, "dota_charge")
 			ChangeActivate(item, act.doer)
 			return true
 		end
 		return ActionFailed(act.doer)
 	end,
 	actiondata = {
-		priority=7,
+		priority=NORMAL_ACTION_PRIORITY,
 		mount_valid=false,
 		distance = TUNING.DOTA.HOLY_LOCKET.CHARGE.SPELLRANGE,
 	},
@@ -1447,7 +1464,7 @@ actions.mend = {
 		return ActionFailed(act.doer)
 	end,
 	actiondata = {
-		priority=7,
+		priority=NORMAL_ACTION_PRIORITY,
 		mount_valid=false,
 	},
 }
@@ -1472,13 +1489,13 @@ actions.valor = {
 		return ActionFailed(act.doer)
 	end,
 	actiondata = {
-		priority=7,
+		priority=NORMAL_ACTION_PRIORITY,
 		mount_valid=false,
 		distance = TUNING.DOTA.MEDALLION_OF_COURAGE.VALOR.SPELLRANGE,
 	},
 }
 -------------------------------------------------怨灵之契-------------------------------------------------
-local reprisal_mana = TUNING.DOTA.WRAITH_PACT.REPRISAL.MANA
+-- local reprisal_mana = TUNING.DOTA.WRAITH_PACT.REPRISAL.MANA
 actions.reprisal = {
 	id = "DOTA_REPRISAL",
 	str = STRINGS.DOTA.NEWACTION.DOTA_REPRISAL,
@@ -1520,12 +1537,12 @@ actions.reprisal = {
 		-- PlaySound(act.doer, "mengsk_dota2_sounds/items/wraith_totem_pulse", nil, BASE_VOICE_VOLUME)
 	end,
 	actiondata = {
-		priority=7,
+		priority=NORMAL_ACTION_PRIORITY,
 		mount_valid=false,
 	},
 }
 ------------------------------------------eul的神圣法杖 or 吹风----------------------------------------------
-local cyclone_mana = TUNING.DOTA.EULS.CYCLONE.MANA
+-- local cyclone_mana = TUNING.DOTA.EULS.CYCLONE.MANA
 actions.cyclone = {
 	id = "DOTA_CYCLONE",
 	str = STRINGS.DOTA.NEWACTION.DOTA_CYCLONE,
@@ -1545,13 +1562,13 @@ actions.cyclone = {
 	   return ActionFailed(act.doer)
 	end,
 	actiondata = {
-		priority=7,
+		priority=NORMAL_ACTION_PRIORITY,
 		mount_valid=false,
 		distance = TUNING.DOTA.EULS.CYCLONE.SPELLRANGE,
 	},
 }
 -------------------------------------------------阿托斯之棍-------------------------------------------------
-local cripple_mana = TUNING.DOTA.ROD_OF_ATOS.CRIPPLE.MANA
+-- local cripple_mana = TUNING.DOTA.ROD_OF_ATOS.CRIPPLE.MANA
 actions.cripple = {
 	id = "DOTA_CRIPPLE",
 	str = STRINGS.DOTA.NEWACTION.DOTA_CRIPPLE,
@@ -1583,17 +1600,17 @@ actions.cripple = {
 		return ActionFailed(act.doer)
 	end,
 	actiondata = {
-		priority=7,
+		priority=NORMAL_ACTION_PRIORITY,
 		mount_valid=false,
 		distance = TUNING.DOTA.ROD_OF_ATOS.CRIPPLE.SPELLRANGE,
 	},
 }
 -------------------------------------------------达贡之神力 or 大根-------------------------------------------------
-local burst1_mana = TUNING.DOTA.DAGON_ENERGY.BURST.MANA.LEVEL1
-local burst2_mana = TUNING.DOTA.DAGON_ENERGY.BURST.MANA.LEVEL2
-local burst3_mana = TUNING.DOTA.DAGON_ENERGY.BURST.MANA.LEVEL3
-local burst4_mana = TUNING.DOTA.DAGON_ENERGY.BURST.MANA.LEVEL4
-local burst5_mana = TUNING.DOTA.DAGON_ENERGY.BURST.MANA.LEVEL5
+-- local burst1_mana = TUNING.DOTA.DAGON_ENERGY.BURST.MANA.LEVEL1
+-- local burst2_mana = TUNING.DOTA.DAGON_ENERGY.BURST.MANA.LEVEL2
+-- local burst3_mana = TUNING.DOTA.DAGON_ENERGY.BURST.MANA.LEVEL3
+-- local burst4_mana = TUNING.DOTA.DAGON_ENERGY.BURST.MANA.LEVEL4
+-- local burst5_mana = TUNING.DOTA.DAGON_ENERGY.BURST.MANA.LEVEL5
 
 local function DoLishtingStrike(inst, attacker, damage, weapon)
     if inst.components.combat ~= nil then
@@ -1624,7 +1641,7 @@ actions.burst1 = {
 		return ActionFailed(act.doer)
 	end,
 	actiondata = {
-		priority=7,
+		priority=NORMAL_ACTION_PRIORITY,
 		distance=TUNING.DOTA.DAGON_ENERGY.BURST.SPELLRANGE.LEVEL1,
 		mount_valid=false,
 	},
@@ -1646,7 +1663,7 @@ actions.burst2 = {
 		return ActionFailed(act.doer)
 	end,
 	actiondata = {
-		priority=7,
+		priority=NORMAL_ACTION_PRIORITY,
 		distance=TUNING.DOTA.DAGON_ENERGY.BURST.SPELLRANGE.LEVEL2,
 		mount_valid=false,
 	},
@@ -1668,7 +1685,7 @@ actions.burst3 = {
 		return ActionFailed(act.doer)
 	end,
 	actiondata = {
-		priority=7,
+		priority=NORMAL_ACTION_PRIORITY,
 		distance=TUNING.DOTA.DAGON_ENERGY.BURST.SPELLRANGE.LEVEL3,
 		mount_valid=false,
 	},
@@ -1690,7 +1707,7 @@ actions.burst4 = {
 		return ActionFailed(act.doer)
 	end,
 	actiondata = {
-		priority=7,
+		priority=NORMAL_ACTION_PRIORITY,
 		distance=TUNING.DOTA.DAGON_ENERGY.BURST.SPELLRANGE.LEVEL4,
 		mount_valid=false,
 	},
@@ -1712,13 +1729,13 @@ actions.burst5 = {
 		return ActionFailed(act.doer)
 	end,
 	actiondata = {
-		priority=7,
+		priority=NORMAL_ACTION_PRIORITY,
 		distance=TUNING.DOTA.DAGON_ENERGY.BURST.SPELLRANGE.LEVEL5,
 		mount_valid=false,
 	},
 }
 -------------------------------------------------风之杖 or 大吹风-------------------------------------------------
-local cycloneplus_mana = TUNING.DOTA.EULS.CYCLONE.MANA
+-- local cycloneplus_mana = TUNING.DOTA.EULS.CYCLONE.MANA
 actions.cycloneplus = {
 	id = "DOTA_CYCLONEPLUS",
 	str = STRINGS.DOTA.NEWACTION.DOTA_CYCLONEPLUS,
@@ -1743,13 +1760,13 @@ actions.cycloneplus = {
 		return ActionFailed(act.doer)
 	end,
 	actiondata = {
-		priority=7,
+		priority=NORMAL_ACTION_PRIORITY,
 		mount_valid=false,
 		distance = TUNING.DOTA.EULS.CYCLONE.SPELLRANGE,
 	},
 }
 -------------------------------------------------缚灵索-------------------------------------------------
-local chains_mana = TUNING.DOTA.GLEIPNIR.ETERNAL.MANA
+-- local chains_mana = TUNING.DOTA.GLEIPNIR.ETERNAL.MANA
 actions.chains = {
 	id = "DOTA_CHAINS",
 	str = STRINGS.DOTA.NEWACTION.DOTA_CHAINS,
@@ -1780,13 +1797,13 @@ actions.chains = {
 		return ActionFailed(act.doer)
 	end,
 	actiondata = {
-		priority=7,
+		priority=NORMAL_ACTION_PRIORITY,
 		mount_valid=false,
 		distance = TUNING.DOTA.GLEIPNIR.ETERNAL.SPELLRANGE,
 	},
 }
 -------------------------------------------------刷新球-------------------------------------------------
-local resetcooldowns_mana = TUNING.DOTA.REFRESHER_ORB.RESETCOOLDOWNS.MANA
+-- local resetcooldowns_mana = TUNING.DOTA.REFRESHER_ORB.RESETCOOLDOWNS.MANA
 local function resetcooldownsfn(inst)
 	if inst.components.rechargeable and not inst.components.rechargeable:IsCharged() 
 	 and inst.prefab ~= "dota_refresher_orb" -- 刷新碎片刷刷新（确信
@@ -1820,12 +1837,12 @@ actions.resetcooldowns = {
 		return ActionFailed(act.doer)
 	end,
 	actiondata = {
-		priority=7,
+		priority=NORMAL_ACTION_PRIORITY,
 		mount_valid=false,
 	},
 }
 -------------------------------------------------微光披风------------------------------------------------- 
-local glimmer_mana = TUNING.DOTA.GLIMMER_CAPE.GLIMMER.MANA
+-- local glimmer_mana = TUNING.DOTA.GLIMMER_CAPE.GLIMMER.MANA
 actions.glimmer = {
 	id = "DOTA_GLIMMER",
 	str = STRINGS.DOTA.NEWACTION.DOTA_GLIMMER,
@@ -1845,13 +1862,13 @@ actions.glimmer = {
 		return ActionFailed(act.doer)
 	end,
 	actiondata = {
-		priority=7,
+		priority=NORMAL_ACTION_PRIORITY,
 		mount_valid=false,
 		distance = TUNING.DOTA.GLIMMER_CAPE.GLIMMER.SPELLRANGE,
 	},
 }
 -------------------------------------------------邪恶镰刀 or 羊刀-------------------------------------------------
-local hex_mana = TUNING.DOTA.SCYTHE_OF_VYSE.HEX.MANA
+-- local hex_mana = TUNING.DOTA.SCYTHE_OF_VYSE.HEX.MANA
 actions.hex = {
 	id = "DOTA_HEX",
 	str = STRINGS.DOTA.NEWACTION.DOTA_HEX,
@@ -1870,7 +1887,7 @@ actions.hex = {
 		return ActionFailed(act.doer)
 	end,
 	actiondata = {
-		priority=7,
+		priority=NORMAL_ACTION_PRIORITY,
 		mount_valid=false,
 		distance = TUNING.DOTA.SCYTHE_OF_VYSE.HEX.SPELLRANGE,
 	},
@@ -1896,13 +1913,13 @@ actions.shine = {
 		return ActionFailed(act.doer)
 	end,
 	actiondata = {
-		priority=7,
+		priority=NORMAL_ACTION_PRIORITY,
 		mount_valid=false,
 		distance = TUNING.DOTA.SOLAR_CREST.SHINE.SPELLRANGE,
 	},
 }
 -------------------------------------------------原力法杖 or 推推棒-------------------------------------------------
-local force_mana = TUNING.DOTA.FORCE_STAFF.FORCE.MANA
+-- local force_mana = TUNING.DOTA.FORCE_STAFF.FORCE.MANA
 local function UpdateForce(inst, creature)
 	if creature.inst:IsValid() and creature.inst.entity:IsVisible() and creature.speed ~= nil then
 		-- if creature.inst.components.locomotor ~= nil then
@@ -1983,13 +2000,13 @@ actions.force = {
 	end,
 	-- state = "dota_sg_nil",
 	actiondata = {
-		priority=7,
+		priority=NORMAL_ACTION_PRIORITY,
 		mount_valid=false,
 		distance = TUNING.DOTA.FORCE_STAFF.FORCE.SPELLRANGE,
 	},
 }
 -------------------------------------------------紫怨-------------------------------------------------
-local burnx_mana = TUNING.DOTA.ORCHID_MALEVOLENCE.BURNX.MANA
+-- local burnx_mana = TUNING.DOTA.ORCHID_MALEVOLENCE.BURNX.MANA
 actions.burnx = {
 	id = "DOTA_BURNX",
 	str = STRINGS.DOTA.NEWACTION.DOTA_BURNX,
@@ -2008,7 +2025,7 @@ actions.burnx = {
 	   return ActionFailed(act.doer)
 	end,
 	actiondata = {
-		priority=7,
+		priority=NORMAL_ACTION_PRIORITY,
 		mount_valid=false,
 		distance = TUNING.DOTA.ORCHID_MALEVOLENCE.BURNX.SPELLRANGE,
 	},
@@ -2033,12 +2050,12 @@ actions.guard = {
 		return ActionFailed(act.doer)
 	end,
 	actiondata = {
-		priority=7,
+		priority=NORMAL_ACTION_PRIORITY,
 		mount_valid=false,
 	},
 }
 -------------------------------------------------黑黄杖 or BKB-------------------------------------------------
-local avatar_mana = TUNING.DOTA.BLACK_KING_BAR.AVATAR.MANA
+-- local avatar_mana = TUNING.DOTA.BLACK_KING_BAR.AVATAR.MANA
 actions.avatar = {
 	id = "DOTA_AVATAR",
 	str = STRINGS.DOTA.NEWACTION.DOTA_AVATAR,
@@ -2053,12 +2070,12 @@ actions.avatar = {
 		return ActionFailed(act.doer)
 	end,
 	actiondata = {
-		priority=7,
+		priority=NORMAL_ACTION_PRIORITY,
 		mount_valid=false,
 	},
 }
 -------------------------------------------------幻影斧 or 分身斧-------------------------------------------------
-local mirror_mana = TUNING.DOTA.MANTA_STYLE.MIRROR.MANA
+-- local mirror_mana = TUNING.DOTA.MANTA_STYLE.MIRROR.MANA
 actions.mirror = {
 	id = "DOTA_MIRROR",
 	str = STRINGS.DOTA.NEWACTION.DOTA_MIRROR,
@@ -2074,7 +2091,7 @@ actions.mirror = {
 	},
 }
 -------------------------------------------------飓风长戟 or 大推推-------------------------------------------------
-local thrust_mana = TUNING.DOTA.HURRICANE_PIKE.THRUST.MANA
+-- local thrust_mana = TUNING.DOTA.HURRICANE_PIKE.THRUST.MANA
 local function DoThrust(inst, fx)
 	local THRUST_DURATION = TUNING.DOTA.HURRICANE_PIKE.THRUST.DURATION
 	local THRUST_SPEED = -TUNING.DOTA.HURRICANE_PIKE.THRUST.SPEED
@@ -2129,7 +2146,7 @@ actions.thrust = {
 	end,
 	-- state = "dota_sg_nil",
 	actiondata = {
-		priority=7,
+		priority=NORMAL_ACTION_PRIORITY,
 		mount_valid=false,
 		distance = TUNING.DOTA.HURRICANE_PIKE.THRUST.SPELLRANGE,
 	},
@@ -2144,13 +2161,13 @@ actions.mirror = {
 		return ActionWalking(act.doer)
 	end,
 	actiondata = {
-		priority=7,
+		priority=NORMAL_ACTION_PRIORITY,
 		mount_valid=false,
 		distance = TUNING.DOTA.LINKENS_SPHERE.BLOCK.SPELLRANGE,
 	},
 }
 -------------------------------------------------清莲宝珠 or 莲花-------------------------------------------------
-local shell_mana = TUNING.DOTA.LOTUS_ORB.SHELL.MANA
+-- local shell_mana = TUNING.DOTA.LOTUS_ORB.SHELL.MANA
 actions.shell = {
 	id = "DOTA_SHELL",
 	str = STRINGS.DOTA.NEWACTION.DOTA_SHELL,
@@ -2167,13 +2184,13 @@ actions.shell = {
 	   return ActionWalking(act.doer)
 	end,
 	actiondata = {
-		priority=7,
+		priority=NORMAL_ACTION_PRIORITY,
 		mount_valid=false,
 		distance = TUNING.DOTA.LOTUS_ORB.SHELL.SPELLRANGE,
 	},
 }
 -------------------------------------------------刃甲-------------------------------------------------
-local return_mana = TUNING.DOTA.BLADE_MAIL.RETURN.MANA
+-- local return_mana = TUNING.DOTA.BLADE_MAIL.RETURN.MANA
 actions.damagereturn = {	-- return怎么是保留词啊（恼
 	id = "DOTA_RETURN",
 	str = STRINGS.DOTA.NEWACTION.DOTA_RETURN,
@@ -2188,12 +2205,12 @@ actions.damagereturn = {	-- return怎么是保留词啊（恼
 		return ActionFailed(act.doer)
 	end,
 	actiondata = {
-		priority=7,
+		priority=NORMAL_ACTION_PRIORITY,
 		mount_valid=false,
 	},
 }
 -------------------------------------------------挑战头巾-------------------------------------------------
-local insulation_mana = TUNING.DOTA.HOOD_OF_DEFIANCE.INSULATION.MANA
+-- local insulation_mana = TUNING.DOTA.HOOD_OF_DEFIANCE.INSULATION.MANA
 actions.insulation = {
 	id = "DOTA_INSULATION",
 	str = STRINGS.DOTA.NEWACTION.DOTA_INSULATION,
@@ -2210,12 +2227,12 @@ actions.insulation = {
 		return ActionFailed(act.doer)
 	end,
 	actiondata = {
-		priority=7,
+		priority=NORMAL_ACTION_PRIORITY,
 		mount_valid=false,
 	},
 }
 -------------------------------------------------希瓦的守护 or 冰甲-------------------------------------------------
-local blast_mana = TUNING.DOTA.MASK_OF_MADNESS.BERSERK.MANA
+-- local blast_mana = TUNING.DOTA.MASK_OF_MADNESS.BERSERK.MANA
 actions.blast = {
 	id = "DOTA_BLAST",
 	str = STRINGS.DOTA.NEWACTION.DOTA_BLAST,
@@ -2226,7 +2243,7 @@ actions.blast = {
 		return ActionWalking(act.doer)
 	end,
 	actiondata = {
-		priority=7,
+		priority=NORMAL_ACTION_PRIORITY,
 		mount_valid=false,
 	},
 }
@@ -2246,12 +2263,12 @@ actions.bloodpact = {
 	   return ActionFailed(act.doer)
 	end,
 	actiondata = {
-		priority=7,
+		priority=NORMAL_ACTION_PRIORITY,
 		mount_valid=false,
 	},
 }
 -------------------------------------------------永世法衣-------------------------------------------------
-local shroud_mana = TUNING.DOTA.SHROUD.SHROUD.MANA
+-- local shroud_mana = TUNING.DOTA.SHROUD.SHROUD.MANA
 actions.shroud = {
 	id = "DOTA_SHROUD",
 	str = STRINGS.DOTA.NEWACTION.DOTA_SHROUD,
@@ -2268,12 +2285,12 @@ actions.shroud = {
 		return ActionFailed(act.doer)
 	end,
 	actiondata = {
-		priority=7,
+		priority=NORMAL_ACTION_PRIORITY,
 		mount_valid=false,
 	},
 }
 -------------------------------------------------白银之锋 or 大隐刀-------------------------------------------------
-local walkplus_mana = TUNING.DOTA.SILVER_EDGE.WALK.MANA
+-- local walkplus_mana = TUNING.DOTA.SILVER_EDGE.WALK.MANA
 actions.walkplus = {
 	id = "DOTA_WALKPLUS",
 	str = STRINGS.DOTA.NEWACTION.DOTA_WALK,
@@ -2288,12 +2305,12 @@ actions.walkplus = {
 		return ActionFailed(act.doer)
 	end,
 	actiondata = {
-		priority=7,
+		priority=NORMAL_ACTION_PRIORITY,
 		mount_valid=false,
 	},
 }
 -------------------------------------------------否决坠饰-------------------------------------------------
-local nullify_mana = TUNING.DOTA.NULLIFIER.NULLIFY.MANA
+-- local nullify_mana = TUNING.DOTA.NULLIFIER.NULLIFY.MANA
 actions.nullify = {
 	id = "DOTA_NULLIFY",
 	str = STRINGS.DOTA.NEWACTION.DOTA_NULLIFY,
@@ -2316,7 +2333,7 @@ actions.nullify = {
 		return ActionFailed(act.doer)
 	end,
 	actiondata = {
-		priority=7,
+		priority=NORMAL_ACTION_PRIORITY,
 		mount_valid=false,
 		distance = TUNING.DOTA.NULLIFIER.NULLIFY.SPELLRANGE,
 	},
@@ -2334,7 +2351,7 @@ actions.flutter = {
 		return ActionFailed(act.doer)
 	end,
 	actiondata = {
-		priority=7,
+		priority=NORMAL_ACTION_PRIORITY,
 		mount_valid=false,
 	},
 }
@@ -2358,7 +2375,7 @@ actions.burn = {
 		return ActionFailed(act.doer)
 	end,
 	actiondata = {
-		priority=7,
+		priority=NORMAL_ACTION_PRIORITY,
 		mount_valid=false,
 	},
 }
@@ -2372,29 +2389,40 @@ actions.unholy = {
 		return ActionWalking(act.doer)
 	end,
 	actiondata = {
-		priority=7,
+		priority=NORMAL_ACTION_PRIORITY,
 		mount_valid=false,
 	},
 }
 -------------------------------------------------深渊之刃 or 大晕-------------------------------------------------
-local overwhelm_mana = TUNING.DOTA.ABYSSAL_BLADE.OVERWHELM.MANA
+-- local overwhelm_mana = TUNING.DOTA.ABYSSAL_BLADE.OVERWHELM.MANA
 actions.overwhelm = {
 	id = "DOTA_OVERWHELM",
 	str = STRINGS.DOTA.NEWACTION.DOTA_OVERWHELM,
 	fn = function(act)	-- TODO: 待制作
-		-- if not IsManaEnough(act.doer, overwhelm_mana) then return true end
-		-- ItemManaDelta(act.doer, -overwhelm_mana, nil ,"dota_overwhelm")
-		-- PlaySound(act.doer, "mengsk_dota2_sounds/items/abyssal_blade", nil, BASE_VOICE_VOLUME)
-		return ActionWalking(act.doer)
+		if StandardTargetAndActivateActioniTest(act, "dota_overwhelm") then
+			local item = FindActivateItemByDoer(act.doer, "dota_abyssal_blade")
+			if item == nil then return ActionFailed(act.doer) end
+			if not IsManaEnough(act.doer, item) then return true end
+			if not RechargeCheck(item, TUNING.DOTA.ABYSSAL_BLADE.OVERWHELM.CD, act.doer) then return true end
+
+			if act.target.components.dotastunned then
+				act.target.components.dotastunned:GoToStunned(TUNING.DOTA.ABYSSAL_BLADE.OVERWHELM.STUN)
+			end
+
+			ItemManaDelta(act.doer, item, nil ,"dota_overwhelm")
+			ChangeActivate(item, act.doer)
+			return true
+		end
+		return ActionFailed(act.doer)
 	end,
 	actiondata = {
-		priority=7,
+		priority=NORMAL_ACTION_PRIORITY,
 		mount_valid=false,
 		distance = TUNING.DOTA.ABYSSAL_BLADE.OVERWHELM.SPELLRANGE,
 	},
 }
 -------------------------------------------------虚灵之刃-------------------------------------------------
-local ethereal_mana = TUNING.DOTA.ETHEREAL_BLADE.ETHEREAL.MANA
+-- local ethereal_mana = TUNING.DOTA.ETHEREAL_BLADE.ETHEREAL.MANA
 actions.ethereal = {
 	id = "DOTA_ETHEREAL",
 	str = STRINGS.DOTA.NEWACTION.DOTA_ETHEREAL,
@@ -2417,13 +2445,13 @@ actions.ethereal = {
 		return ActionFailed(act.doer)
 	end,
 	actiondata = {
-		priority=7,
+		priority=NORMAL_ACTION_PRIORITY,
 		mount_valid=false,
 		distance = TUNING.DOTA.ETHEREAL_BLADE.ETHEREAL.SPELLRANGE,
 	},
 }
 -------------------------------------------------血棘 or 大紫怨-------------------------------------------------
-local rend_mana = TUNING.DOTA.BLOODTHORN.REND.MANA
+-- local rend_mana = TUNING.DOTA.BLOODTHORN.REND.MANA
 actions.rend = {
 	id = "DOTA_REND",
 	str = STRINGS.DOTA.NEWACTION.DOTA_REND,
@@ -2442,12 +2470,12 @@ actions.rend = {
 	  return ActionFailed(act.doer)
 	end,
 	actiondata = {
-		priority=7,
+		priority=NORMAL_ACTION_PRIORITY,
 		mount_valid=false,
 	},
 }
 -------------------------------------------------英灵胸针-------------------------------------------------
-local province_mana = TUNING.DOTA.REVENANTS_BROOCH.PROVINCE.MANA
+-- local province_mana = TUNING.DOTA.REVENANTS_BROOCH.PROVINCE.MANA
 actions.province = {
 	id = "DOTA_PROVINCE",
 	str = STRINGS.DOTA.NEWACTION.DOTA_PROVINCE,
@@ -2464,12 +2492,12 @@ actions.province = {
 		-- PlaySound(act.doer, "mengsk_dota2_sounds/items/brooch_target", nil, BASE_VOICE_VOLUME)
 	end,
 	actiondata = {
-		priority=7,
+		priority=NORMAL_ACTION_PRIORITY,
 		mount_valid=false,
 	},
 }
 -------------------------------------------------隐刀-------------------------------------------------
-local walk_mana = TUNING.DOTA.INVIS_SWORD.WALK.MANA
+-- local walk_mana = TUNING.DOTA.INVIS_SWORD.WALK.MANA
 actions.walk = {
 	id = "DOTA_WALK",
 	str = STRINGS.DOTA.NEWACTION.DOTA_WALK,
@@ -2484,18 +2512,18 @@ actions.walk = {
 		return ActionFailed(act.doer)
 	end,
 	actiondata = {
-		priority=7,
+		priority=NORMAL_ACTION_PRIORITY,
 		mount_valid=false,
 	},
 }
 -------------------------------------------------陨星锤-------------------------------------------------
-local meteor_mana = TUNING.DOTA.METEOR_HAMMER.METEOR.MANA
-local meteor_range = TUNING.DOTA.METEOR_HAMMER.METEOR.RANGE
+-- local meteor_mana = TUNING.DOTA.METEOR_HAMMER.METEOR.MANA
+-- local meteor_range = TUNING.DOTA.METEOR_HAMMER.METEOR.RANGE
 
 local function MeteorLaunch(x, y, z, mod)
 	-- 随机位置
 	local theta = math.random() * 2 * PI
-	local radius = easing.outSine(math.random(), math.random() * meteor_range, meteor_range, 1)
+	local radius = easing.outSine(math.random(), math.random() * TUNING.DOTA.METEOR_HAMMER.METEOR.RANGE, TUNING.DOTA.METEOR_HAMMER.METEOR.RANGE, 1)
 	local fan_offset = FindValidPositionByFan(theta, radius, 30,
 		function(offset)
 			return TheWorld.Map:IsPassableAtPoint(x + offset.x, y + offset.y, z + offset.z)
@@ -2553,16 +2581,16 @@ actions.meteor = {
 	-- PlaySound(act.doer, "mengsk_dota2_sounds/items/meteor_impact", nil, BASE_VOICE_VOLUME)
 	end,
 	state = function(inst, action)
-		return StateTest(inst, "dota_meteor", "dota_sg_meteor", meteor_mana)
+		return StateTest(inst, "dota_meteor", "dota_sg_meteor", TUNING.DOTA.METEOR_HAMMER.METEOR.MANA)
 	end,
 	actiondata = {
-		priority=7,
+		priority=NORMAL_ACTION_PRIORITY,
 		mount_valid=false,
 		distance = TUNING.DOTA.METEOR_HAMMER.METEOR.SPELLRANGE,
 	},
 }
 -------------------------------------------------天堂之戟-------------------------------------------------
-local disarm_mana = TUNING.DOTA.HEAVENS_HALBERD.DISARM.MANA
+-- local disarm_mana = TUNING.DOTA.HEAVENS_HALBERD.DISARM.MANA
 actions.disarm = {
 	id = "DOTA_DISARM",
 	str = STRINGS.DOTA.NEWACTION.DOTA_DISARM,
@@ -2587,7 +2615,7 @@ actions.disarm = {
 		return ActionWalking(act.doer)
 	end,
 	actiondata = {
-		priority=7,
+		priority=NORMAL_ACTION_PRIORITY,
 		mount_valid=false,
 		distance = TUNING.DOTA.HEAVENS_HALBERD.DISARM.SPELLRANGE,
 	},
@@ -2606,7 +2634,7 @@ actions.rage = {
 		return ActionFailed(act.doer)
 	end,
 	actiondata = {
-		priority=7,
+		priority=NORMAL_ACTION_PRIORITY,
 		mount_valid=false,
 	},
 }
@@ -2626,13 +2654,13 @@ actions.inhibit = {
 		return ActionFailed(act.doer)
 	end,
 	actiondata = {
-		priority=7,
+		priority=NORMAL_ACTION_PRIORITY,
 		mount_valid=false,
 		distance = TUNING.DOTA.DIFFUSAL_BLADE.INHIBIT.SPELLRANGE,
 	},
 }
 -------------------------------------------------雷神之锤 or 大雷锤 or 大电锤-------------------------------------------------	
-local lighting_mana = TUNING.DOTA.MJOLLNIR.STATIC.MANA
+-- local lighting_mana = TUNING.DOTA.MJOLLNIR.STATIC.MANA
 actions.lighting = {
 	id = "DOTA_LIGHTING",
 	str = STRINGS.DOTA.NEWACTION.DOTA_LIGHTING,
@@ -2650,7 +2678,7 @@ actions.lighting = {
 		return ActionWalking(act.doer)
 	end,
 	actiondata = {
-		priority=7,
+		priority=NORMAL_ACTION_PRIORITY,
 		mount_valid=false,
 		distance = TUNING.DOTA.MJOLLNIR.STATIC.SPELLRANGE,
 	},
@@ -2676,7 +2704,7 @@ actions.fondue = {
 		return ActionFailed(act.doer)
 	end,
 	actiondata = {
-		priority=7,
+		priority=NORMAL_ACTION_PRIORITY,
 		mount_valid=false,
 	},
 }
@@ -2706,27 +2734,27 @@ actions.weakness = {
 		return ActionFailed(act.doer)
 	end,
 	actiondata = {
-		priority=7,
+		priority=NORMAL_ACTION_PRIORITY,
 		mount_valid=false,
 		distance = TUNING.DOTA.VEIL_OF_DISCORD.WEAKNESS.SPELLRANGE,
 	},
 }
 -------------------------------------------------血腥榴弹-------------------------------------------------
-local grenade_health = TUNING.DOTA.BLOOD_GRENADE.GRENADE.HEALTH
-local grenade_range = TUNING.DOTA.BLOOD_GRENADE.GRENADE.RANGE
-local grenade_damage = TUNING.DOTA.BLOOD_GRENADE.GRENADE.DAMAGE
-local function Grenade_OnHit(inst, attacker, target)
-	local x, y, z = inst.Transform:GetWorldPosition()
-	local ents = TheSim:FindEntities(x, y, z, grenade_range, "_combat", exceuce_tags)
-    for _, ent in ipairs(ents) do
-		if ent.components.combat ~= nil then
-			inst.components.combat:GetAttacked(attacker, grenade_damage, nil, "dotamagic")
-		end
-		AddDebuff(ent, "buff_dota_grenade")
-	end
-	SpawnPrefab("bomb_lunarplant_explode_fx").Transform:SetPosition(x, y, z)
-	inst:Remove()
-end
+-- local grenade_health = TUNING.DOTA.BLOOD_GRENADE.GRENADE.HEALTH
+-- local grenade_range = TUNING.DOTA.BLOOD_GRENADE.GRENADE.RANGE
+-- local grenade_damage = TUNING.DOTA.BLOOD_GRENADE.GRENADE.DAMAGE
+-- local function Grenade_OnHit(inst, attacker, target)
+-- 	local x, y, z = inst.Transform:GetWorldPosition()
+-- 	local ents = TheSim:FindEntities(x, y, z, grenade_range, "_combat", exceuce_tags)
+--     for _, ent in ipairs(ents) do
+-- 		if ent.components.combat ~= nil then
+-- 			inst.components.combat:GetAttacked(attacker, grenade_damage, nil, "dotamagic")
+-- 		end
+-- 		AddDebuff(ent, "buff_dota_grenade")
+-- 	end
+-- 	SpawnPrefab("bomb_lunarplant_explode_fx").Transform:SetPosition(x, y, z)
+-- 	inst:Remove()
+-- end
 actions.grenade = {
 	id = "DOTA_GRENADE",
 	str = STRINGS.DOTA.NEWACTION.DOTA_GRENADE,
@@ -2751,19 +2779,19 @@ actions.grenade = {
 				-- projectile.components.complexprojectile:SetOnHit(Grenade_OnHit)
 			end
 			
-			act.doer.components.health:DoDelta(-grenade_health, nil, "dota_grenade")	-- 可致死
+			act.doer.components.health:Dota_LimitDelta(-TUNING.DOTA.BLOOD_GRENADE.GRENADE.HEALTH, nil, "dota_grenade")	-- 非致死伤害
 			return true
 		end
 		return ActionFailed(act.doer)
 	end,
 	actiondata = {
-		priority=2,
+		priority=NORMAL_ACTION_PRIORITY,
 		mount_valid=true,
 		distance = TUNING.DOTA.BLOOD_GRENADE.GRENADE.SPELLRANGE,
 	},
 }
 -------------------------------------------------长盾------------------------------------------------- 
-local protect_mana = TUNING.DOTA.PAVISE.PROTECT.MANA
+-- local protect_mana = TUNING.DOTA.PAVISE.PROTECT.MANA
 actions.protect = {
 	id = "DOTA_PROTECT",
 	str = STRINGS.DOTA.NEWACTION.DOTA_PROTECT,
@@ -2783,7 +2811,7 @@ actions.protect = {
 		return ActionFailed(act.doer)
 	end,
 	actiondata = {
-		priority=7,
+		priority=NORMAL_ACTION_PRIORITY,
 		mount_valid=false,
 		distance = TUNING.DOTA.PAVISE.PROTECT.SPELLRANGE,
 	},
@@ -2901,259 +2929,259 @@ local component_actions = {
 			-------------------------------------------------仙灵之火-------------------------------------------------
 			{
 				action = "DOTA_FAERIEFIRE",
-				testfn = function(inst,doer,actions,right)
+				testfn = function(inst, doer, actions, right)
 					return StandardPrefabAndDoerTest(inst, "dota_faerie_fire", doer)
 				end,
 			},
 			-------------------------------------------------诡计之雾-------------------------------------------------
 			{
 				action = "DOTA_SMOKE",
-				testfn = function(inst,doer,actions,right)
+				testfn = function(inst, doer, actions, right)
 					return StandardPrefabAndDoerTest(inst, "dota_smoke_of_deceit", doer)
 				end,
 			},
 			---------------------------------------------------魔瓶 or 瓶子---------------------------------------------------
 			{
 				action = "DOTA_REGENERATE",
-				testfn = function(inst,doer,actions,right)
+				testfn = function(inst, doer, actions, right)
 					return StandardPrefabAndDoerTest(inst, "dota_bottle", doer)
 				end,
 			},
 			-------------------------------------------------显影之尘 or 粉-------------------------------------------------
 			{
 				action = "DOTA_DUST",
-				testfn = function(inst,doer,actions,right)
+				testfn = function(inst, doer, actions, right)
 					return StandardPrefabAndDoerTest(inst, "dota_dust_of_appearance", doer)
 				end,
 			},
 			-------------------------------------------------知识之书-------------------------------------------------
 			{
 				action = "DOTA_TOME",
-				testfn = function(inst,doer,actions,right)
+				testfn = function(inst, doer, actions, right)
 					return StandardPrefabAndDoerTest(inst, "dota_tome_of_knowledge", doer)
 				end,
 			},
 			-------------------------------------------------魔棒-------------------------------------------------
 			{
 				action = "DOTA_MAGICCHARGE",
-				testfn = function(inst,doer,actions,right)
+				testfn = function(inst, doer, actions, right)
 					return StandardPrefabAndDoerTest(inst, "dota_magic_stick", doer)
 				end,
 			},
 			-------------------------------------------------魔杖-------------------------------------------------
 			{
 				action = "DOTA_MAGICCHARGEPLUS",
-				testfn = function(inst,doer,actions,right)
+				testfn = function(inst, doer, actions, right)
 					return StandardPrefabAndDoerTest(inst, "dota_magic_wand", doer)
 				end,
 			},
 			--------------------------------------------幽魂权杖 or 绿杖-----------------------------------------------
 			{
 				action = "DOTA_GHOSTFORM",
-				testfn = function(inst,doer,actions,right)
+				testfn = function(inst, doer, actions, right)
 					return StandardPrefabAndDoerTest(inst, "dota_ghost_scepter", doer)
 				end,
 			},
 			-------------------------------------------------暗影护符-------------------------------------------------	
 			{
 				action = "DOTA_FADING",
-				testfn = function(inst,doer,actions,right)
+				testfn = function(inst, doer, actions, right)
 					return StandardPrefabAndDoerTest(inst, "dota_shadow_amulet", doer)
 				end,
 			},
 			-----------------------------------------------动力鞋 or 假腿---------------------------------------------
 			{
 				action = "DOTA_TOGGLE",
-				testfn = function(inst,doer,actions,right)
+				testfn = function(inst, doer, actions, right)
 					return StandardPrefabAndDoerTest(inst, "dota_power_treads", doer)
 				end,
 			},
 			--------------------------------------------疯狂面具 or 疯脸------------------------------------------------
 			{
 				action = "DOTA_BERSERK",
-				testfn = function(inst,doer,actions,right)
+				testfn = function(inst, doer, actions, right)
 					return StandardPrefabAndDoerTest(inst, "dota_mask_of_madness", doer)
 				end,
 			},
 			-------------------------------------------------灵魂之戒 or 魂戒-------------------------------------------------
 			{
 				action = "DOTA_SACRIFICE",
-				testfn = function(inst,doer,actions,right)
+				testfn = function(inst, doer, actions, right)
 					return StandardPrefabAndDoerTest(inst, "dota_soul_ring", doer)
 				end,
 			},
 			-------------------------------------------------相位鞋-------------------------------------------------
 			{
 				action = "DOTA_PHASE",
-				testfn = function(inst,doer,actions,right)
+				testfn = function(inst, doer, actions, right)
 					return StandardPrefabAndDoerTest(inst, "dota_phase_boots", doer)
 				end,
 			},
 			-------------------------------------------------奥术鞋 or 秘法鞋-------------------------------------------------
 			{
 				action = "DOTA_REPLENISH",
-				testfn = function(inst,doer,actions,right)
+				testfn = function(inst, doer, actions, right)
 					return StandardPrefabAndDoerTest(inst, "dota_arcane_boots", doer)
 				end,
 			},
 			-------------------------------------------------洞察烟斗 or 笛子-------------------------------------------------
 			{
 				action = "DOTA_BARRIER",
-				testfn = function(inst,doer,actions,right)
+				testfn = function(inst, doer, actions, right)
 					return StandardPrefabAndDoerTest(inst, "dota_pipe_of_insight", doer)
 				end,
 			},
 			-------------------------------------------------宽容之靴 or 大绿鞋-------------------------------------------------
 			{
 				action = "DOTA_ENDURANCE",
-				testfn = function(inst,doer,actions,right)
+				testfn = function(inst, doer, actions, right)
 					return StandardPrefabAndDoerTest(inst, "dota_boots_of_bearing", doer)
 				end,
 			},
 			-------------------------------------------------梅肯斯姆-------------------------------------------------
 			{
 				action = "DOTA_RESTORE",
-				testfn = function(inst,doer,actions,right)
+				testfn = function(inst, doer, actions, right)
 					return StandardPrefabAndDoerTest(inst, "dota_mekansm", doer)
 				end,
 			},
 			-------------------------------------------------韧鼓 or 战鼓-------------------------------------------------
 			{
 				action = "DOTA_ENDURANCEDRUM",
-				testfn = function(inst,doer,actions,right)
+				testfn = function(inst, doer, actions, right)
 					return StandardPrefabAndDoerTest(inst, "dota_drum_of_endurance", doer)
 				end,
 			},
 			-------------------------------------------------卫士胫甲 or 大鞋-------------------------------------------------
 			{
 				action = "DOTA_MEND",
-				testfn = function(inst,doer,actions,right)
+				testfn = function(inst, doer, actions, right)
 					return StandardPrefabAndDoerTest(inst, "dota_guardian_greaves", doer)
 				end,
 			},
 			-------------------------------------------------怨灵之契------------------------------------------------- 
 			{
 				action = "DOTA_REPRISAL",
-				testfn = function(inst,doer,actions,right)
+				testfn = function(inst, doer, actions, right)
 					return StandardPrefabAndDoerTest(inst, "dota_wraith_pact", doer)
 				end,
 			},
 			-------------------------------------------------刷新球-------------------------------------------------
 			{
 				action = "DOTA_RESETCOOLDOWNS",
-				testfn = function(inst,doer,actions,right)
+				testfn = function(inst, doer, actions, right)
 					return StandardPrefabAndDoerTest(inst, "dota_refresher_orb", doer)
 				end,
 			},		
 			-------------------------------------------------赤红甲-------------------------------------------------
 			{
 				action = "DOTA_GUARD",
-				testfn = function(inst,doer,actions,right)
+				testfn = function(inst, doer, actions, right)
 					return StandardPrefabAndDoerTest(inst, "dota_crimson_guard", doer)
 				end,
 			},		
 			-------------------------------------------------黑黄杖 or BKB-----------------------------------------
 			{
 				action = "DOTA_AVATAR",
-				testfn = function(inst,doer,actions,right)
+				testfn = function(inst, doer, actions, right)
 					return StandardPrefabAndDoerTest(inst, "dota_black_king_bar", doer)
 				end,
 			},
 			-------------------------------------------------幻影斧 or 分身斧-------------------------------------------------	
 			{
 				action = "DOTA_MIRROR",
-				testfn = function(inst,doer,actions,right)
+				testfn = function(inst, doer, actions, right)
 					return StandardPrefabAndDoerTest(inst, "dota_manta_style", doer)
 				end,
 			},
 			-------------------------------------------------刃甲-------------------------------------------------
 			{
 				action = "DOTA_RETURN",
-				testfn = function(inst,doer,actions,right)
+				testfn = function(inst, doer, actions, right)
 					return StandardPrefabAndDoerTest(inst, "dota_blade_mail", doer)
 				end,
 			},
 			-------------------------------------------------挑战头巾-------------------------------------------------
 			{
 				action = "DOTA_INSULATION",
-				testfn = function(inst,doer,actions,right)
+				testfn = function(inst, doer, actions, right)
 					return StandardPrefabAndDoerTest(inst, "dota_hood_of_defiance", doer)
 				end,
 			},
 			-------------------------------------------------希瓦的守护 or 冰甲-------------------------------------------------
 			{
 				action = "DOTA_BLAST",
-				testfn = function(inst,doer,actions,right)
+				testfn = function(inst, doer, actions, right)
 					return StandardPrefabAndDoerTest(inst, "dota_shivas_guard", doer)
 				end,
 			},
 			-------------------------------------------------血精石-------------------------------------------------
 			{
 				action = "DOTA_BLOODPACT",
-				testfn = function(inst,doer,actions,right)
+				testfn = function(inst, doer, actions, right)
 					return StandardPrefabAndDoerTest(inst, "dota_bloodstone", doer)
 				end,
 			},
 			-------------------------------------------------永世法衣-------------------------------------------------
 			{
 				action = "DOTA_SHROUD",
-				testfn = function(inst,doer,actions,right)
+				testfn = function(inst, doer, actions, right)
 					return StandardPrefabAndDoerTest(inst, "dota_eternal_shroud", doer)
 				end,
 			},
 			-------------------------------------------------白银之锋 or 大隐刀-------------------------------------------------
 			{
 				action = "DOTA_WALKPLUS",
-				testfn = function(inst,doer,actions,right)
+				testfn = function(inst, doer, actions, right)
 					return StandardPrefabAndDoerTest(inst, "dota_silver_edge", doer)
 				end,
 			},
 			-------------------------------------------------蝴蝶-------------------------------------------------
 			{
 				action = "DOTA_FLUTTER",
-				testfn = function(inst,doer,actions,right)
+				testfn = function(inst, doer, actions, right)
 					return StandardPrefabAndDoerTest(inst, "dota_butterfly", doer)
 				end,
 			},
 			-------------------------------------------------辉耀-------------------------------------------------
 			{
 				action = "DOTA_BURN",
-				testfn = function(inst,doer,actions,right)
+				testfn = function(inst, doer, actions, right)
 					return StandardPrefabAndDoerTest(inst, "dota_radiance", doer)
 				end,
 			},
 			-------------------------------------------------莫尔迪基安的臂章-------------------------------------------------
 			{
 				action = "DOTA_UNHOLY",
-				testfn = function(inst,doer,actions,right)
+				testfn = function(inst, doer, actions, right)
 					return StandardPrefabAndDoerTest(inst, "dota_armlet_of_mordiggian", doer)
 				end,
 			},
 			-------------------------------------------------英灵胸针-------------------------------------------------
 			{
 				action = "DOTA_PROVINCE",
-				testfn = function(inst,doer,actions,right)
+				testfn = function(inst, doer, actions, right)
 					return StandardPrefabAndDoerTest(inst, "dota_revenants_brooch", doer)
 				end,
 			},
 			-------------------------------------------------隐刀-------------------------------------------------
 			{
 				action = "DOTA_WALK",
-				testfn = function(inst,doer,actions,right)
+				testfn = function(inst, doer, actions, right)
 					return StandardPrefabAndDoerTest(inst, "dota_invis_sword", doer)
 				end,
 			},
 			-------------------------------------------------撒旦之邪力 or 大吸-------------------------------------------------
 			{
 				action = "DOTA_RAGE",
-				testfn = function(inst,doer,actions,right)
+				testfn = function(inst, doer, actions, right)
 					return StandardPrefabAndDoerTest(inst, "dota_satanic", doer)
 				end,
 			},
 			-------------------------------------------------奶酪-------------------------------------------------
 			{
 				action = "DOTA_FONDUE",
-				testfn = function(inst,doer,actions,right)
+				testfn = function(inst, doer, actions, right)
 					return StandardPrefabAndDoerTest(inst, "dota_cheese", doer)
 				end,
 			},

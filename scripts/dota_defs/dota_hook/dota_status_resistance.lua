@@ -169,7 +169,7 @@ local function KnockbackReset(state, timeout)
     local old_onenter = state.onenter
     state.onenter = function(inst, ...)
 
-        if inst:HasTag("dota_avatar") then
+        if inst:HasTag("dota_avatar") then  -- TODO：此处的bkb效果应独立放在bkb的文件里，不应混淆在一起
             return
         end
 
@@ -179,7 +179,7 @@ local function KnockbackReset(state, timeout)
 
         if inst:HasTag("dotaattributes") then
             local statusresistance = inst.components.dotaattributes.statusresistance:Get() or 0
-            local multiplier = statusresistance ~= 1 and ( 1/(1-statusresistance) ) or 1000
+            local multiplier = statusresistance ~= 1 and ( 1/(1-statusresistance) ) or 1
             inst.AnimState:SetDeltaTimeMultiplier(multiplier)
             -- if state.timeline then   --没什么必要改这个，只有一个timeline里涉及了一个声音的播放
                 -- for _, v in pairs(state.timeline) do
@@ -226,5 +226,140 @@ AddStategraphPostInit("wilson", function(sg)
     local knockbacklanded = sg.states.knockbacklanded
     if knockbacklanded then
         KnockbackReset(knockbacklanded)
+    end
+end)
+
+----------------------------------------------------
+----------------------- yawn -----------------------
+----------------------------------------------------
+-- 关于打哈欠，暂时不归入状态抗性考虑
+
+----------------------------------------------------
+-------------------- toolbroke ---------------------
+----------------------------------------------------
+-- 装备损坏的强控，应该没必要吧
+
+----------------------------------------------------
+------------------ mindcontroller ------------------
+----------------------------------------------------
+-- 影织者的精神控制通过 debuff 里的 update 控制状态时长
+-- 而负责计时的参数刚好被科雷放出来了
+-- 因此我们可以非常便捷地把状态抗性应用上去
+
+AddPrefabPostInit("mindcontroller", function(inst)
+    if not TheWorld.ismastersim then
+        return inst
+    end
+
+    inst:DoTaskInTime(0.1, function()
+        local parent = inst.entity:GetParent()
+        if parent and parent.components and parent.components.dotaattributes 
+        and inst.countdown
+        then
+            local statusresistance = parent.components.dotaattributes.statusresistance:Get() or 0
+            inst.countdown = math.max(3.5, math.floor(inst.countdown * (1 - statusresistance)))
+        end
+    end)
+end)
+
+local function MindControllerReset(state, timeout)
+    local old_onenter = state.onenter
+    state.onenter = function(inst, ...)
+
+        if inst:HasTag("dota_avatar") then  -- TODO：此处的bkb效果应独立放在bkb的文件里，不应混淆在一起
+            return
+        end
+
+        if old_onenter then
+            old_onenter(inst, ...)
+        end
+
+        if inst:HasTag("dotaattributes") then
+            local statusresistance = inst.components.dotaattributes.statusresistance:Get() or 0
+            local multiplier = statusresistance ~= 1 and ( 1/(1-statusresistance) ) or 1
+            inst.AnimState:SetDeltaTimeMultiplier(multiplier)
+
+            if timeout then
+                inst.sg:SetTimeout(timeout * FRAMES * (1-statusresistance))
+            end
+        end
+
+    end
+    local old_onexit = state.onexit
+    state.onexit = function(inst, ...)
+        if old_onexit then
+            old_onexit(inst, ...)
+        end
+        if inst:HasTag("dotaattributes") then
+            inst.AnimState:SetDeltaTimeMultiplier(1)
+        end
+    end
+end 
+
+AddStategraphPostInit("wilson", function(sg)
+    local mindcontrolled = sg.states.mindcontrolled
+    if mindcontrolled then
+        MindControllerReset(mindcontrolled)
+    end
+
+    local mindcontrolled_loop = sg.states.mindcontrolled_loop
+    if mindcontrolled_loop then
+        MindControllerReset(mindcontrolled_loop, 3)
+    end
+
+    local mindcontrolled_pst = sg.states.mindcontrolled_pst
+    if mindcontrolled_pst then
+        MindControllerReset(mindcontrolled_pst, 6)
+    end
+end)
+
+----------------------------------------------------
+----------------------- spit -----------------------
+----------------------------------------------------
+-- 这个 sg 与 devoured 相对应。暗影生物吞下时触发 devoured
+-- 但实际上控制伤害效果由 spit 控制
+-- 但状态抗性会导致类似巫医加速诅咒结算的特性出现
+-- TODO：更改状态抗性导致伤害结算加快的特性
+
+local function SpitReset(state)
+    if not state.timeline then 
+        return 
+    end
+
+    local old_onenter = state.onenter
+    state.onenter = function(inst, ...)
+        if old_onenter then
+            old_onenter(inst, ...)
+        end
+
+        local player = inst.sg.statemem.devoured
+        if player and player:HasTag("dotaattributes") then
+            local statusresistance = player.components.dotaattributes.statusresistance:Get() or 0
+            local multiplier = statusresistance ~= 1 and ( 1/(1-statusresistance) ) or 1
+            inst.AnimState:SetDeltaTimeMultiplier(multiplier)
+            for _, v in pairs(state.timeline) do
+                v.dota_srtime = v.dota_srtime or v.time
+                v.time = v.time * (1 - statusresistance)
+            end
+        end
+    end
+
+    local old_onexit = state.onexit
+    state.onexit = function(inst, ...)
+        if old_onexit then
+            old_onexit(inst, ...)
+        end
+        for _, v in pairs(state.timeline) do
+            v.time = v.dota_srtime or v.time
+            v.dota_srtime = nil
+        end
+        inst.AnimState:SetDeltaTimeMultiplier(1)
+    end
+end
+
+AddStategraphPostInit("shadowthrall_horns", function(sg)
+    local spit = sg.states.spit
+    if spit then
+        SpitReset(spit)
     end
 end)

@@ -85,7 +85,7 @@ ability_defs.ability_dota_echo={
 		if inst._onhitother == nil then
 			inst._onhitother = function(owner, data)
 				if inst.noechotask == nil and data and data.target then
-					local cdreduction = owner.components.dotaattributes.cdreduction:Get()
+					local cdreduction = owner.components.dotaattributes.cdreduction:Get() or 0
 					inst.noechotask = inst:DoTaskInTime(ECHO_CD * (1 - cdreduction), OnResetEcho)
 					AddDebuff(data.target, "buff_dota_echo")
 					if owner and owner.components.combat then
@@ -124,7 +124,7 @@ ability_defs.ability_dota_empowerspell={
 		if inst._magicsingal == nil then
 			inst._magicsingal = function(owner, data)
 				if inst.nospelltask == nil and owner and data and data.target and data.target.components.combat then
-					local cdreduction = owner.components.dotaattributes.cdreduction:Get()
+					local cdreduction = owner.components.dotaattributes.cdreduction:Get() or 0
 					inst.nospelltask = inst:DoTaskInTime(EMPOWERSPELL_CD * (1 - cdreduction), OnResetEmpowerSpell)
 					data.target.components.combat:GetAttacked(owner, EMPOWERSPELL_DAMAGE, nil, "dotamagic")
 					AddDebuff(data.target, "buff_dota_empowerspell")
@@ -145,7 +145,40 @@ ability_defs.ability_dota_empowerspell={
 		end
 	end,
 }
+-------------------------------碎颅锤 or 晕锤 or 深渊之刃 or 大晕-------------------------------------
+local function OnResetBash(inst)
+    inst.nobashtask = nil
+end
+ability_defs.ability_dota_bashattack={
+	name="ability_dota_bashattack",
+	onattachedfn=function(inst, target)
+		if inst._ontruestrike == nil then
+			inst._ontruestrike = function(owner, data)
+				if data and data.weapon and data.weapon == "bash"
+				 and data.target and data.target.components.dotastunned
+				 and inst.nobashtask == nil then
+					local cdreduction = owner.components.dotaattributes.cdreduction:Get() or 0
+					inst.nobashtask = inst:DoTaskInTime(TUNING.DOTA.SKULL_BASHER.BASH.CD * (1 - cdreduction), OnResetBash)
+					data.target.components.dotastunned:GoToStunned(TUNING.DOTA.SKULL_BASHER.BASH.STUN)
+					owner:PushEvent("dotaevent_bash")
+                end
+			end
+		end
+		inst:ListenForEvent("dotaevent_truestrike", inst._ontruestrike, target)
+	end,
+	onextendedfn=function(inst, target)
+	end,
+	ondetachedfn=function(inst, target)
+		if inst.nobashtask ~= nil then
+			inst.nobashtask:Cancel()
+			inst.nobashtask = nil
+		end
 
-
+		if inst._ontruestrike ~= nil then
+			inst:RemoveEventCallback("dotaevent_truestrike", inst._ontruestrike, target)
+			inst._ontruestrike = nil
+		end
+	end,
+}
 
 return ability_defs

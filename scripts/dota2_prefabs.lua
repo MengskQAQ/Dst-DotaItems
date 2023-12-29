@@ -12,4 +12,5 @@ return {
 	"dota_shield_fx",
 	"dota_rune",
 	"dota_runespawningground",
+	"dota_fx_needle",
 }

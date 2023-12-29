@@ -44,7 +44,15 @@ local function HealthReflash(inst)
 		inst.components.dotacharacter:CalcFinalAttributes()
 	end
 end
-local function CommonCharcterEnable(inst)
+local function CommonCharcterEnable_Client(inst)
+    if not inst:HasTag("dotaattributes") then   -- 虽然组件里加了这个tag，但不知为何不生效
+        inst:AddTag("dotaattributes")
+    end
+    if not inst.components.dotastunbar then
+        inst:AddComponent("dotastunbar")
+    end
+end
+local function CommonCharcterEnable_Server(inst)
     if not inst.components.dotaattributes then
         inst:AddComponent("dotaattributes")
         inst.components.dotaattributes:SetBaseMaxMana(BASEMANA)  -- 设置基础蓝量
@@ -60,6 +68,9 @@ local function CommonCharcterEnable(inst)
     end
     if not inst.components.dotasharedcoolingable then
         inst:AddComponent("dotasharedcoolingable")
+    end
+    if not inst.components.dotastunned then
+        inst:AddComponent("dotastunned")
     end
 	if inst.components.dotacharacter ~= nil then
 		inst:DoTaskInTime(0.1, HealthReflash)	-- 在人物初始化0.1s后刷新一下生命值
@@ -100,11 +111,9 @@ end
 
 local function DoDotaattributesInit(player)
 	AddPrefabPostInit(player, function(inst)
-		if not inst:HasTag("dotaattributes") then   -- 虽然组件里加了这个tag，但不知为何不生效
-			inst:AddTag("dotaattributes")
-		end
+        CommonCharcterEnable_Client(inst)
 		if GLOBAL.TheWorld.ismastersim then
-			CommonCharcterEnable(inst)
+			CommonCharcterEnable_Server(inst)
 			return inst
 		end
 	end)
@@ -126,7 +135,7 @@ elseif ATTRIBUTES_SYSTEM == 2 then    -- 全体
             inst:AddTag("dotaattributes")
         end
         if GLOBAL.TheWorld.ismastersim then
-            CommonCharcterEnable(inst)
+            CommonCharcterEnable_Server(inst)
             return inst
         end
     end)

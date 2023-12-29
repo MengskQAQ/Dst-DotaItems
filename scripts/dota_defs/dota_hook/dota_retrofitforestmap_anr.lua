@@ -1,4 +1,4 @@
------------------------------------------------- 神符 - 生成 ----------------------------------------------
+------------------------------------------------ 神符 - 生成 - 地表 ----------------------------------------------
 
 AddComponentPostInit("retrofitforestmap_anr", function(self)    -- 先测试下主世界的神符生成
 
@@ -73,7 +73,7 @@ function self:OnPostInit()
     ---------------------------------------------------------------------------
 
     if self.retrofit_dotarunes_content then
-		self.retrofit_dotarunes_content = nil
+		self.retrofit_dotarunes_content = false
 
         -- 先检测下世界上是否有挂载神符生成的实体
 		local requires_retrofitting_spawningground = true

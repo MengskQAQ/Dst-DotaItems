@@ -262,11 +262,11 @@ local function dominatefn1(owner, target)
         target.components.dotaattributes:AddExtraArmor("item", TUNING.DOTA.HELM_OF_THE_OVERLORD.DOMINATE.EXTRAARMOR, "helm")
     end
 end
-local function dominator_onremovefn(inst)
-    if inst.components.dominate ~= nil then
-        inst.components.dominate:StopDominate()
-    end
-end
+-- local function dominator_onremovefn(inst)
+--     if inst.components.dominate ~= nil then
+--         inst.components.dominate:StopDominate()
+--     end
+-- end
 
 dota_item_accessories.dota_helm_of_the_overlord = {
     name = "dota_helm_of_the_overlord",
@@ -292,7 +292,7 @@ dota_item_accessories.dota_helm_of_the_overlord = {
         inst.components.dominate:SetDominateFn(dominatefn1)
         inst.components.dominate:SetSoundFX("mengsk_dota2_sounds/items/hotd")
 
-        inst:ListenForEvent("onremove", dominator_onremovefn)
+        -- inst:ListenForEvent("onremove", dominator_onremovefn)
     end,
     playerprox = {
         range = TUNING.DOTA.HELM_OF_THE_OVERLORD.AURA.RANGE,
@@ -454,7 +454,7 @@ dota_item_accessories.dota_helm_of_the_dominator = {
         inst.components.dominate:SetDominateFn(dominatefn2)
         inst.components.dominate:SetSoundFX("mengsk_dota2_sounds/items/hotd")
 
-        inst:ListenForEvent("onremove", dominator_onremovefn)
+        -- inst:ListenForEvent("onremove", dominator_onremovefn)
     end,
 }
 

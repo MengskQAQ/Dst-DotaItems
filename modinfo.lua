@@ -3,32 +3,45 @@
 local L = locale ~= nil and locale ~= "zh" and locale ~= "zhr" and locale ~= "zht" -- true 英文  false 中文
 
 name = L and "Dst Dota2 Items Test" or "Dota2 装备  测试版" -- 名称
-version = "1.1.0" -- 版本 大版本，小版本，优化/bug
+version = "1.2.1" -- 版本 大版本，小版本，优化/bug
 author = "Mengsk"   -- 作者
 forumthread = ""    -- klei官方论坛地址，为空则默认是工坊的地址
 
 -- The Githud url of this project : https://github.com/MengskQAQ/Dst-DotaItems
 -- 该项目的Github地址 ： https://github.com/MengskQAQ/Dst-DotaItems
 
--- 描述
-description = L and
+local EnglishDescription = 
 [[
-【Version】
+【Mod Version】
+Current version: ]] .. version
+..
+[[
+
+【Dota Version】
 Base on Dota version: 7.31  
-【Warning】
-This mod is still in development, may crash sever at any time, DO NOT enable it UNLESS you know what you are going to do
+【Tips】
+If you meet any bug , please let me know. I will fix it as soon as possible.
 【Allowance】
 The author of Functional Medal[workshop-1909182187] authorize me to use his code.
 ]]
-or
+
+local ChineseDescription = 
 [[
-【版本】
+【Mod 版本】
+当前版本: ]] .. version
+..
+[[
+
+【Dota版本】
 基于Dota版本 7.31 而来 
-【警告】
-该mod仍在开发阶段，可能会导致服务器崩溃，请您在知晓此风险后再决定是否启用该mod
+【贴士】
+如果游玩中遇到bug，请留言反馈，我会尽快修复
 【授权】
 本Mod中使用了恒子大佬的能力勋章[workshop-1909182187]的部分代码，已获授权
 ]]
+
+-- 描述
+description = L and EnglishDescription or ChineseDescription
 
 dst_compatible = true   -- dst兼容
 client_only_mod = false -- 是否是客户端mod
@@ -172,6 +185,26 @@ configuration_options =
             {description = L and "Independent CD" or "独立冷却", data = false},
         },
         default = false,
+    },
+    {
+        name = "extradamage_mode",
+        label = L and "ExtraDamage Mode" or "攻击力加成方式",
+        hover = L and "Is weapons damage affect extradamage(More value, less extradamage)" or "武器伤害是否影响攻击力加成（值越大，加成越少）",
+        options = {
+            {description = L and "Deafult (NO)" or "默认（不影响）", data = 0},
+            {description = L and "Anchor value(30)" or "锚定值(30)", data = 30},
+            {description = L and "Anchor value(40)" or "锚定值(40)", data = 40},
+            {description = L and "Anchor value(50)" or "锚定值(50)", data = 50},
+            {description = L and "Anchor value(60)" or "锚定值(60)", data = 60},
+            {description = L and "Anchor value(70)" or "锚定值(70)", data = 70},
+            {description = L and "Anchor value(80)" or "锚定值(80)", data = 80},
+            {description = L and "Anchor value(90)" or "锚定值(90)", data = 90},
+            {description = L and "Anchor value(100)" or "锚定值(100)", data = 100},
+            {description = L and "Anchor value(120)" or "锚定值(120)", data = 120},
+            {description = L and "Anchor value(150)" or "锚定值(150)", data = 150},
+            {description = L and "Anchor value(200)" or "锚定值(200)", data = 200},
+        },
+        default = 0,
     },
     -- {
     --     name = "recipes_mode",
@@ -370,13 +403,13 @@ configuration_options =
         options = multipliertable,
         default = 2,
     },
-    {
-        name = "bottle_bananalimit",
-        label = L and "LImit of fill bottle" or "装满瓶子的条件",
-        hover = L and "How many bananas need to fill bottle" or "需要多少香蕉才允许猴王装满瓶子",
-        options = numtable,
-        default = 1,
-    },
+    -- {
+    --     name = "bottle_bananalimit",
+    --     label = L and "LImit of fill bottle" or "装满瓶子的条件",
+    --     hover = L and "How many bananas need to fill bottle" or "需要多少香蕉才允许猴王装满瓶子",
+    --     options = numtable,
+    --     default = 1,
+    -- },
     {
         name = "should_spawn_rune",
         label = L and "Rune Spawn" or "神符生成",

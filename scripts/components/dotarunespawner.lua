@@ -56,10 +56,6 @@ local COLLAPSIBLE_WORK_ACTIONS =
 	HAMMER = true,
 	MINE = true,
 }
-local COLLAPSIBLE_TAGS = { "NPC_workable", "structure", "plant", "tree" }
-for k, v in pairs(COLLAPSIBLE_WORK_ACTIONS) do
-	table.insert(COLLAPSIBLE_TAGS, k.."_workable")
-end
 
 local STRUCTURES_TAGS = {"structure", "blocker"}
 local CANT_SPAWN_NEAR_TAGS = {"antlion_sinkhole_blocker"}

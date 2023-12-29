@@ -1,3 +1,5 @@
+-- TheInput:GetWorldEntityUnderMouse()用于获取鼠标下方的物体实体
+
 function DotaPrintTable(table , level, key)	-- 调用时不要输入key值，key值已被用于函数自我调用
 	key = key or ""
 	level = level or 1
@@ -263,6 +265,8 @@ function DotaGetDebugString(inst)
 		inst.entity:GetDebugString()
 		print("   ")
 		print(inst.entity:GetDebugString())
+	else
+		print("未获取到实体")
 	end
 end
 
@@ -302,10 +306,12 @@ function DotaFindTag(inst)
 	end
 end
 
-function DotaFindCloestEntity(inst)
+function DotaFindCloestEntity(creature)
+	local inst = creature or ThePlayer
 	local pos = inst:GetPosition()
-	local ents = TheSim:FindEntities(pos.x, pos.y, pos.z, 10, { "hat" }, { "player" })
+	local ents = TheSim:FindEntities(pos.x, pos.y, pos.z, 10, { "_combat" }, { "player" })
 	for _, ent in ipairs(ents) do
+		print(ent.prefab)
 		return ent
 	end
 end
@@ -314,50 +320,3 @@ function DotaGetEntity(ThePlayer)
 	return ThePlayer and ThePlayer.components.inventory:GetActiveItem()
 end
 
-local function getBankBuildAnim(inst)
-    local str = inst.entity:GetDebugString()
-    if not str then
-        return nil;
-    end
-    return str:match("bank: (.+) build: (.+) anim: .+:(.+) Frame")
-end
-
-local function GetBuild(inst)
-	local build = (inst.entity:GetDebugString():match("build: [%w_]+"))
-	return build and (build:gsub("build: ", ""))
-end
-
---print("xxx_clear_fn:");
---print("skin_name: " .. tostring(skin_name));
-
-function DotaSpawnPrefab(name, skin, skin_id, creator)
-    local guid = TheSim:SpawnPrefab(name, skin, skin_id, creator)
-	local inst = Ents[guid]
-	local bank, build, anim = getBankBuildAnim(inst);
-	print(string.format("bank: %s, build: %s, anim: %s", tostring(bank), tostring(build), tostring(anim)));
-	print(inst.skin_id)
-    return inst
-end
-
---  DotaStart(22000000000, 23000000000)
-function DotaStart(a, b)
-	if (a >= b) then
-		print("[debug] Error")
-		return
-	end
-	print("[debug] Start")
-	local guid = 0
-	local inst = nil
-	while( a < b ) do
-		guid = TheSim:SpawnPrefab("eyebrellahat", "eyebrellahat_crystal", a)
-		inst = Ents[guid]
-		if string.find(inst.AnimState:GetBuild(), "c") then
-			print(a)
-			return
-		else
-			inst:Remove()
-		end
-		a = a+1
-	end
-	print("[debug] End")
-end
